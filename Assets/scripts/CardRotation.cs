@@ -39,7 +39,8 @@ public class CardRotation : MonoBehaviour {
 	private enum CardState{
 		STABLE,
 		PREFLIP,
-		STABILIZING
+		STABILIZING,
+		ASIDE
 	}
 
 	// Use this for initialization
@@ -49,20 +50,10 @@ public class CardRotation : MonoBehaviour {
 		
 	// Update is called once per frame
 	void Update () {
-		/*if (Input.touchCount > 0) {
-			Touch touch = Input.touches [0];
-			switch (touch.phase) {
-			case TouchPhase.Moved:
-				RotateBy (touch.deltaPosition.x);
-				break;
-			case TouchPhase.Ended:
-				StabilizeRotation ();
-				break;
-			}
-		}*/
-
 		if (cardState == CardState.STABILIZING) {
 			StabilizeRotation ();
+		} else if(cardState == CardState.ASIDE) {
+			
 		} else {
 			if (Input.GetButtonDown ("Fire1")) {
 				clickPos = new Vector2 (Input.mousePosition.x, Input.mousePosition.y);
@@ -71,11 +62,11 @@ public class CardRotation : MonoBehaviour {
 
 			if (Input.GetButtonUp ("Fire1") && cardState == CardState.PREFLIP) {
 				float dx = clickPos.x - Input.mousePosition.x;
-				if (dx < 0) {
-					Flip (0);
-				} else {
-					Flip (1);
+				cardState = CardState.ASIDE;
+				if (OnChoice != null) {
+					OnChoice ((int) Mathf.Sign(dx));
 				}
+				Debug.Log ("Choice: " + (dx<0?0:1));
 			}
 
 			if (Input.GetButton ("Fire1") && buttonHeld) {
@@ -116,14 +107,10 @@ public class CardRotation : MonoBehaviour {
 		transform.parent.position = Vector3.Lerp (transform.parent.position, targetPos, movementLerpFactor);
 	}
 
-	private void Flip(int choice){
-		Debug.Log ("Choice: " + choice);
+	private void Flip(){
 		buttonHeld = false;
 		frontActive = !frontActive;
 		cardState = CardState.STABILIZING;
-		if (OnChoice != null) {
-			OnChoice (choice);
-		}
 	}
 
 	private void StabilizeRotation(){
