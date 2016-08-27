@@ -29,6 +29,7 @@ public class CardRotation : MonoBehaviour {
 	private float degreesPerPixel = 1.0f;
 
 	private bool frontActive = true;
+	private bool asideOnRight = true;
 
 	private Vector2 clickPos;
 
@@ -53,7 +54,7 @@ public class CardRotation : MonoBehaviour {
 		if (cardState == CardState.STABILIZING) {
 			StabilizeRotation ();
 		} else if(cardState == CardState.ASIDE) {
-			
+			MoveAside ();
 		} else {
 			if (Input.GetButtonDown ("Fire1")) {
 				clickPos = new Vector2 (Input.mousePosition.x, Input.mousePosition.y);
@@ -63,6 +64,12 @@ public class CardRotation : MonoBehaviour {
 			if (Input.GetButtonUp ("Fire1") && cardState == CardState.PREFLIP) {
 				float dx = clickPos.x - Input.mousePosition.x;
 				cardState = CardState.ASIDE;
+
+				if (dx < 0) {
+					asideOnRight = false;
+				} else {
+					asideOnRight = true;
+				}
 				if (OnChoice != null) {
 					OnChoice ((int) Mathf.Sign(dx));
 				}
@@ -105,6 +112,21 @@ public class CardRotation : MonoBehaviour {
 
 		transform.rotation = Quaternion.Lerp (transform.rotation, targetRot, rotationLerpFactor);
 		transform.parent.position = Vector3.Lerp (transform.parent.position, targetPos, movementLerpFactor);
+	}
+
+	private void MoveAside(){
+		Quaternion targetRot;
+		Vector3 targetPos;
+		if (asideOnRight) {
+			targetRot = Quaternion.Euler (0, maxRotation, 0);
+			targetPos = new Vector3 (maxDeviation, 0, 0);
+		} else {
+			targetRot = Quaternion.Euler (0, -maxRotation, 0);
+			targetPos = new Vector3 (-maxDeviation, 0, 0);
+		}
+
+		transform.parent.position = Vector3.Lerp (transform.parent.position, targetPos, movementLerpFactor);
+		transform.rotation = Quaternion.Lerp (transform.rotation, targetRot, rotationLerpFactor);
 	}
 
 	private void Flip(){
