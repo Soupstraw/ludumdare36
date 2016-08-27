@@ -5,7 +5,8 @@ function pick (array) {
 function nop () {}
 
 function Card (props) {
-  this.N = props.N
+  this.img = props.img || "#"
+  this.final = props.final || false
   this.title = props.title
   this.desc = props.desc
   this.yes = props.yes.clone()
@@ -21,10 +22,9 @@ Card.prototype = {
   }
 }
 
-function Player(){
-  this.buff = {};
+function Player () {
+  this.buff = {}
 }
-
 
 function Effect (props) {
   this.option = props.option
@@ -39,7 +39,7 @@ function Game (cards) {
   this.cards = cards
   this.resolved = []
   this.deck = []
-  this.player = new Player();
+  this.player = new Player()
 }
 
 Game.prototype = {
@@ -50,14 +50,19 @@ Game.prototype = {
     return this.resolved[this.resolved.length - 1]
   },
   reset: function () {
-    this.player = new Player();
+    this.player = new Player()
     this.resolved = []
     this.deck = []
     for (var i = 0; i < this.cards.length; i++) {
       var card = this.cards[i]
-      for (var k = 0; k < card.N; k++) {
-        this.deck.push(this.cards[i].clone())
-      }
+      this.deck.push(this.cards[i].clone())
+    }
+  },
+  insertAt: function(n, card){
+    if(n >= this.deck.length){
+      this.deck.push(card);
+    } else {
+      this.deck.splice(n, 0, card);
     }
   },
   select: function (option) {

@@ -3,97 +3,35 @@
 
 <head>
     <xmeta http-equiv="refresh" content="1">
-    <meta charset="utf-8">
+        <meta charset="utf-8">
 
-    <link rel="stylesheet" href="main.css">
-    <script src="elt.js"></script>
-    <script src="game.js"></script>
-    <script src="cards.js"></script>
+        <link rel="stylesheet" href="main.css">
+        <script src="elt.js"></script>
+        <script src="game.js"></script>
+        <script src="cards.js"></script>
 </head>
 
 <body>
+    <div class="option" onclick="location.reload()">Reset</div>
     <div id="content">
         <div class="buffs">
             <div class="buff">delirious-visions</div>
             <div class="buff">peace-of-mind</div>
         </div>
         <div class="card">
-            <div class="card-title">Lorem</div>
-            <div class="card-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero dolores veritatis labore deleniti, aspernatur
-                hic natus quas repellat voluptas autem impedit mollitia, ad reprehenderit. At voluptates quisquam necessitatibus
-                fuga rem.</div>
+            <img class="card-image"></img>
+            <div class="card-content">
+                <div class="card-title">Lorem</div>
+                <div class="card-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero dolores veritatis labore deleniti, aspernatur hic natus quas repellat voluptas autem impedit mollitia, ad reprehenderit. At voluptates quisquam necessitatibus fuga rem.</div>
+            </div>
         </div>
         <div class="options">
-            <div class="option">Yes</div>
             <div class="option">No</div>
-        </div>
-        <div class="resolution">
-            <div class="resolution-title">Used a ship.</div>
-            <div class="resolution-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum odit repudiandae eius ut et recusandae fugit quam
-                qui ad laudantium laborum ipsum cumque, saepe aut debitis dolores enim quos error?</div>
+            <div class="option">Yes</div>
         </div>
     </div>
 
-    <script>
-        var content = document.getElementById("content");
-        var game = new Game(BaseCards); 
-        game.reset();
-
-        function render(root){
-            root.innerHTML = "";
-
-            var player = game.player;
-            var buffs = [];
-            for(var name in player.buff){
-                buffs.push(E("buff", {}, [name]));
-            }
-            root.appendChild(E("buffs", {}, buffs));
-
-            var resolution = game.lastResolution;
-            if(resolution){
-                root.appendChild(E("resolution", {}, [
-                    E("resolution-desc", {}, [resolution.effect.desc])
-                ]));
-            }
-
-            var card = game.activeCard;
-            if(card) {
-                root.appendChild(E("card", {}, [
-                    E("card-title", {}, [ card.title ]),
-                    E("card-desc", {}, [ card.desc ] )
-                ]));
-
-                root.appendChild(E("options", {}, [
-                    E("option", {
-                        onclick: function(){
-                            game.yes();
-                            refresh();
-                        }
-                    }, [card.yes.option]),
-                    E("option", {
-                        onclick: function(){
-                            game.no();
-                            refresh();
-                        }
-                    }, [card.no.option])
-                ]));
-            } else {
-                root.appendChild(E("card", {}, [
-                    E("card-title", {}, [ "End of the road." ]),
-                    E("card-desc", {}, [ "Nothing to do, other than die." ] )
-                ]));
-
-                root.appendChild(E("options", {}, [
-                    E("option", {}, ["☢"]),
-                    E("option", {}, ["❄"])
-                ]));
-            }
-            
-        }
-
-        function refresh(){ render(content); }
-        refresh();
-    </script>
+    <script src="play.js"></script>
 </body>
 
 </html>
