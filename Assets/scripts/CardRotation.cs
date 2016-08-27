@@ -5,9 +5,8 @@ public class CardRotation : MonoBehaviour {
 
 	public delegate void ChoiceAction(int choice);
 	public static event ChoiceAction OnChoice;
-
-	// Rotation degrees per pixels swiped
-	public float degreesPerPixel = 1.0f;
+	// Swipe sensitivity
+	public float swipeSensitivity = 1.0f;
 
 	// Max rotation angle before the card gets stuck
 	public float maxRotation = 80.0f;
@@ -25,7 +24,10 @@ public class CardRotation : MonoBehaviour {
 	// Minimum deviation from the center for the card to be considered stable
 	public float stablePositionThreshold = 1.0f;
 
-	// Is the front of the card currently visible?
+
+
+	private float degreesPerPixel = 1.0f;
+
 	private bool frontActive = true;
 
 	private Vector2 clickPos;
@@ -42,7 +44,7 @@ public class CardRotation : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		degreesPerPixel = Screen.width * swipeSensitivity;
 	}
 		
 	// Update is called once per frame
