@@ -34,6 +34,7 @@ public class CardInteraction : MonoBehaviour {
 	// Minimum deviation from the center for the card to be considered stable
 	public float stablePositionThreshold = 1.0f;
 
+	// Variables related to description states (swiping up/down)
 	[Header ("Description state")]
 	// How long should be the delay before card is automatically swiped up
 	public float descriptionDelay = 3.0f;
@@ -41,9 +42,13 @@ public class CardInteraction : MonoBehaviour {
 	public float descMaxY = 1.0f;
 	// 
 	public float descMovementLerpFactor = 0.2f;
+	// How far up should the card to pe pulled to move to DESC_STABILIZE state (swiping up)
 	public float descInThreshold = 0.2f;
+	// How far up should the card to pe pulled to move to DESC_OUT state (swiping down)
 	public float descOutThreshold = 0.2f;
-	public float descMovementRatio = 0.1f;
+	// Movement sensitivity up/down
+	public float descMovementSensitivity = 0.1f;
+	// how close does the card have to be to max Y for it to be considered stable
 	public float descStableThreshold = 0.1f;
 
 
@@ -120,13 +125,13 @@ public class CardInteraction : MonoBehaviour {
 			} else {
 				if (Input.GetButton ("Fire1") && buttonHeld) {
 					if (Mathf.Abs (transform.parent.position.x) <= stablePositionThreshold) {
-						DescMoveTo (-(clickPos.y - Input.mousePosition.y) * descMovementRatio * Screen.height);
+						DescMoveTo (-(clickPos.y - Input.mousePosition.y) * descMovementSensitivity / Screen.height);
 						if (transform.parent.position.y > descInThreshold) {
 							cardState = CardState.DESC_STABILIZE;
 							return;
 						}
 					}
-					RotateTo (-clickPos.x + Input.mousePosition.x);
+					RotateTo ((-clickPos.x + Input.mousePosition.x) / Screen.width * swipeSensitivity);
 				} else {
 					StabilizeRotation ();
 				}
@@ -135,7 +140,7 @@ public class CardInteraction : MonoBehaviour {
 			StabilizeDesc ();
 		} else if (cardState == CardState.DESC_IN) {
 			if (Input.GetButton ("Fire1")) {
-				DescMoveTo (descMaxY - ((clickPos.y - Input.mousePosition.y) * descMovementRatio * Screen.height));
+				DescMoveTo (descMaxY - ((clickPos.y - Input.mousePosition.y) * descMovementSensitivity / Screen.height));
 				if (transform.parent.position.y < descMaxY - descOutThreshold && cardState == CardState.DESC_IN) {
 					cardState = CardState.DESC_OUT;
 				}
@@ -146,11 +151,13 @@ public class CardInteraction : MonoBehaviour {
 			StabilizeDesc ();
 		} else if (cardState == CardState.DESC_DELAY) {
 			if (Input.GetButton ("Fire1")) {
-				DescMoveTo (-(clickPos.y - Input.mousePosition.y) * descMovementRatio * Screen.height);
+				DescMoveTo (-(clickPos.y - Input.mousePosition.y) * descMovementSensitivity / Screen.height);
 				if (transform.parent.position.y > descInThreshold) {
 					cardState = CardState.DESC_STABILIZE;
 					return;
 				}
+			} else {
+				StabilizeDesc ();
 			}
 		}
 	}
@@ -172,7 +179,7 @@ public class CardInteraction : MonoBehaviour {
 	}
 
 	private void DescMoveTo(float y){
-		transform.parent.position = Vector3.Lerp (transform.parent.position, new Vector3(0, Mathf.Clamp(y, 0, descMaxY)), descMovementLerpFactor);
+		transform.parent.position = Vector3.Lerp (transform.parent.position, new Vector3(0, Mathf.Clamp(y, 0, descMaxY)), descMovementLerpFactor * Time.deltaTime);
 	}
 
 	private void RotateTo(float x){
@@ -203,8 +210,8 @@ public class CardInteraction : MonoBehaviour {
 			targetPos = new Vector3(maxDeviation * x / maxSwipe, 0, 0);
 		}
 
-		transform.rotation = Quaternion.Lerp (transform.rotation, targetRot, rotationLerpFactor);
-		transform.parent.position = Vector3.Lerp (transform.parent.position, targetPos, movementLerpFactor);
+		transform.rotation = Quaternion.Lerp (transform.rotation, targetRot, rotationLerpFactor * Time.deltaTime);
+		transform.parent.position = Vector3.Lerp (transform.parent.position, targetPos, movementLerpFactor * Time.deltaTime);
 	}
 
 	private void MoveAside(){
@@ -221,8 +228,8 @@ public class CardInteraction : MonoBehaviour {
 			targetPos = new Vector3 (-maxDeviation, 0, 0);
 		}
 
-		transform.parent.position = Vector3.Lerp (transform.parent.position, targetPos, movementLerpFactor);
-		transform.rotation = Quaternion.Lerp (transform.rotation, targetRot, rotationLerpFactor);
+		transform.parent.position = Vector3.Lerp (transform.parent.position, targetPos, movementLerpFactor * Time.deltaTime);
+		transform.rotation = Quaternion.Lerp (transform.rotation, targetRot, rotationLerpFactor * Time.deltaTime);
 	}
 
 	private void Flip(){
@@ -233,12 +240,12 @@ public class CardInteraction : MonoBehaviour {
 
 	private void StabilizeDesc(){
 		if (cardState == CardState.DESC_IN || cardState == CardState.DESC_STABILIZE) {
-			transform.parent.position = Vector3.Lerp (transform.parent.position, new Vector3 (0, descMaxY), descMovementLerpFactor);
+			transform.parent.position = Vector3.Lerp (transform.parent.position, new Vector3 (0, descMaxY), descMovementLerpFactor * Time.deltaTime);
 			if (cardState == CardState.DESC_STABILIZE && descMaxY - transform.parent.position.y < descStableThreshold) {
 				cardState = CardState.DESC_IN;
 			}
 		} else if (cardState == CardState.DESC_OUT) {
-			transform.parent.position = Vector3.Lerp (transform.parent.position, new Vector3 (0, 0), descMovementLerpFactor);
+			transform.parent.position = Vector3.Lerp (transform.parent.position, new Vector3 (0, 0), descMovementLerpFactor * Time.deltaTime);
 			if (Vector3.Distance (transform.parent.position, Vector3.zero) <= stablePositionThreshold) {
 				cardState = CardState.STABLE;
 				SetTextAlpha (0);
@@ -246,7 +253,7 @@ public class CardInteraction : MonoBehaviour {
 		}
 
 		Quaternion targetRot = Quaternion.Euler (0, GetStableRotation(), 0);
-		transform.rotation = Quaternion.Lerp (transform.rotation, targetRot, stabilizationSpeed);
+		transform.rotation = Quaternion.Lerp (transform.rotation, targetRot, stabilizationSpeed * Time.deltaTime);
 
 		float r = transform.parent.position.y / descMaxY;
 		choicePanel.target = r;
@@ -256,8 +263,8 @@ public class CardInteraction : MonoBehaviour {
 	private void StabilizeRotation(){
 		choicePanel.target = 0;
 		Quaternion targetRot = Quaternion.Euler (0, GetStableRotation(), 0);
-		transform.rotation = Quaternion.Lerp (transform.rotation, targetRot, stabilizationSpeed);
-		transform.parent.position = Vector3.Lerp (transform.parent.position, Vector3.zero, movementLerpFactor);
+		transform.rotation = Quaternion.Lerp (transform.rotation, targetRot, stabilizationSpeed * Time.deltaTime);
+		transform.parent.position = Vector3.Lerp (transform.parent.position, Vector3.zero, movementLerpFactor * Time.deltaTime);
 		if (Quaternion.Angle (transform.rotation, targetRot) < stableRotationThreshold) {
 			cardState = CardState.STABLE;
 		}
