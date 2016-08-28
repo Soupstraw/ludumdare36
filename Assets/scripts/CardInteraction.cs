@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class CardInteraction : MonoBehaviour {
 
 	public ChoicePanel choicePanel;
+	public Text descriptionText;
 
 	public delegate void ChoiceAction(int choice);
 	public static event ChoiceAction OnChoice;
@@ -13,21 +15,37 @@ public class CardInteraction : MonoBehaviour {
 	// Swipe sensitivity
 	public float swipeSensitivity = 1.0f;
 
+	[Space]
 	// Max rotation angle before the card gets stuck
 	public float maxRotation = 80.0f;
 	// Max distance the card can move
 	public float maxDeviation = 1.0f;
 
+	[Header ("Movement properties")]
 	public float movementLerpFactor = 0.7f;
 	// Rotation lerp factor
 	public float rotationLerpFactor = 0.7f;
 	//  Stabilization lerp factor
 	public float stabilizationSpeed = 1.0f;
 
+	[Header ("Stability thersholds")]
 	// Minimum angle for the card to be considered stable
 	public float stableRotationThreshold = 1.0f;
 	// Minimum deviation from the center for the card to be considered stable
 	public float stablePositionThreshold = 1.0f;
+
+	[Header ("Description state")]
+	// How long should be the delay before card is automatically swiped up
+	public float descriptionDelay = 3.0f;
+	// default Y coordinate for the card while description is visible
+	public float descMaxY = 1.0f;
+	// 
+	public float descMovementLerpFactor = 0.2f;
+	public float descInThreshold = 0.2f;
+	public float descOutThreshold = 0.2f;
+	public float descMovementRatio = 0.1f;
+	public float descStableThreshold = 0.1f;
+
 
 	private float degreesPerPixel = 1.0f;
 
@@ -36,7 +54,7 @@ public class CardInteraction : MonoBehaviour {
 
 	private Vector2 clickPos;
 
-	private CardState cardState = CardState.WAITING_FOR_EVENT;
+	private CardState cardState = CardState.DESC_DELAY;
 
 	private bool buttonHeld = false;
 
@@ -45,12 +63,17 @@ public class CardInteraction : MonoBehaviour {
 		PREFLIP,
 		STABILIZING,
 		ASIDE,
-		WAITING_FOR_EVENT
+		WAITING_FOR_EVENT,
+		DESC_DELAY,
+		DESC_STABILIZE,
+		DESC_IN,
+		DESC_OUT
 	}
 
 	// Use this for initialization
 	void Start () {
 		degreesPerPixel = Screen.width * swipeSensitivity;
+		StartCoroutine (DescDelayCoroutine());
 	}
 
 	void OnEnable(){
@@ -65,18 +88,21 @@ public class CardInteraction : MonoBehaviour {
 		
 	// Update is called once per frame
 	void Update () {
+
+		if (Input.GetButtonDown ("Fire1")) {
+			clickPos = Input.mousePosition;
+			buttonHeld = true;
+		} else if (Input.GetButtonUp ("Fire1")) {
+			buttonHeld = false;
+		}
+
 		if (cardState == CardState.STABILIZING) {
 			StabilizeRotation ();
-		} else if(cardState == CardState.ASIDE) {
+		} else if (cardState == CardState.ASIDE) {
 			MoveAside ();
-		} else if(cardState == CardState.STABLE || cardState == CardState.PREFLIP){
-			if (Input.GetButtonDown ("Fire1")) {
-				clickPos = new Vector2 (Input.mousePosition.x, Input.mousePosition.y);
-				buttonHeld = true;
-			}
-
+		} else if (cardState == CardState.STABLE || cardState == CardState.PREFLIP) {
 			if (Input.GetButtonUp ("Fire1") && cardState == CardState.PREFLIP) {
-				float dx = - clickPos.x + Input.mousePosition.x;
+				float dx = -clickPos.x + Input.mousePosition.x;
 				if (OnCardPushedAside != null) {
 					OnCardPushedAside ();
 				}
@@ -93,11 +119,31 @@ public class CardInteraction : MonoBehaviour {
 				Debug.Log ("Choice: " + (dx < 0 ? 0 : 1));
 			} else {
 				if (Input.GetButton ("Fire1") && buttonHeld) {
+					if (Mathf.Abs (transform.parent.position.x) <= stablePositionThreshold) {
+						DescMoveTo (- (clickPos.y - Input.mousePosition.y) * descMovementRatio * Screen.height);
+						if (transform.parent.position.y > descInThreshold) {
+							cardState = CardState.DESC_STABILIZE;
+							return;
+						}
+					}
 					RotateTo (-clickPos.x + Input.mousePosition.x);
 				} else {
 					StabilizeRotation ();
 				}
 			}
+		} else if (cardState == CardState.DESC_STABILIZE) {
+			StabilizeDesc ();
+		} else if (cardState == CardState.DESC_IN) {
+			if (Input.GetButton ("Fire1")) {
+				DescMoveTo (descMaxY - ((clickPos.y - Input.mousePosition.y) * descMovementRatio * Screen.height));
+				if (transform.parent.position.y < descMaxY - descOutThreshold && cardState == CardState.DESC_IN) {
+					cardState = CardState.DESC_OUT;
+				}
+			} else {
+				StabilizeDesc ();
+			}
+		} else if (cardState == CardState.DESC_OUT) {
+			StabilizeDesc ();
 		}
 	}
 
@@ -107,6 +153,16 @@ public class CardInteraction : MonoBehaviour {
 		} else if (cardState == CardState.ASIDE) {
 			Flip ();
 		}
+	}
+
+	public IEnumerator DescDelayCoroutine(){
+		yield return new WaitForSeconds(descriptionDelay);
+		cardState = CardState.DESC_STABILIZE;
+		yield return null;
+	}
+
+	private void DescMoveTo(float y){
+		transform.parent.position = Vector3.Lerp (transform.parent.position, new Vector3(0, Mathf.Clamp(y, 0, descMaxY)), descMovementLerpFactor);
 	}
 
 	private void RotateTo(float x){
@@ -143,20 +199,15 @@ public class CardInteraction : MonoBehaviour {
 
 	private void MoveAside(){
 		choicePanel.target = 0;
-		float stableRotation;
-		if (frontActive) {
-			stableRotation = 0;
-		} else {
-			stableRotation = 180;
-		}
+
 
 		Quaternion targetRot;
 		Vector3 targetPos;
 		if (asideOnRight) {
-			targetRot = Quaternion.Euler (0, stableRotation + maxRotation, 0);
+			targetRot = Quaternion.Euler (0, GetStableRotation() + maxRotation, 0);
 			targetPos = new Vector3 (maxDeviation, 0, 0);
 		} else {
-			targetRot = Quaternion.Euler (0, stableRotation - maxRotation, 0);
+			targetRot = Quaternion.Euler (0, GetStableRotation() - maxRotation, 0);
 			targetPos = new Vector3 (-maxDeviation, 0, 0);
 		}
 
@@ -170,18 +221,50 @@ public class CardInteraction : MonoBehaviour {
 		cardState = CardState.STABILIZING;
 	}
 
+	private void StabilizeDesc(){
+		if (cardState == CardState.DESC_IN || cardState == CardState.DESC_STABILIZE) {
+			transform.parent.position = Vector3.Lerp (transform.parent.position, new Vector3 (0, descMaxY), descMovementLerpFactor);
+			if (cardState == CardState.DESC_STABILIZE && descMaxY - transform.parent.position.y < descStableThreshold) {
+				cardState = CardState.DESC_IN;
+			}
+		} else if (cardState == CardState.DESC_OUT) {
+			transform.parent.position = Vector3.Lerp (transform.parent.position, new Vector3 (0, 0), descMovementLerpFactor);
+			if (Vector3.Distance (transform.parent.position, Vector3.zero) <= stablePositionThreshold) {
+				cardState = CardState.STABLE;
+				SetTextAlpha (0);
+			}
+		}
+
+		Quaternion targetRot = Quaternion.Euler (0, GetStableRotation(), 0);
+		transform.rotation = Quaternion.Lerp (transform.rotation, targetRot, stabilizationSpeed);
+
+		float r = transform.parent.position.y / descMaxY;
+		choicePanel.target = r;
+		SetTextAlpha (r);
+	}
+
 	private void StabilizeRotation(){
 		choicePanel.target = 0;
-		Quaternion targetRot;
-		if (frontActive) {
-			targetRot = Quaternion.Euler (0, 0, 0);
-		} else {
-			targetRot = Quaternion.Euler (0, 180, 0);
-		}
+		Quaternion targetRot = Quaternion.Euler (0, GetStableRotation(), 0);
 		transform.rotation = Quaternion.Lerp (transform.rotation, targetRot, stabilizationSpeed);
 		transform.parent.position = Vector3.Lerp (transform.parent.position, Vector3.zero, movementLerpFactor);
 		if (Quaternion.Angle (transform.rotation, targetRot) < stableRotationThreshold) {
 			cardState = CardState.STABLE;
 		}
+	}
+
+	private void SetTextAlpha(float alpha){
+		Color c = descriptionText.color;
+		descriptionText.color = new Color(c.r, c.g, c.b, alpha);
+	}
+
+	private float GetStableRotation(){
+		float stableRotation;
+		if (frontActive) {
+			stableRotation = 0;
+		} else {
+			stableRotation = 180;
+		}
+		return stableRotation;
 	}
 }
