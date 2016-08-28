@@ -86,15 +86,15 @@ public class CardInteraction : MonoBehaviour {
 					asideOnRight = true;
 				}
 				if (OnChoice != null) {
-					OnChoice ((int) Mathf.Sign(dx));
+					OnChoice ((int)Mathf.Sign (dx));
 				}
-				Debug.Log ("Choice: " + (dx<0?0:1));
-			}
-
-			if (Input.GetButton ("Fire1") && buttonHeld) {
-				RotateTo (clickPos.x - Input.mousePosition.x);
+				Debug.Log ("Choice: " + (dx < 0 ? 0 : 1));
 			} else {
-				StabilizeRotation ();
+				if (Input.GetButton ("Fire1") && buttonHeld) {
+					RotateTo (clickPos.x - Input.mousePosition.x);
+				} else {
+					StabilizeRotation ();
+				}
 			}
 		}
 	}
