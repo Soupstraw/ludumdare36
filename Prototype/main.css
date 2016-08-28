@@ -1,9 +1,12 @@
 html {
     overflow: scroll;
+    height: 100%;
+    background: #1f1c2f;
+    background-image: url('../art 2048/background-1.png');
+    background-size: cover;
 }
 body {
     color: #bbb;
-    background: #1f1c2f;
     font-family: Georgia;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
@@ -14,7 +17,7 @@ body {
 }
 
 #content {
-    width: 40rem;
+    width: 50rem;
     padding-top: 2rem;
     margin: 0 auto;
 }
@@ -33,11 +36,11 @@ body {
 
 .card {
     display: flex;
-    background: #5f4c25;
+    background: rgba(95, 76, 37, 0.66);
     border: 1px solid #e8b27d;
     padding: 1rem;
 
-    width: 40rem;
+    width: 100%;
     min-height: 30rem;
 
     box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
@@ -59,7 +62,7 @@ body {
     font-size: 2em;
     font-weight: bold;
 
-    border-bottom: 1px solid #e8b27d;
+    border-bottom: 1px solid #73604d;
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
@@ -80,12 +83,12 @@ body {
     margin: 0.5rem;
     font-size: 1.3rem;
 
-    background: #5f4c25;
-    border: 1px solid #e8b27d;
+    background: rgba(95, 76, 37, 0.66);
+    border: 1px solid #73604d;
 
     cursor: pointer;
 }
 
 .option:hover {
-    background:  #6d582c;
+    background:  rgba(95, 76, 37, 0.9);
 }

@@ -213,7 +213,7 @@ var DeliriousVisions = new Card({
   })
 })
 
-var Fork = new Card({
+var ForkSwampForest = new Card({
   title: 'Fork',
   image: '../art 2048/Fork.png',
   environment: null,
@@ -228,6 +228,66 @@ var Fork = new Card({
         pickcards(2, game.deck, SwampCards)
         return paragraphs([
           'You start walking towards the light while the fog slowly descends.'
+        ])
+      }
+    },
+    no: {
+      option: 'Forest',
+      resolve: function (game, card, effect) {
+        pickcards(2, game.deck, ForestCards)
+        return paragraphs([
+          'You start walking into the forest. The trees ascend and block out the light leaving you in the dark.'
+        ])
+      }
+    }
+  })
+})
+
+var ForkSwampTown = new Card({
+  title: 'Fork',
+  image: '../art 2048/Fork.png',
+  environment: null,
+  describe: basic_description([
+    'After traveling for miles you see a stubby post leaning in the haze.',
+    'It has two signs nailed to it. One points to the gloomy town. The other points towards a swamp, with a gleaming light in the distance.'
+  ]),
+  options: basic_options({
+    yes: {
+      option: 'Swamp',
+      resolve: function (game, card, effect) {
+        pickcards(2, game.deck, SwampCards)
+        return paragraphs([
+          'You start walking towards the light while the fog slowly descends.'
+        ])
+      }
+    },
+    no: {
+      option: 'Town',
+      resolve: function (game, card, effect) {
+        pickcards(2, game.deck, TownCards)
+        return paragraphs([
+          'You arrive in the town.'
+        ])
+      }
+    }
+  })
+})
+
+var ForkTownForest = new Card({
+  title: 'Fork',
+  image: '../art 2048/Fork.png',
+  environment: null,
+  describe: basic_description([
+    'After traveling for miles you see a stubby post leaning in the haze.',
+    'It has two signs nailed to it. One points to the forest with huge creeping trees. The other points towards a gloomy town.'
+  ]),
+  options: basic_options({
+    yes: {
+      option: 'Town',
+      resolve: function (game, card, effect) {
+        pickcards(2, game.deck, TownCards)
+        return paragraphs([
+          'You arrive at the town.'
         ])
       }
     },
@@ -753,10 +813,11 @@ var Dianne = new Card({
   })
 })
 
-var SwampCards = [Hut, Frog, Corpse, MysteriousRock, Noemi]
-var ForestCards = [Wagon, Corpse, MysteriousRock, Jasmine]
-var TownCards = [SickMan, Archeologist, Corpse, MysteriousRock, Dianne]
+var SwampCards = [Hut, Frog, Corpse, MysteriousRock, Noemi, ForkSwampForest, ForkSwampTown, ForkTownForest]
+var ForestCards = [Wagon, Corpse, MysteriousRock, Jasmine, ForkSwampForest, ForkSwampTown, ForkTownForest]
+var TownCards = [SickMan, Archeologist, Corpse, MysteriousRock, Dianne, ForkSwampForest, ForkSwampTown, ForkTownForest]
 
 var RandomCards = [
-  GhostlyLady, Fork, Hut, Frog, Corpse, MysteriousRock, Wagon, SickMan
+  GhostlyLady, Hut, Frog, Corpse, MysteriousRock, Wagon, SickMan,
+  ForkSwampForest, ForkSwampTown, ForkTownForest
 ]
