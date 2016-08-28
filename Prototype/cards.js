@@ -698,17 +698,32 @@ var Jasmine = new Card({
   environment: 'Forest',
   describe: function (game) {
     var lines = []
+    lines.push("Walking a peaceful forest road admiring the centuries old trees you hear distant singing. This appealing voice oddly rings in your ears. Charmed by it you step towards it.")
+    if (game.player.buff["Peace of mind"] || game.player.buff["Delirious Visions"]) {
+      lines.push("Walking closer, you can make out some of this ancient language she is singing in. Reminds you of a children’s story you’ve heard somewhere.")
+    }
 
+    lines.push("You reach the edge of a glade. In the center there is a lady singing on top of a rock. Around her there is a circle of dead bodies. She doesn’t seem to bother. Her eyes seem to be cried out.")
+    
+    if (game.player.buff["Corpse Poker"]) {
+      lines.push("Interestingly enough one of the bodies looks familiar. It is still not alive. There is a fly sitting on top of it. ")
+    }
     return paragraphs(lines)
   },
   options: basic_options({
     yes: {
-      option: 'Cough politely',
+      option: 'Step closer',
       resolve: function (game, card, effect) {
         game.player.buff['Jasmine'] = true
-
         var lines = []
-
+        if (!game.player.buff["Peace of mind"]) {
+          lines.push("You step out of the protective shadows onto the soft grass. The lady sitting on the stone keeps singing even though she definitely noticed you. Walking closer you feel choking sensation. You want to stop walking but the singing forces you towards her. You fall next to other dead bodies. You feel tired.")
+          game.insertAt(0, Death)
+        } else {
+          lines.push("You step out of the protective shadows onto the soft grass. The lady sitting on the stone keeps singing even though she definitely noticed you. Walking closer you feel choking sensation. Then she stops singing. You gasp for air. She starts speaking with a beautiful voice that reminds you of birds singing:")
+          lines.push('"I am happy to see you again traveler. Last time we didn’t talk, I was overwhelmed with my grief. Your compassion made me understand that I have been in this world for too long. You see, I am an eternal being. A spirit if you wish. I have many faces, you saw one of mine under the tree sobbing."')
+          lines.push("She tells you many things about the forest and the meaning of love. She tells you something about the combination of love and technology. It makes little sense to you but you feel like this infromation is going to be useful some day. She sends you off. You realize that sometimes bad things in life can bring experiences that you otherwise might have missed.")
+        }
         return paragraphs(lines)
       }
     },
@@ -716,7 +731,11 @@ var Jasmine = new Card({
       option: 'Walk away',
       resolve: function (game, card, effect) {
         var lines = []
+        lines.push("You feel that it was a wise decision to leave. No need to end up like the poor folk on the ground.")
 
+        if (game.player.buff["Depression"]) {
+          lines.push("You feel that it was a wise decision to leave. No need to end up like the poor folk on the ground. ")
+        }
         return paragraph(lines)
       }
     }
