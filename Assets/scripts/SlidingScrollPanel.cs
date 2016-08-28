@@ -11,6 +11,7 @@ public class SlidingScrollPanel : MonoBehaviour {
 
 	public float defaultY;
 	public float stabilizeLerp = 0.2f;
+	public float stableThreshold = 1f;
 	public float dismissThreshold = -10f;
 	public float dragRatio = 2f;
 
@@ -21,7 +22,7 @@ public class SlidingScrollPanel : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		transform.parent.position = new Vector3 (transform.parent.position.x, defaultY);
+		transform.parent.position = new Vector3 (transform.parent.position.x, defaultY * Screen.height/2);
 
 		scrollRect = GetComponent<ScrollRect> ();
 		EventTrigger trigger = GetComponent<EventTrigger> ();
@@ -47,13 +48,17 @@ public class SlidingScrollPanel : MonoBehaviour {
 	}
 
 	void Update(){
+		if(transform.parent.position.y >= defaultY * Screen.height/2 - stableThreshold){
+			transform.parent.position = new Vector3 (transform.parent.position.x, defaultY * Screen.height/2);
+			scrollRect.enabled = true;
+		}
 		if (!dragging && visible) {
 			Stabilize ();
 		}
 	}
 
 	private void Stabilize() {
-		transform.parent.position = Vector3.Lerp (transform.parent.position, new Vector3(transform.parent.position.x, defaultY), stabilizeLerp);
+		transform.parent.position = Vector3.Lerp (transform.parent.position, new Vector3(transform.parent.position.x, defaultY * Screen.height/2), stabilizeLerp);
 	}
 
 	public void OnPointerDragBegin(PointerEventData ev){
@@ -64,11 +69,8 @@ public class SlidingScrollPanel : MonoBehaviour {
 
 	public void OnPointerDrag(PointerEventData ev){
 		if (visible) {
-			if (transform.parent.position.y < defaultY) {
-				scrollRect.verticalNormalizedPosition = 1;
+			if (transform.parent.position.y < defaultY * Screen.height - stableThreshold) {
 				scrollRect.enabled = false;
-			} else {
-				scrollRect.enabled = true;
 			}
 			if (scrollRect.verticalNormalizedPosition == 1f || transform.parent.position.y <= defaultY) {
 				transform.parent.position += new Vector3 (0, ev.delta.y * dragRatio);
