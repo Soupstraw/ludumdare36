@@ -65,7 +65,7 @@ var Journey = new Card({
 
 var Aging = new Card({
   title: "Aging",
-  image: '../art 2048/background.png',
+  image: '../art 2048/ageing.png',
   describe: basic_description([
     'You feel your body creaking.'
   ]),
