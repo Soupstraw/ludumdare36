@@ -60,7 +60,7 @@ Game.prototype = {
     }
 
     this.deck[0] = Journey
-    this.deck[15] = Aging
+    this.deck[14] = Aging
     this.deck[29] = DeathByAging
   },
   get activeCard() {
