@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CardRotation : MonoBehaviour {
+public class CardInteraction : MonoBehaviour {
 
 	public delegate void ChoiceAction(int choice);
 	public static event ChoiceAction OnChoice;
@@ -33,7 +33,7 @@ public class CardRotation : MonoBehaviour {
 
 	private Vector2 clickPos;
 
-	private CardState cardState;
+	private CardState cardState = CardState.WAITING_FOR_EVENT;
 
 	private bool buttonHeld = false;
 
@@ -41,12 +41,21 @@ public class CardRotation : MonoBehaviour {
 		STABLE,
 		PREFLIP,
 		STABILIZING,
-		ASIDE
+		ASIDE,
+		WAITING_FOR_EVENT
 	}
 
 	// Use this for initialization
 	void Start () {
 		degreesPerPixel = Screen.width * swipeSensitivity;
+	}
+
+	void OnEnable(){
+		SlidingScrollPanel.OnDialogDismissed += DialogDismissed;
+	}
+
+	void OnDisable(){
+		SlidingScrollPanel.OnDialogDismissed -= DialogDismissed;
 	}
 		
 	// Update is called once per frame
@@ -55,7 +64,7 @@ public class CardRotation : MonoBehaviour {
 			StabilizeRotation ();
 		} else if(cardState == CardState.ASIDE) {
 			MoveAside ();
-		} else {
+		} else if(cardState == CardState.STABLE || cardState == CardState.PREFLIP){
 			if (Input.GetButtonDown ("Fire1")) {
 				clickPos = new Vector2 (Input.mousePosition.x, Input.mousePosition.y);
 				buttonHeld = true;
@@ -81,6 +90,12 @@ public class CardRotation : MonoBehaviour {
 			} else {
 				StabilizeRotation ();
 			}
+		}
+	}
+
+	public void DialogDismissed(){
+		if (cardState == CardState.WAITING_FOR_EVENT) {
+			cardState = CardState.STABILIZING;
 		}
 	}
 
