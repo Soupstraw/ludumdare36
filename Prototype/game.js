@@ -12,6 +12,7 @@ function pickremove(array){
 function nop () {}
 
 function Card (props) {
+  this.encounters = 0
   this.image = props.image || ''
   this.title = props.title
   this.describe = props.describe
@@ -87,6 +88,7 @@ Game.prototype = {
     var options = card.options(this)
     var effect = options[option]
     var desc = effect.resolve(this, card, effect)
+    card.encounters++
 
     this.resolved.push({
       card: card,
@@ -101,7 +103,7 @@ Game.prototype = {
   },
   dropDuplicates: function(){
     var avoid = this.resolved.slice(this.resolved.length-4)
-    
+
     while(this.deck.length > 0){
       var card = this.deck[0]
       

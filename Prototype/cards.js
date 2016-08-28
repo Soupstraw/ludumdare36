@@ -121,53 +121,52 @@ var GhostlyLady = new Card({
   title: 'Ghostly Lady',
   image: '../art 2048/Ghostly Lady.png',
   environment: null,
+  applicable: function(game){
+    return this.encounters < 2;
+  },
   describe: basic_description([
     'While walking during a windy night you encounter a young woman crying under a nearby tree. She has a ghastly halo surrounding her, as if she is not from this world. Through her delirious mumbles you hear her sobbing about something.'
   ]),
-  options: basic_options({
-    yes: {
-      option: 'Step Closer',
-      resolve: function (game, card, effect) {
-        game.player.buff['Delirious Visions'] = true
-        game.insertAt(between(4, 6), GhostlyLady2)
-        game.insertAt(between(4, 6), DeliriousVisions)
+  options: function(game){
+    if(this.encounters > 0){
+      return {
+        yes: {
+          option: 'Step Closer',
+          resolve: function (game, card, effect) {
+            delete game.player.buff['Delirious Visions']
+            game.player.buff['Peace of mind'] = true
 
-        return paragraphs(["She notices you when you are only a few steps from her. She briefly looks towards you through her tears and continues mumbling. While trying to figure out what to do you start to understand fragments of the children's story she is mumbling. You walk away unable to comfort her. You wonder what happened to her."])
-      }
-    },
-    no: {
-      option: 'Walk away',
-      resolve: function (game, card, effect) {
-        return paragraphs(['You turn away and start walking away from her. You feel the wind becoming stronger and you glance back at the tree where the woman was sitting. She is not there anymore. What happened to her, you wonder… You decide not to bother yourself with this matter anymore.'])
+            return paragraphs(['How long has she been here, you wonder.. Upon walking closer she acknowledges your presence with a nod and stops sobbing. The wind clears as she slowly sags into the tree.'])
+          }
+        },
+        no: {
+          option: 'Walk away',
+          resolve: function (game, card, effect) {
+            return paragraphs(['You turn away and start walking away from her. You feel the wind becoming stronger and you glance back at the tree where the woman was sitting. She is not there anymore. You feel uneasy and lonely.'])
+          }
+        }
       }
     }
-  })
-})
 
-var GhostlyLady2 = new Card({
-  title: 'Ghostly Lady',
-  image: '../art 2048/Ghostly Lady.png',
-  environment: null,
-  describe: basic_description([
-    'While walking during a windy night you encounter a young woman crying under a nearby tree. She has a ghastly halo surrounding her, as if she is not from this world. Through her delirious mumbles you hear her sobbing about something.'
-  ]),
-  options: basic_options({
-    yes: {
-      option: 'Step Closer',
-      resolve: function (game, card, effect) {
-        delete game.player.buff['Delirious Visions']
-        game.player.buff['Peace of mind'] = true
+    return {
+      yes: {
+        option: 'Step Closer',
+        resolve: function (game, card, effect) {
+          game.player.buff['Delirious Visions'] = true
+          game.insertAt(between(4, 6), GhostlyLady)
+          game.insertAt(between(4, 6), DeliriousVisions)
 
-        return paragraphs(['How long has she been here, you wonder.. Upon walking closer she acknowledges your presence with a nod and stops sobbing. The wind clears as she slowly sags into the tree.'])
-      }
-    },
-    no: {
-      option: 'Walk away',
-      resolve: function (game, card, effect) {
-        return paragraphs(['You turn away and start walking away from her. You feel the wind becoming stronger and you glance back at the tree where the woman was sitting. She is not there anymore. You feel uneasy and lonely.'])
+          return paragraphs(["She notices you when you are only a few steps from her. She briefly looks towards you through her tears and continues mumbling. While trying to figure out what to do you start to understand fragments of the children's story she is mumbling. You walk away unable to comfort her. You wonder what happened to her."])
+        }
+      },
+      no: {
+        option: 'Walk away',
+        resolve: function (game, card, effect) {
+          return paragraphs(['You turn away and start walking away from her. You feel the wind becoming stronger and you glance back at the tree where the woman was sitting. She is not there anymore. What happened to her, you wonder… You decide not to bother yourself with this matter anymore.'])
+        }
       }
     }
-  })
+  }
 })
 
 var DeliriousVisions = new Card({
@@ -317,6 +316,9 @@ var Hut = new Card({
   describe: basic_description([
     'Hut with gleaming lights.'
   ]),
+  applicable: function(game){
+    return this.encounters < 3;
+  },
   options: basic_options({
     yes: {
       option: 'Knock',
@@ -344,6 +346,9 @@ var Frog = new Card({
   title: 'Frog',
   image: '../art 2048/Frog.png',
   environment: 'Swamp',
+  applicable: function(game){
+    return this.encounters < 3;
+  },
   describe: basic_description([
     'Placing foot after foot on the swamp road you notice a small slimy frog jumping around.'
   ]),
@@ -372,6 +377,9 @@ var Wagon = new Card({
   title: 'Wagon',
   image: '../art 2048/wagon.png',
   environment: 'Forest',
+  applicable: function(game){
+    return this.encounters < 2;
+  },
   describe: basic_description([
     'You notice a broken wagon in the dirt. A small old man is slowly tasking away trying to fix a broken wheel spike. The old man looks very angry.'
   ]),
@@ -405,6 +413,9 @@ var SickMan = new Card({
   title: 'Sick Man',
   image: '../art 2048/sick-man.png',
   environment: 'Town',
+  applicable: function(game){
+    return this.encounters < 2;
+  },
   describe: basic_description([
     'Walking on a cobblestone street you come across a man. He can barely stand straight. He asks people to help him, but no one does.'
   ]),
@@ -502,6 +513,9 @@ var Archeologist = new Card({
   title: 'Archeologist',
   image: '../art 2048/archeologist.png',
   environment: 'Town',
+  applicable: function(game){
+    return this.encounters < 2;
+  },
   describe: basic_description([
     'A gentleman carrying a briefcase approaches you.',
     '"Are you alright? You seem to be aimlessly looking for a way out of your life."',
@@ -535,6 +549,9 @@ var Corpse = new Card({
   title: 'Corpse',
   image: '../art 2048/Corpse.png',
   environment: null,
+  applicable: function(game){
+    return this.encounters < 3;
+  },
   describe: basic_description([
     'You notice a fly on a corpse lying beside the road. How he got there is anyone’s guess. Probably flew in from the swamp.'
   ]),
@@ -714,6 +731,9 @@ var Noemi = new Card({
   title: 'Noemi',
   image: '../art 2048/Noemi.png',
   environment: 'Swamp',
+  applicable: function(game){
+    return this.encounters < 3;
+  },
   describe: function (game) {
     var lines = []
 
@@ -765,6 +785,9 @@ var Jasmine = new Card({
   title: 'Jasmine',
   image: '../art 2048/Jasmine.png',
   environment: 'Forest',
+  applicable: function(game){
+    return this.encounters < 3;
+  },
   describe: function (game) {
     var lines = []
     lines.push("Walking a peaceful forest road admiring the centuries old trees you hear distant singing. This appealing voice oddly rings in your ears. Charmed by it you step towards it.")
@@ -815,6 +838,9 @@ var Dianne = new Card({
   title: 'Dianne',
   image: '../art 2048/Dianne.png',
   environment: 'Town',
+  applicable: function(game){
+    return this.encounters < 3;
+  },
   describe: function (game) {
     var lines = []
 
