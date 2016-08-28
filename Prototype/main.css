@@ -2,12 +2,15 @@ html {
     overflow: scroll;
 }
 body {
-    color: #333;
+    color: #bbb;
+    background: #1f1c2f;
     font-family: Georgia;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
 
 * {
     box-sizing: border-box;
+    border-radius: 2px;
 }
 
 #content {
@@ -30,12 +33,14 @@ body {
 
 .card {
     display: flex;
-    background: hsla(30, 70%, 70%, 1);
-    border: 1px solid hsla(30, 70%, 30%, 1);
+    background: #5f4c25;
+    border: 1px solid #e8b27d;
     padding: 1rem;
 
     width: 40rem;
     min-height: 30rem;
+
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
 }
 
 .card-image, .card-content {
@@ -44,15 +49,17 @@ body {
 }
 
 .card-image {
-    border: 1px solid #000;
-    background: hsla(30, 70%, 60%, 1);
+}
+
+.card-image img {
+    width: 100%;
 }
 
 .card-title {
     font-size: 2em;
     font-weight: bold;
 
-    border-bottom: 1px solid hsla(30, 70%, 30%, 1);
+    border-bottom: 1px solid #e8b27d;
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
@@ -73,12 +80,12 @@ body {
     margin: 0.5rem;
     font-size: 1.3rem;
 
-    background: hsla(30, 70%, 70%, 1);
-    border: 1px solid hsla(30, 70%, 30%, 1);
+    background: #5f4c25;
+    border: 1px solid #e8b27d;
 
     cursor: pointer;
 }
 
 .option:hover {
-    background:  hsla(30, 70%, 90%, 1);
+    background:  #6d582c;
 }
