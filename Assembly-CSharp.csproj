@@ -46,6 +46,11 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\ChoicePanel.cs" />
+     <Compile Include="Assets\Initialization.cs" />
+     <Compile Include="Assets\World\Cards.cs" />
+     <Compile Include="Assets\World\Game.cs" />
+     <Compile Include="Assets\World\Util.cs" />
+     <Compile Include="Assets\World\World.cs" />
      <Compile Include="Assets\scripts\CardInteraction.cs" />
      <Compile Include="Assets\scripts\FadingPanel.cs" />
      <Compile Include="Assets\scripts\SlidingScrollPanel.cs" />

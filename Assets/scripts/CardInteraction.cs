@@ -120,7 +120,7 @@ public class CardInteraction : MonoBehaviour {
 			} else {
 				if (Input.GetButton ("Fire1") && buttonHeld) {
 					if (Mathf.Abs (transform.parent.position.x) <= stablePositionThreshold) {
-						DescMoveTo (- (clickPos.y - Input.mousePosition.y) * descMovementRatio * Screen.height);
+						DescMoveTo (-(clickPos.y - Input.mousePosition.y) * descMovementRatio * Screen.height);
 						if (transform.parent.position.y > descInThreshold) {
 							cardState = CardState.DESC_STABILIZE;
 							return;
@@ -144,6 +144,14 @@ public class CardInteraction : MonoBehaviour {
 			}
 		} else if (cardState == CardState.DESC_OUT) {
 			StabilizeDesc ();
+		} else if (cardState == CardState.DESC_DELAY) {
+			if (Input.GetButton ("Fire1")) {
+				DescMoveTo (-(clickPos.y - Input.mousePosition.y) * descMovementRatio * Screen.height);
+				if (transform.parent.position.y > descInThreshold) {
+					cardState = CardState.DESC_STABILIZE;
+					return;
+				}
+			}
 		}
 	}
 
@@ -157,7 +165,9 @@ public class CardInteraction : MonoBehaviour {
 
 	public IEnumerator DescDelayCoroutine(){
 		yield return new WaitForSeconds(descriptionDelay);
-		cardState = CardState.DESC_STABILIZE;
+		if (cardState == CardState.DESC_DELAY) {
+			cardState = CardState.DESC_STABILIZE;
+		}
 		yield return null;
 	}
 
