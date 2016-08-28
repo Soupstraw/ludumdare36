@@ -2,6 +2,13 @@ function pick (array) {
   return array[array.length * Math.random() | 0]
 }
 
+function pickremove(array){
+  var i = array.length * Math.random() | 0;
+  var el = array[i]
+  array.splice(i, 1)
+  return el
+}
+
 function nop () {}
 
 function Card (props) {
@@ -39,10 +46,24 @@ function Game (random) {
 }
 
 Game.prototype = {
-  get activeCard() {
-    if(this.deck.length == 0){
-      //this.deck.unshift(pick(this.random))
+  reset: function () {
+    this.player = new Player()
+    this.resolved = []
+    this.deck = []
+    
+    var partial = [];
+    for(var i = 0; i < 20; i++){
+      if(partial.length == 0){
+        partial = this.random.slice()
+      }
+      this.deck.push(pickremove(partial))
     }
+
+    this.deck[0] = Journey
+    this.deck[10] = Aging
+    this.deck[20] = DeathByAging
+  },
+  get activeCard() {
     return this.deck[0]
   },
   get desc() {
@@ -53,11 +74,6 @@ Game.prototype = {
   },
   get lastResolution() {
     return this.resolved[this.resolved.length - 1]
-  },
-  reset: function () {
-    this.player = new Player()
-    this.resolved = []
-    this.deck = []
   },
   insertAt: function (n, card) {
     if (n >= this.deck.length) {

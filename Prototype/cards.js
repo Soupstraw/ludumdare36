@@ -1,5 +1,5 @@
-function pick(cards){
-  return cards[cards.length * Math.random()|0]
+function pick (cards) {
+  return cards[cards.length * Math.random() | 0]
 }
 
 function between (low, high) {
@@ -8,12 +8,12 @@ function between (low, high) {
 
 function pickcards (N, into, from) {
   var clones = from.slice()
-  for(var i = 0; i < N; i++){
-    if(clones.length <= 0){
+  for (var i = 0; i < N; i++) {
+    if (clones.length <= 0) {
       return
     }
-    into.unshift(clones[i]);
-    clones.splice(i, 1)    
+    into.unshift(clones[i])
+    clones.splice(i, 1)
   }
 }
 
@@ -35,6 +35,88 @@ function basic_options (opts) {
     }
   }
 }
+
+var Journey = new Card({
+  title: 'Journey',
+  image: '../Art/Empty.png',
+  describe: basic_description([
+    'Your journey begins here and there are many choices to be made.',
+    'You can take the path to your left or right.'
+  ]),
+  options: basic_options({
+    yes: {
+      option: 'Start',
+      resolve: function (game, card, effect) {
+        return paragraphs([
+          'You start your journey wondering what might happen.'
+        ])
+      }
+    },
+    no: {
+      option: 'Begin',
+      resolve: function (game, card, effect) {
+        return paragraphs([
+          'You begin your hoping for a better future.'
+        ])
+      }
+    }
+  })
+})
+
+var Aging = new Card({
+  title: "Aging",
+  image: '../Art/Empty.png',
+  describe: basic_description([
+    'Your journey begins here and there are many choices to be made.',
+    'You can take the path to your left or right.'
+  ]),
+  options: basic_options({
+    yes: {
+      option: 'Start',
+      resolve: function (game, card, effect) {
+        return paragraphs([
+          'You start your journey wondering what might happen.'
+        ])
+      }
+    },
+    no: {
+      option: 'Begin',
+      resolve: function (game, card, effect) {
+        return paragraphs([
+          'You begin your hoping for a better future.'
+        ])
+      }
+    }
+  })
+})
+
+var DeathByAging = new Card({
+  title: "Death",
+  image: '../Art/Empty.png',
+  describe: basic_description([
+    'Death catches up with us all.'
+  ]),
+  options: basic_options({
+    yes: {
+      option: 'Reminisce',
+      resolve: function (game, card, effect) {
+        game.deck = [];
+        return paragraphs([
+          'You remember all the encounters in your life while everything fades away.'
+        ])
+      }
+    },
+    no: {
+      option: 'Say',
+      resolve: function (game, card, effect) {
+        game.deck = [];
+        return paragraphs([
+          'You try to say something meaningful, but there is no meaning beyond death.'
+        ])
+      }
+    }
+  })
+})
 
 var GhostlyLady = new Card({
   title: 'Ghostly Lady',
@@ -220,10 +302,10 @@ var Frog = new Card({
   })
 })
 
-var Wagon  = new Card({
+var Wagon = new Card({
   title: 'Wagon',
   image: '../Art/Wagon.png',
-  environment: "Forest",
+  environment: 'Forest',
   describe: basic_description([
     'You notice a broken wagon in the dirt. A small old man is slowly tasking away trying to fix a broken wheel spike. The old man looks very angry.'
   ]),
@@ -252,11 +334,11 @@ var Wagon  = new Card({
     }
   })
 })
- 
-var SickMan  = new Card({
+
+var SickMan = new Card({
   title: 'Sick Man',
   image: '../Art/Empty.png',
-  environment: "Town",
+  environment: 'Town',
   describe: basic_description([
     'Walking on a cobblestone street you come across a man. He can barely stand straight. He asks people to help him, but no one does.'
   ]),
@@ -284,7 +366,7 @@ var SickMan  = new Card({
   })
 })
 
-var Shivers  = new Card({
+var Shivers = new Card({
   title: 'Shivers',
   image: '../Art/DeliriousVisions.png',
   environment: null,
@@ -298,7 +380,7 @@ var Shivers  = new Card({
         game.insertAt(between(4, 6), DeathShivers.clone())
 
         return paragraphs([
-          'Hopefully it\'s nothing serious.'
+          "Hopefully it's nothing serious."
         ])
       }
     },
@@ -309,7 +391,7 @@ var Shivers  = new Card({
         game.insertAt(between(4, 6), DeathShivers.clone())
 
         return paragraphs([
-          'You feel like there\'s nothing more you can do.',
+          "You feel like there's nothing more you can do.",
           'What comes, must come.'
         ])
       }
@@ -317,7 +399,7 @@ var Shivers  = new Card({
   })
 })
 
-var DeathShivers  = new Card({
+var DeathShivers = new Card({
   title: 'Death',
   image: '../Art/Death.png',
   environment: null,
@@ -329,7 +411,7 @@ var DeathShivers  = new Card({
     yes: {
       option: 'Last breath',
       resolve: function (game, card, effect) {
-        game.deck = [];
+        game.deck = []
         return paragraphs([
           'You breathe out last time.'
         ])
@@ -338,7 +420,7 @@ var DeathShivers  = new Card({
     no: {
       option: 'Close eyes',
       resolve: function (game, card, effect) {
-        game.deck = [];
+        game.deck = []
         return paragraphs([
           'You close your eyes.'
         ])
@@ -347,14 +429,14 @@ var DeathShivers  = new Card({
   })
 })
 
-var Archeologist  = new Card({
+var Archeologist = new Card({
   title: 'Archeologist',
   image: '../Art/Archeologist.png',
   environment: 'Town',
   describe: basic_description([
     'A gentleman carrying a briefcase approaches you.',
     '"Are you alright? You seem to be aimlessly looking for a way out of your life."',
-    'You don\'t know what the correct answer is.',
+    "You don't know what the correct answer is.",
     '"I\'ve recently discovered mentions of an old Artifact that gave people back their life. I hadn\'t much luck, maybe you have more."',
     'The man offers you a map.'
   ]),
@@ -380,7 +462,7 @@ var Archeologist  = new Card({
   })
 })
 
-var Corpse  = new Card({
+var Corpse = new Card({
   title: 'Corpse',
   image: '../Art/Corpse.png',
   environment: null,
@@ -391,7 +473,7 @@ var Corpse  = new Card({
     yes: {
       option: 'Poke',
       resolve: function (game, card, effect) {
-        game.player.buff["Corpse Poker"] = true
+        game.player.buff['Corpse Poker'] = true
         return paragraphs([
           'Poking the corpse did not bring him back to life. What a shame.'
         ])
@@ -408,14 +490,14 @@ var Corpse  = new Card({
   })
 })
 
-var MysteriousRock  = new Card({
+var MysteriousRock = new Card({
   title: 'Mysterious Rock',
   image: '../Art/Stone.png',
   environment: null,
-  describe: function(game){
-    if(game.player.buff["Map"]){
+  describe: function (game) {
+    if (game.player.buff['Map']) {
       return paragraphs([
-        "You notice the similarity of the rock to the map that the Archeologist gave you. There seem to be strange symbols that can be twisted."
+        'You notice the similarity of the rock to the map that the Archeologist gave you. There seem to be strange symbols that can be twisted.'
       ])
     }
 
@@ -423,12 +505,11 @@ var MysteriousRock  = new Card({
       'You might be imagining things, but it seems that this rock is humming? Maybe it has a mind of itself?'
     ])
   },
-  options: function(game){
-    if(game.player.buff["Map"] && 
-      game.player.buff["Jasmine"] && 
-      game.player.buff["Dianne"] && 
-      game.player.buff["Noemi"]){
-
+  options: function (game) {
+    if (game.player.buff['Map'] &&
+      game.player.buff['Jasmine'] &&
+      game.player.buff['Dianne'] &&
+      game.player.buff['Noemi']) {
       return {
         yes: {
           option: 'Open',
@@ -451,7 +532,7 @@ var MysteriousRock  = new Card({
       }
     }
 
-    if(game.player.buff["Map"]){
+    if (game.player.buff['Map']) {
       return {
         yes: {
           option: 'Touch',
@@ -469,7 +550,7 @@ var MysteriousRock  = new Card({
             ])
           }
         }
-      }  
+      }
     }
 
     return {
@@ -493,11 +574,11 @@ var MysteriousRock  = new Card({
   }
 })
 
-var BrokenClockwork  = new Card({
+var BrokenClockwork = new Card({
   title: 'Broken Clockwork',
   image: '../Art/Empty.png',
   environment: null,
-  describe: function(game){
+  describe: function (game) {
     return paragraphs([
       'Entering the room you notice a strange artifact placed on a pedestal.',
       'You slowly approach it, it seems that debri from the ceiling has damaged the device and broken off some pieces.'
@@ -507,8 +588,8 @@ var BrokenClockwork  = new Card({
     yes: {
       option: 'Repair',
       resolve: function (game, card, effect) {
-        if(game.player.buff["Sticky Boots"]){
-          delete game.player.buff["Sticky Boots"]
+        if (game.player.buff['Sticky Boots']) {
+          delete game.player.buff['Sticky Boots']
           game.deck.unshift(Clockwork.clone())
 
           return paragraphs([
@@ -533,7 +614,7 @@ var BrokenClockwork  = new Card({
   })
 })
 
-var Clockwork  = new Card({
+var Clockwork = new Card({
   title: 'Clockwork',
   image: '../Art/Empty.png',
   environment: null,
@@ -564,13 +645,13 @@ var Noemi = new Card({
   title: 'Noemi',
   image: '../Art/Noemi.png',
   environment: 'Swamp',
-  describe: function(game){
+  describe: function (game) {
     var lines = []
-    
-    lines.push("From a distance you hear mild and playful screams of joy. Some local girls must be playing in the swamp pool. You haven’t seen anyone for miles and thought that you are completely lost by now so you decide to ask your way. With this in mind you set your course towards the shrieks. To your surprise you only find one young lady in a pool. More chillingly this young lady is poking a dead body. She seems to be very thrilled with what she is doing.")
 
-    if(game.player.buff["Corpse Poker"]){
-      lines.push("You think that you’ve already tried poking a corpse before. Didn’t bring her back to life. You wonder what happened with the fly.")
+    lines.push('From a distance you hear mild and playful screams of joy. Some local girls must be playing in the swamp pool. You haven’t seen anyone for miles and thought that you are completely lost by now so you decide to ask your way. With this in mind you set your course towards the shrieks. To your surprise you only find one young lady in a pool. More chillingly this young lady is poking a dead body. She seems to be very thrilled with what she is doing.')
+
+    if (game.player.buff['Corpse Poker']) {
+      lines.push('You think that you’ve already tried poking a corpse before. Didn’t bring her back to life. You wonder what happened with the fly.')
     }
 
     return paragraphs(lines)
@@ -579,16 +660,16 @@ var Noemi = new Card({
     yes: {
       option: 'Cough politely',
       resolve: function (game, card, effect) {
-        game.player.buff["Noemi"] = true
-        
-        var lines = []
-        lines.push("She jumps slightly and turns around. She does not seem to mind that she has no clothes. There does not seem to be any clothes around the pool either. She gladly agrees to show you the way. Her movements are sharp. She has a distinct aroma surrounding her that reminds you for some reason nutmeg even though they are nothing alike.")
+        game.player.buff['Noemi'] = true
 
-        if(game.player.buff["Hut"]){
-          lines.push("Hmm… I think you have already met my godfather. He has a long white beard. He told me good things about you.")
+        var lines = []
+        lines.push('She jumps slightly and turns around. She does not seem to mind that she has no clothes. There does not seem to be any clothes around the pool either. She gladly agrees to show you the way. Her movements are sharp. She has a distinct aroma surrounding her that reminds you for some reason nutmeg even though they are nothing alike.')
+
+        if (game.player.buff['Hut']) {
+          lines.push('Hmm… I think you have already met my godfather. He has a long white beard. He told me good things about you.')
         }
-        
-        lines.push("She tells that her name is Noemi. She murmurs about some ancient technology that allows you to give eternal love and for some unexpected reason gives you a lecture on the anatomy of the heart. You feel enlightened but also relieved to hit the road again.")
+
+        lines.push('She tells that her name is Noemi. She murmurs about some ancient technology that allows you to give eternal love and for some unexpected reason gives you a lecture on the anatomy of the heart. You feel enlightened but also relieved to hit the road again.')
 
         return paragraphs(lines)
       }
@@ -597,13 +678,13 @@ var Noemi = new Card({
       option: 'Walk away',
       resolve: function (game, card, effect) {
         var lines = []
-        lines.push("You turn around and try to walk away without making a noise. Then you feel a light tap on your shoulder. A little spooked out you tell the naked, corpse-poking lady about your journey. She gladly agrees to show you the way. Her movements are sharp. She has a distinct aroma surrounding her that reminds you for some reason nutmeg even though they smell nothing alike.")
+        lines.push('You turn around and try to walk away without making a noise. Then you feel a light tap on your shoulder. A little spooked out you tell the naked, corpse-poking lady about your journey. She gladly agrees to show you the way. Her movements are sharp. She has a distinct aroma surrounding her that reminds you for some reason nutmeg even though they smell nothing alike.')
 
-        if(game.player.buff["Hut"]){
-          lines.push("Hmm… I think you have already met my godfather. He has a long white beard. He told me good things about you.")
+        if (game.player.buff['Hut']) {
+          lines.push('Hmm… I think you have already met my godfather. He has a long white beard. He told me good things about you.')
         }
 
-        lines.push("She tells that her name is Noemi. She murmurs about some ancient technology that allows you to give eternal love and for some unexpected reason gives you a lecture on the anatomy of the heart. You feel enlightened but also relieved to hit the road again.")
+        lines.push('She tells that her name is Noemi. She murmurs about some ancient technology that allows you to give eternal love and for some unexpected reason gives you a lecture on the anatomy of the heart. You feel enlightened but also relieved to hit the road again.')
 
         return paragraph(lines)
       }
@@ -615,19 +696,19 @@ var Jasmine = new Card({
   title: 'Jasmine',
   image: '../Art/Jasmine.png',
   environment: 'Forest',
-  describe: function(game){
+  describe: function (game) {
     var lines = []
-    
+
     return paragraphs(lines)
   },
   options: basic_options({
     yes: {
       option: 'Cough politely',
       resolve: function (game, card, effect) {
-        game.player.buff["Jasmine"] = true
-        
+        game.player.buff['Jasmine'] = true
+
         var lines = []
-        
+
         return paragraphs(lines)
       }
     },
@@ -635,7 +716,7 @@ var Jasmine = new Card({
       option: 'Walk away',
       resolve: function (game, card, effect) {
         var lines = []
-        
+
         return paragraph(lines)
       }
     }
@@ -646,19 +727,19 @@ var Dianne = new Card({
   title: 'Dianne',
   image: '../Art/Dianne.png',
   environment: 'Forest',
-  describe: function(game){
+  describe: function (game) {
     var lines = []
-    
+
     return paragraphs(lines)
   },
   options: basic_options({
     yes: {
       option: 'Cough politely',
       resolve: function (game, card, effect) {
-        game.player.buff["Dianne"] = true
-        
+        game.player.buff['Dianne'] = true
+
         var lines = []
-        
+
         return paragraphs(lines)
       }
     },
@@ -666,7 +747,7 @@ var Dianne = new Card({
       option: 'Walk away',
       resolve: function (game, card, effect) {
         var lines = []
-        
+
         return paragraph(lines)
       }
     }
@@ -680,5 +761,3 @@ var TownCards = [SickMan, Archeologist, Corpse, MysteriousRock, Dianne]
 var RandomCards = [
   GhostlyLady, Fork, Hut, Frog, Corpse, MysteriousRock, Wagon, SickMan
 ]
-
-var StartCards = RandomCards.slice()
