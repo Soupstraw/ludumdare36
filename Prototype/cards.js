@@ -814,7 +814,7 @@ var Jasmine = new Card({
 var Dianne = new Card({
   title: 'Dianne',
   image: '../art 2048/Dianne.png',
-  environment: 'Forest',
+  environment: 'Town',
   describe: function (game) {
     var lines = []
 
@@ -842,11 +842,12 @@ var Dianne = new Card({
   })
 })
 
-var SwampCards = [Hut, Frog, Corpse, MysteriousRock, Noemi, ForkSwampForest, ForkSwampTown, ForkTownForest]
-var ForestCards = [Wagon, Corpse, MysteriousRock, Jasmine, ForkSwampForest, ForkSwampTown, ForkTownForest]
-var TownCards = [SickMan, Archeologist, Corpse, MysteriousRock, Dianne, ForkSwampForest, ForkSwampTown, ForkTownForest]
+var SwampCards = [Hut, Frog, MysteriousRock, Noemi, ForkSwampForest, ForkSwampTown, ForkTownForest]
+var ForestCards = [Wagon, MysteriousRock, Jasmine, ForkSwampForest, ForkSwampTown, ForkTownForest]
+var TownCards = [SickMan, Archeologist, Dianne, ForkSwampForest, ForkSwampTown, ForkTownForest]
 
 var RandomCards = [
   GhostlyLady, Hut, Frog, Corpse, MysteriousRock, Wagon, SickMan,
-  ForkSwampForest, ForkSwampTown, ForkTownForest
+  ForkSwampForest, ForkSwampTown, ForkTownForest,
+  Noemi, Jasmine, Dianne
 ]

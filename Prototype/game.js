@@ -100,7 +100,8 @@ Game.prototype = {
     return this.lastResolution
   },
   dropDuplicates: function(){
-    var avoid = this.resolved.slice(this.resolved.length-3)
+    var avoid = this.resolved.slice(this.resolved.length-4)
+    
     while(this.deck.length > 0){
       var card = this.deck[0]
       
