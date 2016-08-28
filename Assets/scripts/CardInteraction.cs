@@ -76,7 +76,6 @@ public class CardInteraction : MonoBehaviour {
 			}
 
 			if (Input.GetButtonUp ("Fire1") && cardState == CardState.PREFLIP) {
-				frontActive = !frontActive;
 				float dx = clickPos.x - Input.mousePosition.x;
 				if (OnCardPushedAside != null) {
 					OnCardPushedAside ();
@@ -103,12 +102,15 @@ public class CardInteraction : MonoBehaviour {
 	}
 
 	public void DialogDismissed(){
-		if (cardState == CardState.WAITING_FOR_EVENT || cardState == CardState.ASIDE) {
+		if (cardState == CardState.WAITING_FOR_EVENT) {
 			cardState = CardState.STABILIZING;
+		} else if (cardState == CardState.ASIDE) {
+			Flip ();
 		}
 	}
 
 	private void RotateTo(float dx){
+		//Debug.Log ("Rotating");
 		float stableRotation;
 		if (frontActive) {
 			stableRotation = 0;
@@ -139,13 +141,21 @@ public class CardInteraction : MonoBehaviour {
 	}
 
 	private void MoveAside(){
+
+		float stableRotation;
+		if (frontActive) {
+			stableRotation = 0;
+		} else {
+			stableRotation = 180;
+		}
+
 		Quaternion targetRot;
 		Vector3 targetPos;
 		if (asideOnRight) {
-			targetRot = Quaternion.Euler (0, maxRotation, 0);
+			targetRot = Quaternion.Euler (0, stableRotation + maxRotation, 0);
 			targetPos = new Vector3 (maxDeviation, 0, 0);
 		} else {
-			targetRot = Quaternion.Euler (0, -maxRotation, 0);
+			targetRot = Quaternion.Euler (0, stableRotation - maxRotation, 0);
 			targetPos = new Vector3 (-maxDeviation, 0, 0);
 		}
 
@@ -154,6 +164,7 @@ public class CardInteraction : MonoBehaviour {
 	}
 
 	private void Flip(){
+		Debug.Log ("Flipping.");
 		buttonHeld = false;
 		frontActive = !frontActive;
 		cardState = CardState.STABILIZING;

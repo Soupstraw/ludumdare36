@@ -17,6 +17,7 @@ public class SlidingScrollPanel : MonoBehaviour {
 	private ScrollRect scrollRect; 
 
 	private bool dragging = false;
+	private bool visible = true;
 
 	// Use this for initialization
 	void Start () {
@@ -41,8 +42,12 @@ public class SlidingScrollPanel : MonoBehaviour {
 		trigger.triggers.Add (pointerRelease);
 	}
 
+	public void Show(){
+		visible = true;
+	}
+
 	void Update(){
-		if (!dragging) {
+		if (!dragging && visible) {
 			Stabilize ();
 		}
 	}
@@ -52,17 +57,21 @@ public class SlidingScrollPanel : MonoBehaviour {
 	}
 
 	public void OnPointerDragBegin(PointerEventData ev){
-		dragging = true;
+		if (visible) {
+			dragging = true;
+		}
 	}
 
 	public void OnPointerDrag(PointerEventData ev){
-		if (scrollRect.verticalNormalizedPosition == 1f || transform.parent.position.y <= defaultY) {
-			transform.parent.position += new Vector3 (0, ev.delta.y * dragRatio);
-			if (transform.parent.position.y < dismissThreshold - Screen.height / 2) {
-				if (OnDialogDismissed != null) {
-					OnDialogDismissed ();
+		if (visible) {
+			if (scrollRect.verticalNormalizedPosition == 1f || transform.parent.position.y <= defaultY) {
+				transform.parent.position += new Vector3 (0, ev.delta.y * dragRatio);
+				if (transform.parent.position.y < dismissThreshold - Screen.height / 2) {
+					if (OnDialogDismissed != null) {
+						OnDialogDismissed ();
+					}
+					visible = false;
 				}
-				transform.parent.gameObject.SetActive (false);
 			}
 		}
 	}

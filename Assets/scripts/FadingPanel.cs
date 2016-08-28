@@ -58,13 +58,15 @@ public class FadingPanel : MonoBehaviour {
 	}
 
 	public void OnPointerRelease(PointerEventData ev){
-		if (Vector2.Distance (ev.pressPosition, ev.position) >= minDistance) {
-			visible = false;
-			if (OnDialogDismissed != null) {
-				OnDialogDismissed ();
+		if (visible) {
+			if (Vector2.Distance (ev.pressPosition, ev.position) >= minDistance) {
+				visible = false;
+				if (OnDialogDismissed != null) {
+					OnDialogDismissed ();
+				}
 			}
+			dragging = false;
 		}
-		dragging = false;
 	}
 
 	private void ChangeAlpha(float alpha){
