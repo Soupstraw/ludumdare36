@@ -55,10 +55,12 @@ public class CardInteraction : MonoBehaviour {
 
 	void OnEnable(){
 		SlidingScrollPanel.OnDialogDismissed += DialogDismissed;
+		FadingPanel.OnDialogDismissed += DialogDismissed;
 	}
 
 	void OnDisable(){
 		SlidingScrollPanel.OnDialogDismissed -= DialogDismissed;
+		FadingPanel.OnDialogDismissed -= DialogDismissed;
 	}
 		
 	// Update is called once per frame
@@ -74,6 +76,7 @@ public class CardInteraction : MonoBehaviour {
 			}
 
 			if (Input.GetButtonUp ("Fire1") && cardState == CardState.PREFLIP) {
+				frontActive = !frontActive;
 				float dx = clickPos.x - Input.mousePosition.x;
 				if (OnCardPushedAside != null) {
 					OnCardPushedAside ();
@@ -100,7 +103,7 @@ public class CardInteraction : MonoBehaviour {
 	}
 
 	public void DialogDismissed(){
-		if (cardState == CardState.WAITING_FOR_EVENT) {
+		if (cardState == CardState.WAITING_FOR_EVENT || cardState == CardState.ASIDE) {
 			cardState = CardState.STABILIZING;
 		}
 	}

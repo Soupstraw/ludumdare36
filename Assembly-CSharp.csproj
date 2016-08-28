@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\scripts\CardInteraction.cs" />
+     <Compile Include="Assets\scripts\FadingPanel.cs" />
      <Compile Include="Assets\scripts\SlidingScrollPanel.cs" />
      <Compile Include="Assets\scripts\SoundManager.cs" />
  <Reference Include="UnityEngine.UI">
