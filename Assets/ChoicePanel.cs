@@ -6,6 +6,7 @@ public class ChoicePanel : MonoBehaviour {
 	public float target = 0;
 	public float lerpFactor = 0.2f;
 	public float stoppingPoint = 0.3f;
+	public float sensitivity = 10.0f;
 
 	void Start(){
 		
@@ -13,11 +14,7 @@ public class ChoicePanel : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (target > 0) {
-			target = Mathf.Min (target, Screen.width * stoppingPoint);
-		} else {
-			target = Mathf.Max (target, - Screen.width * stoppingPoint);
-		}
-		transform.position = Vector3.Lerp (transform.position, new Vector3(target + Screen.width/2, transform.position.y), lerpFactor);
+		target = Mathf.Clamp (target, -stoppingPoint * Screen.width, stoppingPoint * Screen.width);
+		transform.position = Vector3.Lerp (transform.position, new Vector3((target * sensitivity + Screen.width/2), transform.position.y), lerpFactor);
 	}
 }

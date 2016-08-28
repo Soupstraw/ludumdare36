@@ -244,20 +244,23 @@ public class CardInteraction : MonoBehaviour {
 			if (cardState == CardState.DESC_STABILIZE && descMaxY - transform.parent.position.y < descStableThreshold) {
 				cardState = CardState.DESC_IN;
 			}
-		} else if (cardState == CardState.DESC_OUT) {
+			float r = transform.parent.position.y / descMaxY;
+			choicePanel.target = 0;
+			SetTextAlpha (r);
+		} else if (cardState == CardState.DESC_OUT || cardState == CardState.DESC_DELAY) {
 			transform.parent.position = Vector3.Lerp (transform.parent.position, new Vector3 (0, 0), descMovementLerpFactor * Time.deltaTime);
-			if (Vector3.Distance (transform.parent.position, Vector3.zero) <= stablePositionThreshold) {
+			if (cardState == CardState.DESC_OUT && Vector3.Distance (transform.parent.position, Vector3.zero) <= stablePositionThreshold) {
 				cardState = CardState.STABLE;
 				SetTextAlpha (0);
+			} else {
+				float r = transform.parent.position.y / descMaxY;
+				choicePanel.target = 0;
+				SetTextAlpha (r);
 			}
 		}
 
 		Quaternion targetRot = Quaternion.Euler (0, GetStableRotation(), 0);
 		transform.rotation = Quaternion.Lerp (transform.rotation, targetRot, stabilizationSpeed * Time.deltaTime);
-
-		float r = transform.parent.position.y / descMaxY;
-		choicePanel.target = r;
-		SetTextAlpha (r);
 	}
 
 	private void StabilizeRotation(){
