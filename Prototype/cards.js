@@ -45,18 +45,18 @@ var Journey = new Card({
   ]),
   options: basic_options({
     yes: {
-      option: 'Start',
+      option: 'Right',
       resolve: function (game, card, effect) {
         return paragraphs([
-          'You start your journey wondering what might happen.'
+          'You follow the road to the right and hope for something new.'
         ])
       }
     },
     no: {
-      option: 'Begin',
+      option: 'Left',
       resolve: function (game, card, effect) {
         return paragraphs([
-          'You begin your hoping for a better future.'
+          'You take the path to your left and start your adventure.'
         ])
       }
     }
@@ -775,7 +775,7 @@ var Noemi = new Card({
 
         lines.push('She tells that her name is Noemi. She murmurs about some ancient technology that allows you to give eternal love and for some unexpected reason gives you a lecture on the anatomy of the heart. You feel enlightened but also relieved to hit the road again.')
 
-        return paragraph(lines)
+        return paragraphs(lines)
       }
     }
   })
@@ -810,7 +810,7 @@ var Jasmine = new Card({
         var lines = []
         if (!game.player.buff["Peace of mind"]) {
           lines.push("You step out of the protective shadows onto the soft grass. The lady sitting on the stone keeps singing even though she definitely noticed you. Walking closer you feel choking sensation. You want to stop walking but the singing forces you towards her. You fall next to other dead bodies. You feel tired.")
-          game.insertAt(0, Death)
+          game.deck = [];
         } else {
           lines.push("You step out of the protective shadows onto the soft grass. The lady sitting on the stone keeps singing even though she definitely noticed you. Walking closer you feel choking sensation. Then she stops singing. You gasp for air. She starts speaking with a beautiful voice that reminds you of birds singing:")
           lines.push('"I am happy to see you again traveler. Last time we didn’t talk, I was overwhelmed with my grief. Your compassion made me understand that I have been in this world for too long. You see, I am an eternal being. A spirit if you wish. I have many faces, you saw one of mine under the tree sobbing."')
@@ -828,7 +828,7 @@ var Jasmine = new Card({
         if (game.player.buff["Depression"]) {
           lines.push("You feel that it was a wise decision to leave. No need to end up like the poor folk on the ground. ")
         }
-        return paragraph(lines)
+        return paragraphs(lines)
       }
     }
   })
