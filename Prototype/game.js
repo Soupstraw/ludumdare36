@@ -52,7 +52,7 @@ Game.prototype = {
     this.deck = []
     
     var partial = [];
-    for(var i = 0; i < 20; i++){
+    for(var i = 0; i < 30; i++){
       if(partial.length == 0){
         partial = this.random.slice()
       }
@@ -60,8 +60,8 @@ Game.prototype = {
     }
 
     this.deck[0] = Journey
-    this.deck[10] = Aging
-    this.deck[20] = DeathByAging
+    this.deck[15] = Aging
+    this.deck[29] = DeathByAging
   },
   get activeCard() {
     return this.deck[0]
@@ -88,6 +88,8 @@ Game.prototype = {
     var effect = options[option]
     var desc = effect.resolve(this, card, effect)
 
+    this.dropDuplicates()
+
     this.resolved.push({
       card: card,
       desc: desc,
@@ -96,6 +98,30 @@ Game.prototype = {
     })
 
     return this.lastResolution
+  },
+  dropDuplicates: function(){
+    var avoid = this.resolved.slice(this.resolved.length-3)
+    while(this.deck.length > 0){
+      var card = this.deck[0]
+      
+      // drop cards that are not applicable
+      if(!card.applicable(this)){
+        this.deck.shift()
+        continue
+      }
+      
+      // drop cards that have recently been drawn
+      var skip = false
+      for(var k = 0; k < avoid.length; k++){
+        if(avoid[k].card.title === card.title){
+          skip = true
+        }
+      }
+      if(!skip){
+        break
+      }
+      this.deck.shift()
+    }
   },
   yes: function () { return this.select('yes'); },
   no: function () { return this.select('no'); }
