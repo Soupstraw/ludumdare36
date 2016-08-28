@@ -265,8 +265,135 @@ var Corpse = new Card({
   })
 })
 
-var SwampCards = [Hut, Frog, Corpse]
-var ForestCards = [Wagon, Corpse]
-var TownCards = [SickMan, Archeologist, Corpse]
+var MysteriousRock = new Card({
+  title: 'Mysterious Rock',
+  img: '../Art/Stone.png',
+  environment: null,
+  desc: 'You might be imagining things, but it seems that this rock is humming? Maybe it has a mind of itself?',
+  yes: new Effect({
+    option: 'Poke',
+    desc: 'Poking the rock did not do anything you wouldn’t expect. What did you expect?',
+    resolve: function (game, card, effect) {}
+  }),
+  no: new Effect({
+    option: 'Magic',
+    desc: 'You don’t know how to do magic. At least you tried. Must count for something, right?',
+    resolve: function (game, card, effect) {}
+  })
+})
+
+var MysteriousRock = new Card({
+  title: 'Mysterious Rock',
+  img: '../Art/Stone.png',
+  environment: null,
+  desc: 'You might be imagining things, but it seems that this rock is humming? Maybe it has a mind of itself?',
+  yes: new Effect({
+    option: 'Poke',
+    desc: 'Poking the rock did not do anything you wouldn’t expect. What did you expect?',
+    resolve: function (game, card, effect) {}
+  }),
+  no: new Effect({
+    option: 'Magic',
+    desc: 'You don’t know how to do magic. At least you tried. Must count for something, right?',
+    resolve: function (game, card, effect) {}
+  })
+})
+
+var MysteriouserRock = new Card({
+  title: 'Mysteriouser Rock',
+  img: '../Art/Stone.png',
+  environment: null,
+  desc: 'You notice the similarity of the rock to the map that the Archeologist gave you. There seem to be strange symbols that can be twisted.',
+  yes: new Effect({
+    option: 'Poke',
+    desc: 'You are unable to figure out the correct combination to make something happen.',
+    resolve: function (game, card, effect) {}
+  }),
+  no: new Effect({
+    option: 'Leave',
+    desc: 'You leave waving the rock goodbye. It seemed so friendly.',
+    resolve: function (game, card, effect) {}
+  })
+})
+
+var MysteriouserRock2 = new Card({
+  title: 'Mysteriouser Rock',
+  img: '../Art/Stone.png',
+  environment: null,
+  desc: 'You notice the similarity of the rock to the map that the Archeologist gave you. There seem to be strange symbols that can be twisted.',
+  yes: new Effect({
+    option: 'Open',
+    desc: 'The rock slowly creaks and opens. The hidden passageway below the rock becomes visible.\n\nYou slowly descend into the dark room.',
+    resolve: function (game, card, effect) {
+      game.deck.unshift(BrokenClockwork.clone())
+    }
+  }),
+  no: new Effect({
+    option: 'Leave',
+    desc: 'You leave waving the rock goodbye. It seemed so friendly.',
+    resolve: function (game, card, effect) {}
+  })
+})
+
+var BrokenClockwork =new Card({
+  title: 'Broken Clockwork',
+  img: '../Art/Empty.png',
+  environment: null,
+  desc: 'Entering the room you notice a strange artifact placed on a pedestal.\n\nYou slowly approach it, it seems that debri from the ceiling has damaged the device and broken off some pieces.',
+  yes: new Effect({
+    option: 'Repair',
+    desc: 'You are unable to make the pieces stick to each other properly. It seems some glue is needed.',
+    resolve: function (game, card, effect) {
+      
+    }
+  }),
+  no: new Effect({
+    option: 'Leave',
+    desc: 'You decided that strange devices are better not played with and leave.',
+    resolve: function (game, card, effect) {}
+  })
+})
+
+var BrokenClockwork2 =new Card({
+  title: 'Broken Clockwork',
+  img: '../Art/Empty.png',
+  environment: null,
+  desc: 'Entering the room you notice a strange artifact placed on a pedestal.\n\nYou slowly approach it, it seems that debri from the ceiling has damaged the device and broken off some pieces.',
+  yes: new Effect({
+    option: 'Repair',
+    desc: 'You are able to fit the pieces together and the wheels inside the device start turning.\n\nA slight glow starts to eminate from the device.',
+    resolve: function (game, card, effect) {
+      game.deck.unshift(Clockwork.clone())
+    }
+  }),
+  no: new Effect({
+    option: 'Leave',
+    desc: 'You decided that strange devices are better left alone.',
+    resolve: function (game, card, effect) {}
+  })
+})
+
+var Clockwork = new Card({
+  title: 'Clockwork',
+  img: '../Art/Empty.png',
+  environment: null,
+  desc: 'Glowing device that is humming. There is a strange button on it.',
+  yes: new Effect({
+    option: 'Use',
+    desc: '',
+    resolve: function (game, card, effect) {
+      game.deck.unshift(Clockwork.clone())
+    }
+  }),
+  no: new Effect({
+    option: 'Place Back',
+    desc: '',
+    resolve: function (game, card, effect) {}
+  })
+})
+
+var SwampCards = [Hut, Frog, Corpse, MysteriousRock]
+var ForestCards = [Wagon, Corpse, MysteriousRock]
+var TownCards = [SickMan, Archeologist, Corpse, MysteriousRock]
 
 var BaseCards = [GhostlyLady, Fork]
