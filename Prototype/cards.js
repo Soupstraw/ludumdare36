@@ -1,41 +1,19 @@
-var Template = new Card({
-  title: '',
-  image: '../Art/Empty.png',
-  environment: null,
-  describe: basic_description([
-    ''
-  ]),
-  options: basic_options({
-    yes: {
-      option: 'Yes',
-      resolve: function (game, card, effect) {
-        return paragraphs([
-          'Yes'
-        ])
-      }
-    },
-    no: {
-      option: 'No',
-      resolve: function (game, card, effect) {
-        return paragraphs([
-          'No'
-        ])
-      }
-    }
-  })
-})
+function pick(cards){
+  return cards[cards.length * Math.random()|0]
+}
 
 function between (low, high) {
   return (Math.random() * (high - low) + low) | 0
 }
 
 function pickcards (N, into, from) {
-  // TODO: randomize picking
-  for (var i = 0; i < N; i++) {
-    if (i >= from.length) {
+  var clones = from.slice()
+  for(var i = 0; i < N; i++){
+    if(clones.length <= 0){
       return
     }
-    into.unshift(from[i].clone())
+    into.unshift(clones[i]);
+    clones.splice(i, 1)    
   }
 }
 
@@ -699,4 +677,8 @@ var SwampCards = [Hut, Frog, Corpse, MysteriousRock, Noemi]
 var ForestCards = [Wagon, Corpse, MysteriousRock, Jasmine]
 var TownCards = [SickMan, Archeologist, Corpse, MysteriousRock, Dianne]
 
-var BaseCards = [GhostlyLady, Fork]
+var RandomCards = [
+  GhostlyLady, Fork, Hut, Frog, Corpse, MysteriousRock, Wagon, SickMan
+]
+
+var StartCards = RandomCards.slice()
