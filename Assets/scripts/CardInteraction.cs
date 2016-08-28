@@ -29,7 +29,7 @@ public class CardInteraction : MonoBehaviour {
 	// Minimum deviation from the center for the card to be considered stable
 	public float stablePositionThreshold = 1.0f;
 
-	public float degreesPerPixel = 1.0f;
+	private float degreesPerPixel = 1.0f;
 
 	private bool frontActive = true;
 	private bool asideOnRight = true;
