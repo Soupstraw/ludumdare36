@@ -20,6 +20,8 @@ public class SlidingScrollPanel : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		transform.parent.position = new Vector3 (transform.parent.position.x, defaultY);
+
 		scrollRect = GetComponent<ScrollRect> ();
 		EventTrigger trigger = GetComponent<EventTrigger> ();
 
@@ -54,7 +56,7 @@ public class SlidingScrollPanel : MonoBehaviour {
 	}
 
 	public void OnPointerDrag(PointerEventData ev){
-		if (scrollRect.verticalNormalizedPosition == 1f || transform.parent.position.y < defaultY) {
+		if (scrollRect.verticalNormalizedPosition == 1f || transform.parent.position.y <= defaultY) {
 			transform.parent.position += new Vector3 (0, ev.delta.y * dragRatio);
 			if (transform.parent.position.y < dismissThreshold - Screen.height / 2) {
 				if (OnDialogDismissed != null) {

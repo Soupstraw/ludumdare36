@@ -71,10 +71,12 @@ public class SoundManager : MonoBehaviour {
 
 	void OnEnable(){
 		CardInteraction.OnCardPushedAside += CardFlipSound;
+		SlidingScrollPanel.OnDialogDismissed += CardFlipSound;
 	}
 
 	void OnDisable(){
 		CardInteraction.OnCardPushedAside -= CardFlipSound;
+		SlidingScrollPanel.OnDialogDismissed -= CardFlipSound;
 	}
 	
 	// Update is called once per frame
