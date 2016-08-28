@@ -1,6 +1,7 @@
 var content = document.getElementById('content')
-var game = new Game(BaseCards)
+var game = new Game(RandomCards)
 game.reset()
+game.deck = StartCards.slice()
 
 function renderBuffs (root) {
   var player = game.player

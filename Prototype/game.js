@@ -31,8 +31,8 @@ Effect.prototype = {
   clone: function () { return new Effect(this) }
 }
 
-function Game (cards) {
-  this.cards = cards
+function Game (random) {
+  this.random = random
   this.resolved = []
   this.deck = []
   this.player = new Player()
@@ -40,6 +40,9 @@ function Game (cards) {
 
 Game.prototype = {
   get activeCard() {
+    if(this.deck.length == 0){
+      //this.deck.unshift(pick(this.random))
+    }
     return this.deck[0]
   },
   get desc() {
@@ -55,10 +58,6 @@ Game.prototype = {
     this.player = new Player()
     this.resolved = []
     this.deck = []
-    for (var i = 0; i < this.cards.length; i++) {
-      var card = this.cards[i]
-      this.deck.push(this.cards[i].clone())
-    }
   },
   insertAt: function (n, card) {
     if (n >= this.deck.length) {
