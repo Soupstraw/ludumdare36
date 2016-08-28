@@ -11,15 +11,15 @@ function renderBuffs (root) {
   root.appendChild(E('buffs', {}, buffs))
 }
 
-function mkCard(props){
+function mkCard (props) {
   return E('card', {}, [
-      E('card-image', {}, [
-        Et('img', '', {src:props.img}, []),
-      ]),
-      E('card-content', {}, [
-        E('card-title', {}, [props.title]),
-        E('card-desc', {}, [props.desc])
-      ])   
+    E('card-image', {}, [
+      Et('img', '', {src: props.img}, [])
+    ]),
+    E('card-content', {}, [
+      E('card-title', {}, [props.title]),
+      E('card-desc', {}, [props.desc])
+    ])
   ])
 }
 
@@ -31,28 +31,36 @@ function showActiveCard () {
   var card = game.activeCard
   if (card == null) {
     root.appendChild(mkCard({
-      title: "End of the road",
-      desc: "Every life ends at some point.",
-      img: "../Art/death.png"
+      title: 'End of the road',
+      desc: 'Every life ends at some point.',
+      img: '../Art/death.png'
     }))
     return
   }
 
-  root.appendChild(mkCard(card));
+  console.log("Active Card", card)
 
+  var desc = game.desc
+  root.appendChild(mkCard({
+    title: card.title,
+    img: card.image,
+    desc: desc
+  }))
+
+  var options = game.options
   root.appendChild(E('options', {}, [
     E('option', {
       onclick: function () {
         game.no()
         showResolution()
       }
-    }, [card.no.option]),
+    }, [options.no.option]),
     E('option', {
       onclick: function () {
         game.yes()
         showResolution()
       }
-    }, [card.yes.option])
+    }, [options.yes.option])
   ]))
 }
 function showResolution () {
@@ -64,11 +72,11 @@ function showResolution () {
   var card = resolution.card
   var effect = resolution.effect
   root.appendChild(mkCard({
-    title: card.title,
-    desc: effect.desc,
-    img: card.img
-  }));
-    
+    title: resolution.card.title,
+    desc: resolution.desc,
+    img: card.image
+  }))
+
   root.appendChild(E('options', {}, [
     E('option', {
       onclick: showActiveCard
