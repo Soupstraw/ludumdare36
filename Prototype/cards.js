@@ -38,7 +38,7 @@ function basic_options (opts) {
 
 var Journey = new Card({
   title: 'Journey',
-  image: '../art 2048/background.png',
+  image: '../art 2048/tutorial.png',
   describe: basic_description([
     'Your journey begins here and there are many choices to be made.',
     'You can take the path to your left or right.'
@@ -129,8 +129,8 @@ var GhostlyLady = new Card({
       option: 'Step Closer',
       resolve: function (game, card, effect) {
         game.player.buff['Delirious Visions'] = true
-        game.insertAt(between(4, 6), GhostlyLady2.clone())
-        game.insertAt(between(4, 6), DeliriousVisions.clone())
+        game.insertAt(between(4, 6), GhostlyLady2)
+        game.insertAt(between(4, 6), DeliriousVisions)
 
         return paragraphs(["She notices you when you are only a few steps from her. She briefly looks towards you through her tears and continues mumbling. While trying to figure out what to do you start to understand fragments of the children's story she is mumbling. You walk away unable to comfort her. You wonder what happened to her."])
       }
@@ -178,6 +178,9 @@ var DeliriousVisions = new Card({
     var lines = [
       'You wake up. Or did you? You are covered in sweat. You wake up. Are you even alive? What is going on? You wake up. Sun shines through the small hole in tavern wall. Tavern keeper tells you that you had been rambling for three days straight in high fever. You were brought here by a friend of yours who paid for a whole week in advance. You have no friends in this town.'
     ]
+    if(game.player.buff["Flu"]){
+      lines.push("You feel that shivers plaguing you are also gone.")
+    }
     if (game.player.buff['Delirious Visions']) {
       lines.push('You think about some of the visions you had and you are fairly certain you were talking with the lady you found sobbing under the tree. She might have been sad that you left, but this is just speculation. Your memories are not clear enough to tell for sure.')
     }
@@ -188,6 +191,8 @@ var DeliriousVisions = new Card({
       option: 'Mumble',
       resolve: function (game, card, effect) {
         delete game.player.buff['Delirious Visions']
+        delete game.player.buff['Flu']
+
         game.deck.shift()
         game.deck.shift()
         game.deck.shift()
@@ -201,6 +206,8 @@ var DeliriousVisions = new Card({
       option: 'Thank',
       resolve: function (game, card, effect) {
         delete game.player.buff['Delirious Visions']
+        delete game.player.buff['Flu']
+
         game.deck.shift()
         game.deck.shift()
         game.deck.shift()
@@ -213,7 +220,7 @@ var DeliriousVisions = new Card({
   })
 })
 
-var Fork = new Card({
+var ForkSwampForest = new Card({
   title: 'Fork',
   image: '../art 2048/Fork.png',
   environment: null,
@@ -228,6 +235,66 @@ var Fork = new Card({
         pickcards(2, game.deck, SwampCards)
         return paragraphs([
           'You start walking towards the light while the fog slowly descends.'
+        ])
+      }
+    },
+    no: {
+      option: 'Forest',
+      resolve: function (game, card, effect) {
+        pickcards(2, game.deck, ForestCards)
+        return paragraphs([
+          'You start walking into the forest. The trees ascend and block out the light leaving you in the dark.'
+        ])
+      }
+    }
+  })
+})
+
+var ForkSwampTown = new Card({
+  title: 'Fork',
+  image: '../art 2048/Fork.png',
+  environment: null,
+  describe: basic_description([
+    'After traveling for miles you see a stubby post leaning in the haze.',
+    'It has two signs nailed to it. One points to the gloomy town. The other points towards a swamp, with a gleaming light in the distance.'
+  ]),
+  options: basic_options({
+    yes: {
+      option: 'Swamp',
+      resolve: function (game, card, effect) {
+        pickcards(2, game.deck, SwampCards)
+        return paragraphs([
+          'You start walking towards the light while the fog slowly descends.'
+        ])
+      }
+    },
+    no: {
+      option: 'Town',
+      resolve: function (game, card, effect) {
+        pickcards(2, game.deck, TownCards)
+        return paragraphs([
+          'You arrive in the town.'
+        ])
+      }
+    }
+  })
+})
+
+var ForkTownForest = new Card({
+  title: 'Fork',
+  image: '../art 2048/Fork.png',
+  environment: null,
+  describe: basic_description([
+    'After traveling for miles you see a stubby post leaning in the haze.',
+    'It has two signs nailed to it. One points to the forest with huge creeping trees. The other points towards a gloomy town.'
+  ]),
+  options: basic_options({
+    yes: {
+      option: 'Town',
+      resolve: function (game, card, effect) {
+        pickcards(2, game.deck, TownCards)
+        return paragraphs([
+          'You arrive at the town.'
         ])
       }
     },
@@ -346,7 +413,7 @@ var SickMan = new Card({
       option: 'Help',
       resolve: function (game, card, effect) {
         game.player.buff['Flu'] = true
-        game.insertAt(between(2, 4), Shivers.clone())
+        game.insertAt(between(2, 4), Shivers)
 
         return paragraphs([
           'You go near the man and support his weight, helping him to walk to the hospital. The doctors take over from there. The man thanks you and stumbles into the hospital.',
@@ -376,7 +443,7 @@ var Shivers = new Card({
     yes: {
       option: 'Hope',
       resolve: function (game, card, effect) {
-        game.insertAt(between(4, 6), DeathShivers.clone())
+        game.insertAt(between(4, 6), DeathByShivers)
 
         return paragraphs([
           "Hopefully it's nothing serious."
@@ -387,7 +454,7 @@ var Shivers = new Card({
       option: 'Death',
       resolve: function (game, card, effect) {
         game.player.buff['Depression'] = true
-        game.insertAt(between(4, 6), DeathShivers.clone())
+        game.insertAt(between(4, 6), DeathByShivers)
 
         return paragraphs([
           "You feel like there's nothing more you can do.",
@@ -398,10 +465,13 @@ var Shivers = new Card({
   })
 })
 
-var DeathShivers = new Card({
+var DeathByShivers = new Card({
   title: 'Death',
   image: '../art 2048/death.png',
   environment: null,
+  applicable: function(game){
+    return game.player.buff["Flu"]
+  },
   describe: basic_description([
     'The strength as left your body and you fall to the ground, seeing some people passing by. No-one is willing to risk the same fate as you.',
     'The world slowly fades away.'
@@ -513,7 +583,7 @@ var MysteriousRock = new Card({
         yes: {
           option: 'Open',
           resolve: function (game, card, effect) {
-            game.deck.unshift(BrokenClockwork.clone())
+            game.deck.unshift(BrokenClockwork)
             return paragraphs([
               'The rock slowly creaks and opens. The hidden passageway below the rock becomes visible.',
               'You slowly descend into the dark room.'
@@ -589,7 +659,7 @@ var BrokenClockwork = new Card({
       resolve: function (game, card, effect) {
         if (game.player.buff['Sticky Boots']) {
           delete game.player.buff['Sticky Boots']
-          game.deck.unshift(Clockwork.clone())
+          game.deck.unshift(Clockwork)
 
           return paragraphs([
             'You are able to fit the pieces together and the wheels inside the device start turning.',
@@ -772,10 +842,11 @@ var Dianne = new Card({
   })
 })
 
-var SwampCards = [Hut, Frog, Corpse, MysteriousRock, Noemi]
-var ForestCards = [Wagon, Corpse, MysteriousRock, Jasmine]
-var TownCards = [SickMan, Archeologist, Corpse, MysteriousRock, Dianne]
+var SwampCards = [Hut, Frog, Corpse, MysteriousRock, Noemi, ForkSwampForest, ForkSwampTown, ForkTownForest]
+var ForestCards = [Wagon, Corpse, MysteriousRock, Jasmine, ForkSwampForest, ForkSwampTown, ForkTownForest]
+var TownCards = [SickMan, Archeologist, Corpse, MysteriousRock, Dianne, ForkSwampForest, ForkSwampTown, ForkTownForest]
 
 var RandomCards = [
-  GhostlyLady, Fork, Hut, Frog, Corpse, MysteriousRock, Wagon, SickMan
+  GhostlyLady, Hut, Frog, Corpse, MysteriousRock, Wagon, SickMan,
+  ForkSwampForest, ForkSwampTown, ForkTownForest
 ]
