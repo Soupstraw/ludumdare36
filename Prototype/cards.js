@@ -413,6 +413,7 @@ var Corpse  = new Card({
     yes: {
       option: 'Poke',
       resolve: function (game, card, effect) {
+        game.player.buff["Corpse Poker"] = true
         return paragraphs([
           'Poking the corpse did not bring him back to life. What a shame.'
         ])
@@ -581,8 +582,121 @@ var Clockwork  = new Card({
   })
 })
 
-var SwampCards = [Hut, Frog, Corpse, MysteriousRock]
-var ForestCards = [Wagon, Corpse, MysteriousRock]
-var TownCards = [SickMan, Archeologist, Corpse, MysteriousRock]
+var Noemi = new Card({
+  title: 'Noemi',
+  image: '../Art/Noemi.png',
+  environment: 'Swamp',
+  describe: function(game){
+    var lines = []
+    
+    lines.push("From a distance you hear mild and playful screams of joy. Some local girls must be playing in the swamp pool. You haven’t seen anyone for miles and thought that you are completely lost by now so you decide to ask your way. With this in mind you set your course towards the shrieks. To your surprise you only find one young lady in a pool. More chillingly this young lady is poking a dead body. She seems to be very thrilled with what she is doing.")
+
+    if(game.player.buff["Corpse Poker"]){
+      lines.push("You think that you’ve already tried poking a corpse before. Didn’t bring her back to life. You wonder what happened with the fly.")
+    }
+
+    return paragraphs(lines)
+  },
+  options: basic_options({
+    yes: {
+      option: 'Cough politely',
+      resolve: function (game, card, effect) {
+        game.player.buff["Noemi"] = true
+        
+        var lines = []
+        lines.push("She jumps slightly and turns around. She does not seem to mind that she has no clothes. There does not seem to be any clothes around the pool either. She gladly agrees to show you the way. Her movements are sharp. She has a distinct aroma surrounding her that reminds you for some reason nutmeg even though they are nothing alike.")
+
+        if(game.player.buff["Hut"]){
+          lines.push("Hmm… I think you have already met my godfather. He has a long white beard. He told me good things about you.")
+        }
+        
+        lines.push("She tells that her name is Noemi. She murmurs about some ancient technology that allows you to give eternal love and for some unexpected reason gives you a lecture on the anatomy of the heart. You feel enlightened but also relieved to hit the road again.")
+
+        return paragraphs(lines)
+      }
+    },
+    no: {
+      option: 'Walk away',
+      resolve: function (game, card, effect) {
+        var lines = []
+        lines.push("You turn around and try to walk away without making a noise. Then you feel a light tap on your shoulder. A little spooked out you tell the naked, corpse-poking lady about your journey. She gladly agrees to show you the way. Her movements are sharp. She has a distinct aroma surrounding her that reminds you for some reason nutmeg even though they smell nothing alike.")
+
+        if(game.player.buff["Hut"]){
+          lines.push("Hmm… I think you have already met my godfather. He has a long white beard. He told me good things about you.")
+        }
+
+        lines.push("She tells that her name is Noemi. She murmurs about some ancient technology that allows you to give eternal love and for some unexpected reason gives you a lecture on the anatomy of the heart. You feel enlightened but also relieved to hit the road again.")
+
+        return paragraph(lines)
+      }
+    }
+  })
+})
+
+var Jasmine = new Card({
+  title: 'Jasmine',
+  image: '../Art/Jasmine.png',
+  environment: 'Forest',
+  describe: function(game){
+    var lines = []
+    
+    return paragraphs(lines)
+  },
+  options: basic_options({
+    yes: {
+      option: 'Cough politely',
+      resolve: function (game, card, effect) {
+        game.player.buff["Jasmine"] = true
+        
+        var lines = []
+        
+        return paragraphs(lines)
+      }
+    },
+    no: {
+      option: 'Walk away',
+      resolve: function (game, card, effect) {
+        var lines = []
+        
+        return paragraph(lines)
+      }
+    }
+  })
+})
+
+var Dianne = new Card({
+  title: 'Dianne',
+  image: '../Art/Dianne.png',
+  environment: 'Forest',
+  describe: function(game){
+    var lines = []
+    
+    return paragraphs(lines)
+  },
+  options: basic_options({
+    yes: {
+      option: 'Cough politely',
+      resolve: function (game, card, effect) {
+        game.player.buff["Dianne"] = true
+        
+        var lines = []
+        
+        return paragraphs(lines)
+      }
+    },
+    no: {
+      option: 'Walk away',
+      resolve: function (game, card, effect) {
+        var lines = []
+        
+        return paragraph(lines)
+      }
+    }
+  })
+})
+
+var SwampCards = [Hut, Frog, Corpse, MysteriousRock, Noemi]
+var ForestCards = [Wagon, Corpse, MysteriousRock, Jasmine]
+var TownCards = [SickMan, Archeologist, Corpse, MysteriousRock, Dianne]
 
 var BaseCards = [GhostlyLady, Fork]
