@@ -38,7 +38,7 @@ function basic_options (opts) {
 
 var Journey = new Card({
   title: 'Journey',
-  image: '../Art/Empty.png',
+  image: '../art 2048/background.png',
   describe: basic_description([
     'Your journey begins here and there are many choices to be made.',
     'You can take the path to your left or right.'
@@ -65,25 +65,24 @@ var Journey = new Card({
 
 var Aging = new Card({
   title: "Aging",
-  image: '../Art/Empty.png',
+  image: '../art 2048/background.png',
   describe: basic_description([
-    'Your journey begins here and there are many choices to be made.',
-    'You can take the path to your left or right.'
+    'You feel your body creaking.'
   ]),
   options: basic_options({
     yes: {
-      option: 'Start',
+      option: 'Get older',
       resolve: function (game, card, effect) {
         return paragraphs([
-          'You start your journey wondering what might happen.'
+          'Yes you are.'
         ])
       }
     },
     no: {
-      option: 'Begin',
+      option: 'Get younger',
       resolve: function (game, card, effect) {
         return paragraphs([
-          'You begin your hoping for a better future.'
+          'Laws of physics are preventing you.'
         ])
       }
     }
@@ -92,7 +91,7 @@ var Aging = new Card({
 
 var DeathByAging = new Card({
   title: "Death",
-  image: '../Art/Empty.png',
+  image: '../art 2048/death.png',
   describe: basic_description([
     'Death catches up with us all.'
   ]),
@@ -120,7 +119,7 @@ var DeathByAging = new Card({
 
 var GhostlyLady = new Card({
   title: 'Ghostly Lady',
-  image: '../Art/GhostlyLady.png',
+  image: '../art 2048/Ghostly Lady.png',
   environment: null,
   describe: basic_description([
     'While walking during a windy night you encounter a young woman crying under a nearby tree. She has a ghastly halo surrounding her, as if she is not from this world. Through her delirious mumbles you hear her sobbing about something.'
@@ -147,7 +146,7 @@ var GhostlyLady = new Card({
 
 var GhostlyLady2 = new Card({
   title: 'Ghostly Lady',
-  image: '../Art/GhostlyLady.png',
+  image: '../art 2048/Ghostly Lady.png',
   environment: null,
   describe: basic_description([
     'While walking during a windy night you encounter a young woman crying under a nearby tree. She has a ghastly halo surrounding her, as if she is not from this world. Through her delirious mumbles you hear her sobbing about something.'
@@ -173,7 +172,7 @@ var GhostlyLady2 = new Card({
 
 var DeliriousVisions = new Card({
   title: 'Delirious Visions',
-  image: '../Art/DeliriousVisions.png',
+  image: '../art 2048/Delirious Visions.png',
   environment: null,
   describe: function (game) {
     var lines = [
@@ -216,7 +215,7 @@ var DeliriousVisions = new Card({
 
 var Fork = new Card({
   title: 'Fork',
-  image: '../Art/Empty.png',
+  image: '../art 2048/Fork.png',
   environment: null,
   describe: basic_description([
     'After traveling for miles you see a stubby post leaning in the haze.',
@@ -246,7 +245,7 @@ var Fork = new Card({
 
 var Hut = new Card({
   title: 'Hut',
-  image: '../Art/Hut.png',
+  image: '../art 2048/hut.png',
   environment: null,
   describe: basic_description([
     'Hut with gleaming lights.'
@@ -276,7 +275,7 @@ var Hut = new Card({
 
 var Frog = new Card({
   title: 'Frog',
-  image: '../Art/Frog.png',
+  image: '../art 2048/Frog.png',
   environment: 'Swamp',
   describe: basic_description([
     'Placing foot after foot on the swamp road you notice a small slimy frog jumping around.'
@@ -304,7 +303,7 @@ var Frog = new Card({
 
 var Wagon = new Card({
   title: 'Wagon',
-  image: '../Art/Wagon.png',
+  image: '../art 2048/wagon.png',
   environment: 'Forest',
   describe: basic_description([
     'You notice a broken wagon in the dirt. A small old man is slowly tasking away trying to fix a broken wheel spike. The old man looks very angry.'
@@ -337,7 +336,7 @@ var Wagon = new Card({
 
 var SickMan = new Card({
   title: 'Sick Man',
-  image: '../Art/Empty.png',
+  image: '../art 2048/sick-man.png',
   environment: 'Town',
   describe: basic_description([
     'Walking on a cobblestone street you come across a man. He can barely stand straight. He asks people to help him, but no one does.'
@@ -368,7 +367,7 @@ var SickMan = new Card({
 
 var Shivers = new Card({
   title: 'Shivers',
-  image: '../Art/DeliriousVisions.png',
+  image: '../art 2048/Delirious Visions.png',
   environment: null,
   describe: basic_description([
     'You feel shivers throughout your body and start to cough. The weakness starts setting in and you are not sure whether you can go on.'
@@ -401,7 +400,7 @@ var Shivers = new Card({
 
 var DeathShivers = new Card({
   title: 'Death',
-  image: '../Art/Death.png',
+  image: '../art 2048/death.png',
   environment: null,
   describe: basic_description([
     'The strength as left your body and you fall to the ground, seeing some people passing by. No-one is willing to risk the same fate as you.',
@@ -431,7 +430,7 @@ var DeathShivers = new Card({
 
 var Archeologist = new Card({
   title: 'Archeologist',
-  image: '../Art/Archeologist.png',
+  image: '../art 2048/archeologist.png',
   environment: 'Town',
   describe: basic_description([
     'A gentleman carrying a briefcase approaches you.',
@@ -464,7 +463,7 @@ var Archeologist = new Card({
 
 var Corpse = new Card({
   title: 'Corpse',
-  image: '../Art/Corpse.png',
+  image: '../art 2048/Corpse.png',
   environment: null,
   describe: basic_description([
     'You notice a fly on a corpse lying beside the road. How he got there is anyone’s guess. Probably flew in from the swamp.'
@@ -492,7 +491,7 @@ var Corpse = new Card({
 
 var MysteriousRock = new Card({
   title: 'Mysterious Rock',
-  image: '../Art/Stone.png',
+  image: '../art 2048/Mysterious Rock.png',
   environment: null,
   describe: function (game) {
     if (game.player.buff['Map']) {
@@ -576,7 +575,7 @@ var MysteriousRock = new Card({
 
 var BrokenClockwork = new Card({
   title: 'Broken Clockwork',
-  image: '../Art/Empty.png',
+  image: '../art 2048/Broken Clockwork.png',
   environment: null,
   describe: function (game) {
     return paragraphs([
@@ -616,7 +615,7 @@ var BrokenClockwork = new Card({
 
 var Clockwork = new Card({
   title: 'Clockwork',
-  image: '../Art/Empty.png',
+  image: '../art 2048/Clockwork.png',
   environment: null,
   describe: basic_description([
     'Glowing device that is humming. There is a strange button on it.'
@@ -643,7 +642,7 @@ var Clockwork = new Card({
 
 var Noemi = new Card({
   title: 'Noemi',
-  image: '../Art/Noemi.png',
+  image: '../art 2048/Noemi.png',
   environment: 'Swamp',
   describe: function (game) {
     var lines = []
@@ -694,7 +693,7 @@ var Noemi = new Card({
 
 var Jasmine = new Card({
   title: 'Jasmine',
-  image: '../Art/Jasmine.png',
+  image: '../art 2048/Jasmine.png',
   environment: 'Forest',
   describe: function (game) {
     var lines = []
@@ -744,7 +743,7 @@ var Jasmine = new Card({
 
 var Dianne = new Card({
   title: 'Dianne',
-  image: '../Art/Dianne.png',
+  image: '../art 2048/Dianne.png',
   environment: 'Forest',
   describe: function (game) {
     var lines = []
