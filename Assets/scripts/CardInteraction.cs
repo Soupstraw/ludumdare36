@@ -3,6 +3,8 @@ using System.Collections;
 
 public class CardInteraction : MonoBehaviour {
 
+	public ChoicePanel choicePanel;
+
 	public delegate void ChoiceAction(int choice);
 	public static event ChoiceAction OnChoice;
 
@@ -27,9 +29,7 @@ public class CardInteraction : MonoBehaviour {
 	// Minimum deviation from the center for the card to be considered stable
 	public float stablePositionThreshold = 1.0f;
 
-
-
-	private float degreesPerPixel = 1.0f;
+	public float degreesPerPixel = 1.0f;
 
 	private bool frontActive = true;
 	private bool asideOnRight = true;
@@ -76,7 +76,7 @@ public class CardInteraction : MonoBehaviour {
 			}
 
 			if (Input.GetButtonUp ("Fire1") && cardState == CardState.PREFLIP) {
-				float dx = clickPos.x - Input.mousePosition.x;
+				float dx = - clickPos.x + Input.mousePosition.x;
 				if (OnCardPushedAside != null) {
 					OnCardPushedAside ();
 				}
@@ -93,7 +93,7 @@ public class CardInteraction : MonoBehaviour {
 				Debug.Log ("Choice: " + (dx < 0 ? 0 : 1));
 			} else {
 				if (Input.GetButton ("Fire1") && buttonHeld) {
-					RotateTo (clickPos.x - Input.mousePosition.x);
+					RotateTo (-clickPos.x + Input.mousePosition.x);
 				} else {
 					StabilizeRotation ();
 				}
@@ -109,7 +109,8 @@ public class CardInteraction : MonoBehaviour {
 		}
 	}
 
-	private void RotateTo(float dx){
+	private void RotateTo(float x){
+		choicePanel.target = x;
 		//Debug.Log ("Rotating");
 		float stableRotation;
 		if (frontActive) {
@@ -120,11 +121,11 @@ public class CardInteraction : MonoBehaviour {
 
 		Quaternion targetRot;
 		Vector3 targetPos;
-		if (dx * degreesPerPixel > maxRotation) {
+		if (x * degreesPerPixel > maxRotation) {
 			cardState = CardState.PREFLIP;
 			targetRot = Quaternion.Euler (new Vector3(0, stableRotation + maxRotation, 0));
 			targetPos = new Vector3(maxDeviation, 0, 0);
-		} else if (dx * degreesPerPixel < -maxRotation) {
+		} else if (x * degreesPerPixel < -maxRotation) {
 			cardState = CardState.PREFLIP;
 			targetRot = Quaternion.Euler (new Vector3 (0, stableRotation - maxRotation, 0));
 			targetPos = new Vector3(-maxDeviation, 0, 0);
@@ -132,8 +133,8 @@ public class CardInteraction : MonoBehaviour {
 			float maxSwipe = maxRotation / degreesPerPixel;
 
 			cardState = CardState.STABLE;
-			targetRot = Quaternion.Euler (new Vector3(0, stableRotation + dx * degreesPerPixel, 0));
-			targetPos = new Vector3(maxDeviation * dx / maxSwipe, 0, 0);
+			targetRot = Quaternion.Euler (new Vector3(0, stableRotation + x * degreesPerPixel, 0));
+			targetPos = new Vector3(maxDeviation * x / maxSwipe, 0, 0);
 		}
 
 		transform.rotation = Quaternion.Lerp (transform.rotation, targetRot, rotationLerpFactor);
@@ -141,7 +142,7 @@ public class CardInteraction : MonoBehaviour {
 	}
 
 	private void MoveAside(){
-
+		choicePanel.target = 0;
 		float stableRotation;
 		if (frontActive) {
 			stableRotation = 0;
@@ -164,13 +165,13 @@ public class CardInteraction : MonoBehaviour {
 	}
 
 	private void Flip(){
-		Debug.Log ("Flipping.");
 		buttonHeld = false;
 		frontActive = !frontActive;
 		cardState = CardState.STABILIZING;
 	}
 
 	private void StabilizeRotation(){
+		choicePanel.target = 0;
 		Quaternion targetRot;
 		if (frontActive) {
 			targetRot = Quaternion.Euler (0, 0, 0);

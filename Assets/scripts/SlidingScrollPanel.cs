@@ -64,6 +64,12 @@ public class SlidingScrollPanel : MonoBehaviour {
 
 	public void OnPointerDrag(PointerEventData ev){
 		if (visible) {
+			if (transform.parent.position.y < defaultY) {
+				scrollRect.verticalNormalizedPosition = 1;
+				scrollRect.enabled = false;
+			} else {
+				scrollRect.enabled = true;
+			}
 			if (scrollRect.verticalNormalizedPosition == 1f || transform.parent.position.y <= defaultY) {
 				transform.parent.position += new Vector3 (0, ev.delta.y * dragRatio);
 				if (transform.parent.position.y < dismissThreshold - Screen.height / 2) {

@@ -10,7 +10,7 @@ public class FadingPanel : MonoBehaviour {
 	public static event DialogAction OnDialogDismissed;
 
 	public Text target;
-	public float minDistance = 100f;
+	public float sensitivity = 0.1f;
 	public float stabilizeLerpFactor = 0.5f;
 
 	private bool dragging = false;
@@ -53,13 +53,13 @@ public class FadingPanel : MonoBehaviour {
 	public void OnPointerDrag(PointerEventData ev){
 		if (visible) {
 			dragging = true;
-			ChangeAlpha (Mathf.Clamp01 (1 - Vector2.Distance (ev.pressPosition, ev.position) / minDistance));
+			ChangeAlpha (Mathf.Clamp01 (1 - Vector2.Distance (ev.pressPosition, ev.position) / Screen.width * sensitivity));
 		}
 	}
 
 	public void OnPointerRelease(PointerEventData ev){
 		if (visible) {
-			if (Vector2.Distance (ev.pressPosition, ev.position) >= minDistance) {
+			if (Vector2.Distance (ev.pressPosition, ev.position) >= Screen.width / sensitivity) {
 				visible = false;
 				if (OnDialogDismissed != null) {
 					OnDialogDismissed ();
