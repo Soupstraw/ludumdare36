@@ -38,7 +38,7 @@ function basic_options (opts) {
 
 var Journey = new Card({
   title: 'Journey',
-  image: '../art 2048/background.png',
+  image: '../art 2048/tutorial.png',
   describe: basic_description([
     'Your journey begins here and there are many choices to be made.',
     'You can take the path to your left or right.'
