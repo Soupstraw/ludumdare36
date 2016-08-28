@@ -2,6 +2,13 @@ function pick (array) {
   return array[array.length * Math.random() | 0]
 }
 
+function pickremove(array){
+  var i = array.length * Math.random() | 0;
+  var el = array[i]
+  array.splice(i, 1)
+  return el
+}
+
 function nop () {}
 
 function Card (props) {
@@ -39,10 +46,24 @@ function Game (random) {
 }
 
 Game.prototype = {
-  get activeCard() {
-    if(this.deck.length == 0){
-      //this.deck.unshift(pick(this.random))
+  reset: function () {
+    this.player = new Player()
+    this.resolved = []
+    this.deck = []
+    
+    var partial = [];
+    for(var i = 0; i < 30; i++){
+      if(partial.length == 0){
+        partial = this.random.slice()
+      }
+      this.deck.push(pickremove(partial))
     }
+
+    this.deck[0] = Journey
+    this.deck[15] = Aging
+    this.deck[29] = DeathByAging
+  },
+  get activeCard() {
     return this.deck[0]
   },
   get desc() {
@@ -53,11 +74,6 @@ Game.prototype = {
   },
   get lastResolution() {
     return this.resolved[this.resolved.length - 1]
-  },
-  reset: function () {
-    this.player = new Player()
-    this.resolved = []
-    this.deck = []
   },
   insertAt: function (n, card) {
     if (n >= this.deck.length) {
@@ -79,7 +95,33 @@ Game.prototype = {
       effect: effect
     })
 
+    this.dropDuplicates()
+
     return this.lastResolution
+  },
+  dropDuplicates: function(){
+    var avoid = this.resolved.slice(this.resolved.length-3)
+    while(this.deck.length > 0){
+      var card = this.deck[0]
+      
+      // drop cards that are not applicable
+      if(!card.applicable(this)){
+        this.deck.shift()
+        continue
+      }
+      
+      // drop cards that have recently been drawn
+      var skip = false
+      for(var k = 0; k < avoid.length; k++){
+        if(avoid[k].card.title === card.title){
+          skip = true
+        }
+      }
+      if(!skip){
+        break
+      }
+      this.deck.shift()
+    }
   },
   yes: function () { return this.select('yes'); },
   no: function () { return this.select('no'); }
