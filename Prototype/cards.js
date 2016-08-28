@@ -2,9 +2,19 @@ function between (low, high) {
   return (Math.random() * (high - low) + low) | 0
 }
 
+function pickcards(N, into, from){
+  //TODO: randomize picking
+  for(var i = 0; i < N; i++){
+    if(i >= from.length){
+      return;
+    }
+    into.push(from[i].clone())
+  }
+}
+
 var GhostlyLady = new Card({
   title: 'Ghostly Lady',
-  img: "../Art/ghastly ladi.png",
+  img: "../Art/GhostlyLady.png",
   environment: null,
   desc: 'While walking during a windy night you encounter a young woman crying under a nearby tree. She has a ghastly halo surrounding her, as if she is not from this world. Through her delirious mumbles you hear her sobbing about something.',
   yes: new Effect({
@@ -25,7 +35,7 @@ var GhostlyLady = new Card({
 
 var GhostlyLady2 = new Card({
   title: 'Ghostly Lady',
-  img: "../Art/ghastly ladi.png",
+  img: "../Art/GhostlyLady.png",
   environment: null,
   desc: 'While walking during a windy night you encounter a young woman crying under a nearby tree. She has a ghastly halo surrounding her, as if she is not from this world. Through her delirious mumbles you hear her sobbing about something.',
   yes: new Effect({
@@ -45,7 +55,7 @@ var GhostlyLady2 = new Card({
 
 var DeliriousVisions = new Card({
   title: 'Delirious Visions',
-  img: "../Art/visionnss.png",
+  img: "../Art/DeliriousVisions.png",
   environment: null,
   desc: 'You wake up. Or did you? You are covered in sweat. You wake up. Are you even alive? What is going on? You wake up. Sun shines through the small hole in tavern wall. Tavern keeper tells you that you had been rambling for three days straight in high fever. You were brought here by a friend of yours who paid for a whole week in advance. You have no friends in this town.\n\nYou think about some of the visions you had and you are fairly certain you were talking with the lady you found sobbing under the tree. She might have been sad that you left, but this is just speculation. Your memories are not clear enough to tell for sure.',
   yes: new Effect({
@@ -74,23 +84,28 @@ var DeliriousVisions = new Card({
 
 var Fork = new Card({
   title: 'Fork',
-  img: "#",
+  img: "../Art/Empty.png",
   environment: null,
   desc: 'After traveling for miles you see a stubby post leaning in the haze.\nIt has two signs nailed to it. One points to the forest with huge creeping trees. The other points towards a swamp, with a gleaming light in the distance.',
   yes: new Effect({
     option: 'Swamp',
     desc: 'You start walking towards the light while the fog slowly descends.',
-    resolve: function (game, card, effect) {}
+    resolve: function (game, card, effect) {
+      pickcards(2, game.deck, SwampCards)
+    }
   }),
   no: new Effect({
     option: 'Forest',
     desc: 'You start walking into the forest. The trees ascend and block out the light leaving you in the dark.',
-    resolve: function (game, card, effect) {}
+    resolve: function (game, card, effect) {
+      pickcards(2, game.deck, ForestCards)
+    }
   })
 })
 
 var Hut = new Card({
   title: 'Hut',
+  img: "../Art/Hut.png",
   environment: "Swamp",
   desc: 'Hut with gleaming lights.',
   yes: new Effect({
@@ -108,26 +123,26 @@ var Hut = new Card({
   })
 })
 
-var Hut = new Card({
-  title: 'Hut',
+var Frog = new Card({
+  title: 'Frog',
+  img: "../Art/Frog.png",
   environment: "Swamp",
-  desc: 'Hut with gleaming lights.',
+  desc: 'Placing foot after foot on the swamp road you notice a small slimy frog jumping around.',
   yes: new Effect({
-    option: 'Knock',
-    desc: 'Upon knocking on the door it jumps open. From the other side you are greeted by a jolly old man with long white beard. He pulls you in and forces you to sit down on an ancient but comfortable bed. Then he runs to the back room and returns with a huge wooden cup. He assures you that this tea is made from the best herbs this swamp harnesses. You sip your tea as you watch this peculiar old man jump around and caress his beard non-stop.',
-    resolve: function (game, card, effect) {
-      delete game.player.buff["Flu"];
-      game.player.buff["Hut"] = true;
-    }
+    option: 'Let it live',
+    desc: 'You leave it and see him happily jumping in a puddle.',
+    resolve: function (game, card, effect) {}
   }),
   no: new Effect({
-    option: 'Pass',
-    desc: 'You hear weird thumps from the house and quicken your steps. You wonder what is going on inside.',
-    resolve: function (game, card, effect) {}
+    option: 'Step on it',
+    desc: 'With a forceful jump you ascend to the sky and fall towards the frog. The frog trembles in horror. The frog is crushed leaving sticky resin on your boots.',
+    resolve: function (game, card, effect) {
+      game.player.buff["Sticky Boots"] = true;
+    }
   })
 })
 
-var SwampCards = [Hut]
+var SwampCards = [Hut, Frog]
 var ForestCards = []
 var TownCards = []
 var BaseCards = [GhostlyLady, Fork]
