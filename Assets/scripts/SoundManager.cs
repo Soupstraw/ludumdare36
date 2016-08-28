@@ -68,6 +68,14 @@ public class SoundManager : MonoBehaviour {
 
 		ambientInfo = ambientSoundInfo.Silence;
 	}
+
+	void OnEnable(){
+		CardInteraction.OnCardPushedAside += CardFlipSound;
+	}
+
+	void OnDisable(){
+		CardInteraction.OnCardPushedAside -= CardFlipSound;
+	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -84,10 +92,6 @@ public class SoundManager : MonoBehaviour {
 			ChangeSong (defaultSound3, this.ambientSecondaryPlayer);
 
 			defaultSound3 = null;
-		}
-
-		if (Input.GetMouseButtonDown(button: 0)) {
-			CardFlipSound ();
 		}
 
 		//

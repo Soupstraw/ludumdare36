@@ -5,6 +5,9 @@ public class CardInteraction : MonoBehaviour {
 
 	public delegate void ChoiceAction(int choice);
 	public static event ChoiceAction OnChoice;
+
+	public delegate void CardAction ();
+	public static event CardAction OnCardPushedAside;
 	// Swipe sensitivity
 	public float swipeSensitivity = 1.0f;
 
@@ -72,6 +75,9 @@ public class CardInteraction : MonoBehaviour {
 
 			if (Input.GetButtonUp ("Fire1") && cardState == CardState.PREFLIP) {
 				float dx = clickPos.x - Input.mousePosition.x;
+				if (OnCardPushedAside != null) {
+					OnCardPushedAside ();
+				}
 				cardState = CardState.ASIDE;
 
 				if (dx < 0) {
