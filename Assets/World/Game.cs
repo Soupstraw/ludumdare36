@@ -150,17 +150,26 @@ namespace Game
 			return choice;
 		}
 
+		private List<Card.Choice> lastChoices (int n)
+		{
+			int low = history.Count - 4;
+			int high = low + 4;
+			if (low < 0) {
+				low = 0;
+			}
+			if (high >= history.Count) {
+				high = history.Count;
+			}
+			return history.GetRange (low, high - low);
+		}
+
 		private void avoidDuplicates ()
 		{
 			if (history.Count == 0) {
 				return;
 			}
 
-			int startAt = history.Count - 4;
-			if (startAt < 0) {
-				startAt = 0;
-			}
-			List<Card.Choice> avoid = history.GetRange (startAt, 4);
+			List<Card.Choice> avoid = lastChoices (4);
 
 			while (deck.Count > 0) {
 				Card candidate = deck [0];
