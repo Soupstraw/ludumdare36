@@ -88,14 +88,14 @@ Game.prototype = {
     var effect = options[option]
     var desc = effect.resolve(this, card, effect)
 
-    this.dropDuplicates()
-
     this.resolved.push({
       card: card,
       desc: desc,
       selected: option,
       effect: effect
     })
+
+    this.dropDuplicates()
 
     return this.lastResolution
   },
