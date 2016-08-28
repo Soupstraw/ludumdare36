@@ -5,19 +5,16 @@ function pick (array) {
 function nop () {}
 
 function Card (props) {
-  this.img = props.img || "#"
-  this.final = props.final || false
+  this.image = props.image || ''
   this.title = props.title
-  this.desc = props.desc
-  this.yes = props.yes.clone()
-  this.no = props.no.clone()
-  this.specialize = props.specialize || null
+  this.describe = props.describe
+  this.options = props.options
+  this.environment = props.environment
+  this.applicable = props.applicable || function () { return true; }
 }
+
 Card.prototype = {
   clone: function () {
-    if (this.specialize) {
-      return this.specialize()
-    }
     return new Card(this)
   }
 }
@@ -28,7 +25,6 @@ function Player () {
 
 function Effect (props) {
   this.option = props.option
-  this.desc = props.desc
   this.resolve = props.resolve || nop
 }
 Effect.prototype = {
@@ -46,6 +42,12 @@ Game.prototype = {
   get activeCard() {
     return this.deck[0]
   },
+  get desc() {
+    return this.activeCard.describe(this)
+  },
+  get options() {
+    return this.activeCard.options(this)
+  },
   get lastResolution() {
     return this.resolved[this.resolved.length - 1]
   },
@@ -58,23 +60,27 @@ Game.prototype = {
       this.deck.push(this.cards[i].clone())
     }
   },
-  insertAt: function(n, card){
-    if(n >= this.deck.length){
-      this.deck.push(card);
+  insertAt: function (n, card) {
+    if (n >= this.deck.length) {
+      this.deck.push(card)
     } else {
-      this.deck.splice(n, 0, card);
+      this.deck.splice(n, 0, card)
     }
   },
   select: function (option) {
     var card = this.deck.shift()
-    var effect = card[option]
+    var options = card.options(this)
+    var effect = options[option]
+    var desc = effect.resolve(this, card, effect)
+
     this.resolved.push({
       card: card,
+      desc: desc,
       selected: option,
       effect: effect
     })
-    effect.resolve(this, card, effect)
-    return effect
+
+    return this.lastResolution
   },
   yes: function () { return this.select('yes'); },
   no: function () { return this.select('no'); }
