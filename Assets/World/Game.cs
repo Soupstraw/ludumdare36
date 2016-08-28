@@ -18,7 +18,7 @@ namespace Game
 		}
 
 		// describes the current situation for this card
-		public abstract string describe (State state);
+		public abstract string[] describe (State state);
 
 		// lists options available here
 		public abstract Options options (State state);
@@ -31,7 +31,7 @@ namespace Game
 			// callback to resolve the effect
 			public OnResolve resolve;
 
-			public delegate string OnResolve (State state, Card card);
+			public delegate string[] OnResolve ();
 		}
 
 		// options is the two choices a player can make in a particular situation
@@ -119,7 +119,7 @@ namespace Game
 				currentOptions = new Card.Options ();
 				return;
 			}
-			currentDescription = card.describe (this);
+			currentDescription = Text.Sanitize (card.describe (this));
 			currentOptions = card.options (this);
 		}
 
@@ -129,7 +129,7 @@ namespace Game
 
 			Card.Choice choice = new Card.Choice ();
 			choice.card = currentCard;
-			choice.description = option.resolve (this, currentCard);
+			choice.description = Text.Sanitize (option.resolve ());
 			choice.option = option;
 			choice.selected = selected;
 
@@ -186,6 +186,11 @@ namespace Game
 				}
 				break;
 			}
+		}
+
+		public void die ()
+		{
+			deck.Clear ();
 		}
 
 		public Card.Choice yes ()
