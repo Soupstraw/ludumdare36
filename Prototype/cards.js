@@ -129,8 +129,8 @@ var GhostlyLady = new Card({
       option: 'Step Closer',
       resolve: function (game, card, effect) {
         game.player.buff['Delirious Visions'] = true
-        game.insertAt(between(4, 6), GhostlyLady2.clone())
-        game.insertAt(between(4, 6), DeliriousVisions.clone())
+        game.insertAt(between(4, 6), GhostlyLady2)
+        game.insertAt(between(4, 6), DeliriousVisions)
 
         return paragraphs(["She notices you when you are only a few steps from her. She briefly looks towards you through her tears and continues mumbling. While trying to figure out what to do you start to understand fragments of the children's story she is mumbling. You walk away unable to comfort her. You wonder what happened to her."])
       }
@@ -178,6 +178,9 @@ var DeliriousVisions = new Card({
     var lines = [
       'You wake up. Or did you? You are covered in sweat. You wake up. Are you even alive? What is going on? You wake up. Sun shines through the small hole in tavern wall. Tavern keeper tells you that you had been rambling for three days straight in high fever. You were brought here by a friend of yours who paid for a whole week in advance. You have no friends in this town.'
     ]
+    if(game.player.buff["Flu"]){
+      lines.push("You feel that shivers plaguing you are also gone.")
+    }
     if (game.player.buff['Delirious Visions']) {
       lines.push('You think about some of the visions you had and you are fairly certain you were talking with the lady you found sobbing under the tree. She might have been sad that you left, but this is just speculation. Your memories are not clear enough to tell for sure.')
     }
@@ -188,6 +191,8 @@ var DeliriousVisions = new Card({
       option: 'Mumble',
       resolve: function (game, card, effect) {
         delete game.player.buff['Delirious Visions']
+        delete game.player.buff['Flu']
+
         game.deck.shift()
         game.deck.shift()
         game.deck.shift()
@@ -201,6 +206,8 @@ var DeliriousVisions = new Card({
       option: 'Thank',
       resolve: function (game, card, effect) {
         delete game.player.buff['Delirious Visions']
+        delete game.player.buff['Flu']
+
         game.deck.shift()
         game.deck.shift()
         game.deck.shift()
@@ -406,7 +413,7 @@ var SickMan = new Card({
       option: 'Help',
       resolve: function (game, card, effect) {
         game.player.buff['Flu'] = true
-        game.insertAt(between(2, 4), Shivers.clone())
+        game.insertAt(between(2, 4), Shivers)
 
         return paragraphs([
           'You go near the man and support his weight, helping him to walk to the hospital. The doctors take over from there. The man thanks you and stumbles into the hospital.',
@@ -436,7 +443,7 @@ var Shivers = new Card({
     yes: {
       option: 'Hope',
       resolve: function (game, card, effect) {
-        game.insertAt(between(4, 6), DeathShivers.clone())
+        game.insertAt(between(4, 6), DeathByShivers)
 
         return paragraphs([
           "Hopefully it's nothing serious."
@@ -447,7 +454,7 @@ var Shivers = new Card({
       option: 'Death',
       resolve: function (game, card, effect) {
         game.player.buff['Depression'] = true
-        game.insertAt(between(4, 6), DeathShivers.clone())
+        game.insertAt(between(4, 6), DeathByShivers)
 
         return paragraphs([
           "You feel like there's nothing more you can do.",
@@ -458,10 +465,13 @@ var Shivers = new Card({
   })
 })
 
-var DeathShivers = new Card({
+var DeathByShivers = new Card({
   title: 'Death',
   image: '../art 2048/death.png',
   environment: null,
+  applicable: function(game){
+    return game.player.buff["Flu"]
+  },
   describe: basic_description([
     'The strength as left your body and you fall to the ground, seeing some people passing by. No-one is willing to risk the same fate as you.',
     'The world slowly fades away.'
@@ -573,7 +583,7 @@ var MysteriousRock = new Card({
         yes: {
           option: 'Open',
           resolve: function (game, card, effect) {
-            game.deck.unshift(BrokenClockwork.clone())
+            game.deck.unshift(BrokenClockwork)
             return paragraphs([
               'The rock slowly creaks and opens. The hidden passageway below the rock becomes visible.',
               'You slowly descend into the dark room.'
@@ -649,7 +659,7 @@ var BrokenClockwork = new Card({
       resolve: function (game, card, effect) {
         if (game.player.buff['Sticky Boots']) {
           delete game.player.buff['Sticky Boots']
-          game.deck.unshift(Clockwork.clone())
+          game.deck.unshift(Clockwork)
 
           return paragraphs([
             'You are able to fit the pieces together and the wheels inside the device start turning.',
