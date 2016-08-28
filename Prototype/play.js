@@ -33,7 +33,7 @@ function showActiveCard () {
     root.appendChild(mkCard({
       title: 'End of the road',
       desc: 'Every life ends at some point.',
-      img: '../Art/death.png'
+      img: '../art 2048/death.png'
     }))
     return
   }
