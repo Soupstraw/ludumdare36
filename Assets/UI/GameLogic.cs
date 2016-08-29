@@ -13,6 +13,11 @@ public class GameLogic : MonoBehaviour
 	public UnityEngine.Material front;
 	public UnityEngine.Material back;
 
+	public string deathDescription = "You are dead";
+	public string deathOptionYes = "Try again";
+	public string deathOptionNo = "Quit";
+	public string deathResult = "You chose to try again";
+
 	public SoundManager soundmanager;
 
 	private Card.Choice result;
@@ -22,9 +27,7 @@ public class GameLogic : MonoBehaviour
 
 	void Start ()
 	{
-		state = new Game.State ();
-		state.setup ();
-		UpdateTexts ();
+		SetupNewGame ();
 	}
 
 	void OnEnable ()
@@ -121,5 +124,6 @@ public class GameLogic : MonoBehaviour
 
 	[Header ("Cards")]
 	public UnityEngine.Texture Empty;
+	public UnityEngine.Texture Death;
 	public UnityEngine.Texture[] Cards;
 }
