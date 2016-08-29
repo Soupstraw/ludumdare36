@@ -19,7 +19,8 @@ namespace Game
 		public Wagon Wagon = new Wagon ();
 		public SickMan SickMan = new SickMan ();
 		public Shivers Shivers = new Shivers ();
-		public DeathByShivers DeathByShivers = new DeathByShivers ();
+		public CoughingBlood CoughingBlood = new CoughingBlood ();
+		public DeathByFlu DeathByFlu = new DeathByFlu ();
 		public Archeologist Archeologist = new Archeologist ();
 		public Corpse Corpse = new Corpse ();
 		public MysteriousRock MysteriousRock = new MysteriousRock ();

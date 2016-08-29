@@ -12,10 +12,7 @@ namespace Game
 		public int encounters = 0;
 
 		// applicable checks whether the card should be shown
-		public virtual bool applicable (State state)
-		{
-			return true;
-		}
+		public abstract bool applicable (State state);
 
 		// describes the current situation for this card
 		public abstract string[] describe (State state);
