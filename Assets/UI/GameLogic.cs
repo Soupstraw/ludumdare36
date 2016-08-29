@@ -13,9 +13,12 @@ public class GameLogic : MonoBehaviour
 	public UnityEngine.Material front;
 	public UnityEngine.Material back;
 
+	public SoundManager soundmanager;
+
 	private Card.Choice result;
 
 	private Game.State state;
+	private string lastEnvironment;
 
 	void Start ()
 	{
@@ -53,6 +56,21 @@ public class GameLogic : MonoBehaviour
 			Texture cardface = FindByName (state.currentCard.image);
 			front.mainTexture = cardface;
 			back.mainTexture = cardface;
+
+			if (state.currentCard.environment != lastEnvironment) {
+				switch (state.currentCard.environment) {
+
+				case "Forest":
+					soundmanager.ChangeAmbient (SoundManager.ambientSoundInfo.Forest);
+					break;
+				case "Swamp":
+					soundmanager.ChangeAmbient (SoundManager.ambientSoundInfo.Swamp);
+					break;
+				case "Town":
+					soundmanager.ChangeAmbient (SoundManager.ambientSoundInfo.Town);
+					break;
+				}
+			}
 		}
 
 		descriptionText.text = state.currentDescription;

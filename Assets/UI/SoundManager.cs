@@ -25,6 +25,11 @@ public class SoundManager : MonoBehaviour {
 	[Header("Card Sounds")]
 	public AudioClip[] CardSounds;
 
+	[Header("Music Clips")]
+	public AudioClip[] Music;
+
+	private int musicIndex = 0;
+
 	// These are used to interpolate songs between
 	private AudioSource mainPlayer;
 	private AudioSource secondaryPlayer; 
@@ -67,6 +72,13 @@ public class SoundManager : MonoBehaviour {
 		mainPlayer.Play (); // Start playing this song.
 
 		ambientInfo = ambientSoundInfo.Silence;
+
+		InvokeRepeating ("NextSong", 0f, 45f);
+	}
+
+	private void NextSong() {
+		musicIndex = (musicIndex + 1) % this.Music.Length;
+		this.ChangeSong (this.Music [musicIndex], this.secondaryPlayer);
 	}
 
 	void OnEnable(){
