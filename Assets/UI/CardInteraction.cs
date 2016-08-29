@@ -18,6 +18,8 @@ public class CardInteraction : MonoBehaviour
 	// Swipe sensitivity
 	public float swipeSensitivity = 1.0f;
 
+	public float choicePanelMovementRatio = 0.01f;
+
 	//[Space]
 	// Max rotation angle before the card gets stuck
 	public float maxRotation = 80.0f;
@@ -195,7 +197,7 @@ public class CardInteraction : MonoBehaviour
 
 	private void RotateTo (float x)
 	{
-		choicePanel.target = x;
+		choicePanel.target = x * Screen.width * choicePanelMovementRatio;
 		//Debug.Log ("Rotating");
 		float stableRotation;
 		if (frontActive) {
