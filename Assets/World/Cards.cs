@@ -515,14 +515,14 @@ namespace Game
 			options.yes.title = "Poke";
 			options.yes.resolve = delegate() {
 				return new string[] {
-					"You poke the sheep."
+					"You poke the sheep. He pops out of existance. Maybe it is better this way? He felt like he wasn't from this universe."
 				};
 			};
 
 			options.no.title = "Shear";
 			options.no.resolve = delegate() {
 				return new string[] {
-					"You have shorn the sheep."
+					"You have shorn the sheep. Somewhere some aliens are happy."
 				};
 			};
 
