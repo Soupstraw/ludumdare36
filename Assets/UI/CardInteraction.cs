@@ -15,7 +15,7 @@ public class CardInteraction : MonoBehaviour {
 	// Swipe sensitivity
 	public float swipeSensitivity = 1.0f;
 
-	[Space]
+	//[Space]
 	// Max rotation angle before the card gets stuck
 	public float maxRotation = 80.0f;
 	// Max distance the card can move
