@@ -48,6 +48,14 @@ public class FadingPanel : MonoBehaviour {
 		if (!dragging && visible) {
 			ChangeAlpha (Mathf.Lerp(target.color.a, 1, stabilizeLerpFactor));
 		}
+
+		if (Input.GetButtonDown ("Jump") && Debug.isDebugBuild) {
+			ChangeAlpha (0);
+			visible = false;
+			if(OnDialogDismissed != null){
+				OnDialogDismissed ();
+			}
+		}
 	}
 
 	public void OnPointerDrag(PointerEventData ev){
