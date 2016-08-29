@@ -52,11 +52,9 @@ public class GameLogic : MonoBehaviour
 	{
 		if (state.deckEmpty ()) {
 			if (choice == 1) {
-				Debug.Log ("Restarting game.");
 				SetupNewGame ();
 				return;
 			} else {
-				Debug.Log ("Quitting game.");
 				Application.Quit ();
 				return;
 			}
