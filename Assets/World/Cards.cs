@@ -158,43 +158,42 @@ namespace Game
 		{
 			Options options = new Options ();
 
-			if (encounters > 0) {
+			if (encounters == 0) {
 				options.yes.title = "Step Closer";
 				options.yes.resolve = delegate() {
-					state.player.deliriousVisions = false;
-					state.player.peaceOfMind = true;
+					state.player.deliriousVisions = true;
+
+					Rand.InsertBetween (state.deck, 4, 6, this);
+					Rand.InsertBetween (state.deck, 4, 6, state.world.DeliriousVisions);
 
 					return new string[] {
-						"How long has she been here, you wonder... Upon walking closer she acknowledges your presence with a nod and stops sobbing. The wind clears as she slowly sags into the tree."
+						"She notices you when you are only a few steps from her. She briefly looks towards you through her tears and continues mumbling. While trying to figure out what to do you start to understand fragments of the children's story she is mumbling. You walk away unable to comfort her. You wonder what happened to her."
 					};
 				};
 
 				options.no.title = "Walk away";
 				options.no.resolve = delegate() {
 					return new string[] {
-						"You turn away and start walking away from her. You feel the wind becoming stronger and you glance back at the tree where the woman was sitting. She is not there anymore. You feel uneasy and lonely."
+						"You turn away and start walking away from her. You feel the wind becoming stronger and you glance back at the tree where the woman was sitting. She is not there anymore. What happened to her, you wonder... You decide not to bother yourself with this matter anymore."
 					};
 				};
-
 				return options;
 			}
 
 			options.yes.title = "Step Closer";
 			options.yes.resolve = delegate() {
-				state.player.deliriousVisions = true;
-
-				Rand.InsertBetween (state.deck, 4, 6, this);
-				Rand.InsertBetween (state.deck, 4, 6, state.world.DeliriousVisions);
+				state.player.deliriousVisions = false;
+				state.player.peaceOfMind = true;
 
 				return new string[] {
-					"She notices you when you are only a few steps from her. She briefly looks towards you through her tears and continues mumbling. While trying to figure out what to do you start to understand fragments of the children's story she is mumbling. You walk away unable to comfort her. You wonder what happened to her."
+					"How long has she been here, you wonder... Upon walking closer she acknowledges your presence with a nod and stops sobbing. The wind clears as she slowly sags into the tree."
 				};
 			};
 
 			options.no.title = "Walk away";
 			options.no.resolve = delegate() {
 				return new string[] {
-					"You turn away and start walking away from her. You feel the wind becoming stronger and you glance back at the tree where the woman was sitting. She is not there anymore. What happened to her, you wonder... You decide not to bother yourself with this matter anymore."
+					"You turn away and start walking away from her. You feel the wind becoming stronger and you glance back at the tree where the woman was sitting. She is not there anymore. You feel uneasy and lonely."
 				};
 			};
 
@@ -1010,11 +1009,12 @@ namespace Game
 		}
 	}
 
+	// 3-Girls use "Girl" as title to space them out
 	public class Noemi: Card
 	{
 		public Noemi ()
 		{
-			title = "Noemi";
+			title = "Girl";
 			environment = "";
 			image = "Noemi";
 		}
@@ -1056,7 +1056,7 @@ namespace Game
 	{
 		public Jasmine ()
 		{
-			title = "Jasmine";
+			title = "Girl";
 			environment = "";
 			image = "Jasmine";
 		}
@@ -1098,9 +1098,51 @@ namespace Game
 	{
 		public Dianne ()
 		{
-			title = "Dianne";
+			title = "Girl";
 			environment = "";
 			image = "Dianne";
+		}
+
+		public override bool applicable (State state)
+		{
+			return encounters < 3;
+		}
+
+		public override string[] describe (State state)
+		{
+			return new string[] {
+				""
+			};
+		}
+
+		public override Options options (State state)
+		{
+			Options options = new Options ();
+			options.yes.title = "";
+			options.yes.resolve = delegate() {
+				return new string[] {
+					""
+				};
+			};
+
+			options.no.title = "";
+			options.no.resolve = delegate() {
+				return new string[] {
+					""
+				};
+			};
+
+			return options;
+		}
+	}
+
+	public class LiteralDeath: Card
+	{
+		public LiteralDeath ()
+		{
+			title = "Literal Death";
+			environment = "";
+			image = "Literal Death";
 		}
 
 		public override bool applicable (State state)
