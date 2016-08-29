@@ -793,8 +793,8 @@ namespace Game
 				};
 			} else {
 				return new string[] {
-				"A gentleman carrying a briefcase approaches you. He offers to have a word with you nearby." }
-			
+					"A gentleman carrying a briefcase approaches you. He offers to have a word with you nearby."
+				};
 			}
 		}
 
@@ -802,19 +802,24 @@ namespace Game
 		{
 			Options options = new Options ();
 
-			if (state.player.depression) {
+			if (state.player.depression)
+			{
 				options.yes.title = "Take map";
-				options.yes.resolve = delegate() {
+				options.yes.resolve = delegate() 
+				{
 					state.player.map = true;
 
-					return new string[] {
+					return new string[]
+					{
 						"You take the map. The gentleman continues his walk."
 					};
 				};
 
 				options.no.title = "Leave";
-				options.no.resolve = delegate() {
-					return new string[] {
+				options.no.resolve = delegate() 
+				{
+					return new string[]
+					{
 						"You take offence by what the man said and simply leave. You have a reason to live already!"
 					};
 				};
@@ -832,7 +837,9 @@ namespace Game
 						"You don't care much about what he has to say, you continue your path."
 					};
 			
+				};
 			}
+
 			return options;
 		}
 	}
@@ -1050,7 +1057,7 @@ namespace Game
 			Options options = new Options ();
 			options.yes.title = "The End";
 			options.yes.resolve = delegate() {
-				state.deck.Insert(0, DeathByAging);
+				state.deck.Insert(0, state.world.DeathByAging);
 				return new string[] {
 					"This game was made by:\n\n Silver Kontus \n Egon Elbre \n Joonatan Samuel \n Joosep Jääger \n Ott Adermann \n Edvin Aedma \n"
 				};
@@ -1058,7 +1065,7 @@ namespace Game
 
 			options.no.title = "The End";
 			options.no.resolve = delegate() {
-				state.deck.Insert(0, DeathByAging);
+				state.deck.Insert(0, state.world.DeathByAging);
 				return new string[] {
 					"This game was made by:\n\n Silver Kontus \n Egon Elbre \n Joonatan Samuel \n Joosep Jääger \n Ott Adermann \n Edvin Aedma \n"
 				};
