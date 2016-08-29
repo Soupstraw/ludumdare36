@@ -16,6 +16,7 @@ namespace Game
 		public ForkTownForest ForkTownForest = new ForkTownForest ();
 		public Hut Hut = new Hut ();
 		public Frog Frog = new Frog ();
+		public Sheep Sheep = new Sheep ();
 		public Wagon Wagon = new Wagon ();
 		public SickMan SickMan = new SickMan ();
 		public Shivers Shivers = new Shivers ();
@@ -34,7 +35,7 @@ namespace Game
 		public List<Card> AllEncounters ()
 		{
 			return new List<Card> {
-				GhostlyLady, Hut, Frog, Corpse, MysteriousRock, Wagon, SickMan,
+				GhostlyLady, Hut, Frog, Sheep, Corpse, MysteriousRock, Wagon, SickMan,
 				ForkSwampForest, ForkSwampTown, ForkTownForest,
 				Noemi, Jasmine, Dianne,
 				DeliriousVisions,
@@ -52,7 +53,7 @@ namespace Game
 		public List<Card> AllForest ()
 		{
 			return new List<Card> {
-				Wagon, MysteriousRock, Jasmine, ForkSwampForest, ForkSwampTown, ForkTownForest
+				Wagon, Sheep, MysteriousRock, Jasmine, ForkSwampForest, ForkSwampTown, ForkTownForest
 			};
 		}
 

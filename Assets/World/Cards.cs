@@ -487,6 +487,49 @@ namespace Game
 		}
 	}
 
+	public class Sheep: Card
+	{
+		public Sheep ()
+		{
+			title = "Sheep";
+			environment = "Forest";
+			image = "Sheep";
+		}
+
+		public override bool applicable (State state)
+		{
+			return encounters < 2;
+		}
+
+		public override string[] describe (State state)
+		{
+			return new string[] {
+				"You notice a sheep lost in the forest.",
+				"He seems to have an intergalatic quality to it."
+			};
+		}
+
+		public override Options options (State state)
+		{
+			Options options = new Options ();
+			options.yes.title = "";
+			options.yes.resolve = delegate() {
+				return new string[] {
+					""
+				};
+			};
+
+			options.no.title = "";
+			options.no.resolve = delegate() {
+				return new string[] {
+					""
+				};
+			};
+
+			return options;
+		}
+	}
+
 	public class Wagon: Card
 	{
 		public Wagon ()
