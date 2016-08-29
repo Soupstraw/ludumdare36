@@ -27,6 +27,12 @@ namespace Game
 			int position = rng.Next (high - low) + low;
 			deck.Insert (position, card);
 		}
+
+		public static string PickText (string[] texts)
+		{
+			int index = rng.Next (texts.Length);
+			return texts [index];
+		}
 	}
 
 	public static class Text

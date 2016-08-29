@@ -86,7 +86,7 @@ namespace Game
 				state.player.oldAge = true;
 
 				return new string[] {
-					"Laws of physics are preventing you."
+					"Laws of nature are preventing you."
 				};
 			};
 
@@ -285,6 +285,45 @@ namespace Game
 		}
 	}
 
+
+	public static class Fork
+	{
+		public static string[] Sign = new string[] {
+			"You notice a worn out post barely holding onto two signs.",
+			"After walking for miles you encounter a fork in the road. A post holds two signs.",
+			"A post holding two signs starts to appear from a thick fog.",
+			"After walking for miles you notice a post leaning with two signs."
+		};
+
+		public static string[] ForestSign = new string[] {
+			"Text beaten by the weather, points towards the forest.",
+			"The text isn't readable, but it seems to point towards the forest."
+		};
+		public static string[] ForestWalk = new string[] {
+			"You start walking into the forest. The trees ascend and block out the light leaving you in the dark.",
+			"You take the path leading into a thick forest.",
+		};
+
+		public static string[] TownSign = new string[] {
+			"One points towards a Town that lightly glows in the darkness.",
+			"One text seems to indicate that there is a town nearby."
+		};
+		public static string[] TownWalk = new string[] {
+			"You start walking towards the town.",
+			"You decide to try your luck in the town.",
+			"You take your first steps and wonder what will lye ahead.",
+		};
+		
+		public static string[] SwampSign = new string[] {
+			"One points towards a swamp, with a gleaming light in the distance.",
+			"It seems to that direction is a swamp. It doesn't look very appealing though."
+		};
+		public static string[] SwampWalk = new string[] {
+			"You start walking towards the light while the fog slowly descends.",
+			"You decided the take the muddy road towards the swamp.",
+		};
+	}
+
 	public class ForkSwampForest: Card
 	{
 		public ForkSwampForest ()
@@ -302,9 +341,9 @@ namespace Game
 		public override string[] describe (State state)
 		{
 			return new string[] {
-				"After traveling for miles you see a stubby post leaning in the haze.",
-
-				"It has two signs nailed to it. One points to the forest with huge creeping trees. The other points towards a swamp, with a gleaming light in the distance."
+				Rand.PickText (Fork.Sign),
+				Rand.PickText (Fork.SwampSign),
+				Rand.PickText (Fork.ForestSign)
 			};
 		}
 
@@ -315,7 +354,7 @@ namespace Game
 			options.yes.resolve = delegate() {
 				Rand.InsertCards (state.deck, 2, state.world.AllSwamp ());
 				return new string[] {
-					"You start walking towards the light while the fog slowly descends."
+					Rand.PickText(Fork.SwampWalk)
 				};
 			};
 
@@ -324,7 +363,7 @@ namespace Game
 				state.player.creepingTerror = true;
 				Rand.InsertCards (state.deck, 2, state.world.AllForest ());
 				return new string[] {
-					"You start walking into the forest. The trees ascend and block out the light leaving you in the dark."
+					Rand.PickText(Fork.ForestWalk)
 				};
 			};
 
@@ -349,9 +388,9 @@ namespace Game
 		public override string[] describe (State state)
 		{
 			return new string[] {
-				"After traveling for miles you see a stubby post leaning in the haze.",
-
-				"It has two signs nailed to it. One points to the gloomy town. The other points towards a swamp, with a gleaming light in the distance."
+				Rand.PickText (Fork.Sign),
+				Rand.PickText (Fork.SwampSign),
+				Rand.PickText (Fork.TownSign)
 			};
 		}
 
@@ -362,7 +401,7 @@ namespace Game
 			options.yes.resolve = delegate() {
 				Rand.InsertCards (state.deck, 2, state.world.AllSwamp ());
 				return new string[] {
-					"You start walking towards the light while the fog slowly descends."
+					Rand.PickText(Fork.SwampWalk)
 				};
 			};
 
@@ -370,7 +409,7 @@ namespace Game
 			options.no.resolve = delegate() {
 				Rand.InsertCards (state.deck, 2, state.world.AllTown ());
 				return new string[] {
-					"You arrive in the town."
+					Rand.PickText(Fork.TownWalk)
 				};
 			};
 
@@ -395,8 +434,9 @@ namespace Game
 		public override string[] describe (State state)
 		{
 			return new string[] {
-				"After traveling for miles you see a stubby post leaning in the haze.",
-				"It has two signs nailed to it. One points to the forest with huge creeping trees. The other points towards a gloomy town."
+				Rand.PickText (Fork.Sign),
+				Rand.PickText (Fork.TownSign),
+				Rand.PickText (Fork.ForestSign)
 			};
 		}
 
@@ -406,7 +446,7 @@ namespace Game
 			options.yes.title = "Town";
 			options.yes.resolve = delegate() {
 				return new string[] {
-					"You arrive at the town."
+					Rand.PickText(Fork.TownWalk)
 				};
 			};
 
@@ -414,7 +454,7 @@ namespace Game
 			options.no.resolve = delegate() {
 				state.player.creepingTerror = true;
 				return new string[] {
-					"You start walking into the forest. The trees ascend and block out the light leaving you in the dark."
+					Rand.PickText(Fork.ForestWalk)
 				};
 			};
 
@@ -640,7 +680,7 @@ namespace Game
 
 		public override string[] describe (State state)
 		{
-			if(encounters == 0){
+			if (encounters == 0) {
 				return new string[] {
 					"Walking on a cobblestone street you come across a man. He can barely stand straight. He asks people to help him, but no one does."
 				};
@@ -668,7 +708,7 @@ namespace Game
 
 			options.no.title = "Avoid";
 			options.no.resolve = delegate() {
-				if(encounters == 0){
+				if (encounters == 0) {
 					return new string[] {
 						"You do as everyone else and avoid him."
 					};
@@ -699,7 +739,7 @@ namespace Game
 		public override string[] describe (State state)
 		{
 			return new string[] {
-				encounters >= 1 ? "This looks like a bad omen.":"",
+				encounters >= 1 ? "This looks like a bad omen." : "",
 				"You feel shivers throughout your body and start to cough. The weakness starts setting in and you are not sure whether you can go on."
 			};
 		}
