@@ -13,15 +13,18 @@ public class GameLogic : MonoBehaviour
 	public UnityEngine.Material front;
 	public UnityEngine.Material back;
 
+	public string deathDescription = "You are dead";
+	public string deathOptionYes = "Try again";
+	public string deathOptionNo = "Quit";
+	public string deathResult = "You chose to try again";
+
 	private Card.Choice result;
 
 	private Game.State state;
 
 	void Start ()
 	{
-		state = new Game.State ();
-		state.setup ();
-		UpdateTexts ();
+		SetupNewGame ();
 	}
 
 	void OnEnable ()
@@ -36,8 +39,26 @@ public class GameLogic : MonoBehaviour
 		FadingPanel.OnDialogDismissed -= UpdateTexts;
 	}
 
+	private void SetupNewGame(){
+		state = new Game.State ();
+		state.setup ();
+		UpdateTexts ();
+	}
+
 	public void Choose (int choice)
 	{
+		if (state.deckEmpty ()) {
+			if (choice == 1) {
+				Debug.Log ("Restarting game.");
+				SetupNewGame ();
+				return;
+			} else {
+				Debug.Log ("Quitting game.");
+				Application.Quit ();
+				return;
+			}
+		}
+
 		if (choice == 1) {
 			result = state.yes ();
 		} else {
@@ -49,6 +70,16 @@ public class GameLogic : MonoBehaviour
 
 	public void UpdateTexts ()
 	{
+		if (state.deckEmpty ()) {
+			front.mainTexture = Death;
+			back.mainTexture = Death;
+			choiceYesText.text = deathOptionYes;
+			choiceNoText.text = deathOptionNo;
+			descriptionText.text = deathDescription;
+			resultText.text = deathResult;
+			return;
+		}
+
 		if (state.currentCard != null) {
 			Texture cardface = FindByName (state.currentCard.image);
 			front.mainTexture = cardface;
@@ -75,5 +106,6 @@ public class GameLogic : MonoBehaviour
 
 	[Header ("Cards")]
 	public UnityEngine.Texture Empty;
+	public UnityEngine.Texture Death;
 	public UnityEngine.Texture[] Cards;
 }
