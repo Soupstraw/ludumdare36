@@ -244,7 +244,7 @@ namespace Game
 				};
 			};
 
-			options.no.title = "";
+			options.no.title = "Thank";
 			options.no.resolve = delegate() {
 				state.player.deliriousVisions = false;
 				state.player.flu = false;
@@ -512,17 +512,17 @@ namespace Game
 		public override Options options (State state)
 		{
 			Options options = new Options ();
-			options.yes.title = "";
+			options.yes.title = "Poke";
 			options.yes.resolve = delegate() {
 				return new string[] {
-					""
+					"You poke the sheep."
 				};
 			};
 
-			options.no.title = "";
+			options.no.title = "Shear";
 			options.no.resolve = delegate() {
 				return new string[] {
-					""
+					"You have shorn the sheep."
 				};
 			};
 
@@ -839,14 +839,14 @@ namespace Game
 		public override Options options (State state)
 		{
 			Options options = new Options ();
-			options.yes.title = "";
+			options.yes.title = "Poke";
 			options.yes.resolve = delegate() {
 				return new string[] {
 					"Poking the corpse did not bring him back to life. What a shame."
 				};
 			};
 
-			options.no.title = "";
+			options.no.title = "Shoo";
 			options.no.resolve = delegate() {
 				return new string[] {
 					"The fly flies away angrily."
@@ -1027,14 +1027,14 @@ namespace Game
 			options.yes.title = "Use";
 			options.yes.resolve = delegate() {
 				return new string[] {
-					""
+					"Using."
 				};
 			};
 
 			options.no.title = "Place back";
 			options.no.resolve = delegate() {
 				return new string[] {
-					""
+					"Placing back."
 				};
 			};
 
@@ -1248,8 +1248,10 @@ namespace Game
 		{
 			Options options = new Options ();
 
+			options.yes.title = "Accept Death";
+			options.no.title = "Plead for your life";
+
 			if (state.player.oldAge) {
-				options.yes.title = "Accept Death";
 				options.yes.resolve = delegate() {
 					state.player.seenDeath = true;
 					state.die ();
@@ -1258,7 +1260,6 @@ namespace Game
 					};
 				};
 
-				options.no.title = "Plead for your life";
 				options.no.resolve = delegate() {
 					state.player.seenDeath = true;
 					state.die ();
@@ -1275,7 +1276,6 @@ namespace Game
 					};
 				};
 
-				options.no.title = "Plead for your life";
 				options.no.resolve = delegate() {
 					state.player.seenDeath = true;
 					return new string[] {
