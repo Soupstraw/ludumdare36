@@ -842,7 +842,7 @@ namespace Game
 			options.yes.title = "Poke";
 			options.yes.resolve = delegate() {
 				return new string[] {
-					"Poking the corpse did not bring him back to life. What a shame."
+					"Poking the corpse did not bring him back to life. What a shame. You hope to see him around."
 				};
 			};
 
@@ -889,19 +889,19 @@ namespace Game
 			Options options = new Options ();
 
 			if (state.player.map && state.player.jasmine && state.player.dianne && state.player.noemi) {
-				options.yes.title = "Open";
+				options.yes.title = "Twist the symbols";
 				options.yes.resolve = delegate() {
 					state.deck.Insert (0, state.world.BrokenClockwork);
 					return new string[] {
-						"The rock slowly creaks and opens. The hidden passageway below the rock becomes visible.",
-						"You slowly descend into the dark room."
+						"You twist the symbols and the rock starts to hum. You keep on turning and the humming becomes louder, you feel that the teachings of Naomi, Dianne and Jasmine are helping. The rock violently explodes as the humming reaches its climax and reveals a hidden path below it. Taking a moment to think about what just happened you realize that the rock is dead now, you wish it didn't have to be like this. Well, atleast this is how magic feels like.",
+						"You slowly descend into the dark room below."
 					};
 				};
 
 				options.no.title = "Leave";
 				options.no.resolve = delegate() {
 					return new string[] {
-						"You leave waving the rock goodbye. It seemed so friendly."
+						"You leave waving the rock goodbye. It seemed so friendly. Maybe it would have liked if you twisted its symbols?"
 					};
 				};
 
@@ -919,7 +919,7 @@ namespace Game
 				options.no.title = "Leave";
 				options.no.resolve = delegate() {
 					return new string[] {
-						"You leave waving the rock goodbye. It seemed so friendly."
+						"You leave waving the rock goodbye. It seemed so friendly. Rock looks, weeping, as you walk away."
 					};
 				};
 
@@ -963,7 +963,7 @@ namespace Game
 		{
 			return new string[] {
 				"Entering the room you notice a strange artifact placed on a pedestal.",
-				"You slowly approach it, it seems that debri from the ceiling has damaged the device and broken off some pieces."
+				"You slowly approach it, it seems that debri from the ceiling has damaged the device and broken off some pieces.",
 			};
 		}
 
@@ -982,7 +982,7 @@ namespace Game
 			if (state.player.stickyBoots) {
 				options.yes.resolve = delegate() {
 					state.deck.Insert (0, state.world.Clockwork);
-
+					
 					return new string[] {
 						"You are able to fit the pieces together and the wheels inside the device start turning.",
 						"A slight glow starts to eminate from the device."
@@ -991,7 +991,9 @@ namespace Game
 			} else {
 				options.yes.resolve = delegate() {
 					return new string[] {
-						"You are unable to make the pieces stick to each other properly. It seems some glue is needed."
+						"You are unable to make the pieces stick to each other properly. You check your worn-out boots, there is no glue there...",
+						"Why is there no glue on your boots?",
+						"You walk away wondering where to get glue onto your boots."
 					};
 				};
 			}
@@ -1017,24 +1019,26 @@ namespace Game
 		public override string[] describe (State state)
 		{
 			return new string[] {
-				"Glowing device that is humming. There is a strange button on it."
+				"You wonder what to do with this device. Was this the goal of your adventure? Or was the journey itself the goal? You have explored this world in its entirety but there might be hidden paths yet to be explored, more frogs to step on, more little girls to talk to, more ways to die, more rocks to mingle with. However, now, you take a step back and put this device under your jacket. You feel happier than before. Maybe this sense of accomplishment itself was the goal? However you feel satisfied."
 			};
 		}
 
 		public override Options options (State state)
 		{
 			Options options = new Options ();
-			options.yes.title = "Use";
+			options.yes.title = "The End";
 			options.yes.resolve = delegate() {
+				state.deck.Insert(0, DeathByAging);
 				return new string[] {
-					"Using."
+					"This game was made by:\n\n Silver Kontus \n Egon Elbre \n Joonatan Samuel \n Joosep Jääger \n Ott Adermann \n Edvin Aedma \n"
 				};
 			};
 
-			options.no.title = "Place back";
+			options.no.title = "The End";
 			options.no.resolve = delegate() {
+				state.deck.Insert(0, DeathByAging);
 				return new string[] {
-					"Placing back."
+					"This game was made by:\n\n Silver Kontus \n Egon Elbre \n Joonatan Samuel \n Joosep Jääger \n Ott Adermann \n Edvin Aedma \n"
 				};
 			};
 
