@@ -66,6 +66,7 @@ namespace Game
 		public bool noemi = false;
 		public bool seenDeath = false;
 
+		public bool ghostlyLady = false;
 		public bool deliriousVisions = false;
 		public bool peaceOfMind = false;
 	}
@@ -98,8 +99,8 @@ namespace Game
 				deck.Add (Rand.Pick (encounters));
 			}
 
-			deck [15] = world.Ageing;
-			deck [29] = world.DeathByAging;
+			deck [deck.Count/2] = world.Ageing;
+			deck [deck.Count-1] = world.LiteralDeath;
 
 			updateCurrentCard (world.Journey);
 		}
@@ -167,7 +168,7 @@ namespace Game
 				return;
 			}
 
-			List<Card.Choice> avoid = lastChoices (4);
+			List<Card.Choice> avoid = lastChoices (5);
 
 			while (deck.Count > 0) {
 				Card candidate = deck [0];

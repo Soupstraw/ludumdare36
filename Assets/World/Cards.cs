@@ -162,6 +162,7 @@ namespace Game
 			if (encounters == 0) {
 				options.yes.title = "Step Closer";
 				options.yes.resolve = delegate() {
+					state.player.ghostlyLady = true;
 					state.player.deliriousVisions = true;
 
 					Rand.InsertBetween (state.deck, 4, 6, this);
@@ -654,7 +655,7 @@ namespace Game
 			Options options = new Options ();
 			options.yes.title = "Hope";
 			options.yes.resolve = delegate() {
-				Rand.InsertBetween (state.deck, 2, 4, state.world.CoughingBlood);
+				Rand.InsertBetween (state.deck, 1, 3, state.world.CoughingBlood);
 
 				return new string[] {
 					"Hopefully it's nothing serious."
@@ -663,7 +664,7 @@ namespace Game
 
 			options.no.title = "Death";
 			options.no.resolve = delegate() {
-				Rand.InsertBetween (state.deck, 2, 4, state.world.CoughingBlood);
+				Rand.InsertBetween (state.deck, 1, 3, state.world.CoughingBlood);
 				state.player.depression = true;
 
 				return new string[] {
@@ -702,7 +703,7 @@ namespace Game
 			Options options = new Options ();
 			options.yes.title = "Swallow";
 			options.yes.resolve = delegate() {
-				Rand.InsertBetween (state.deck, 2, 4, state.world.DeathByFlu);
+				Rand.InsertBetween (state.deck, 1, 3, state.world.DeathByFlu);
 				return new string[] {
 					"This causes you to cough even more. It was not a good idea."
 				};
@@ -710,7 +711,7 @@ namespace Game
 
 			options.no.title = "Spit out";
 			options.no.resolve = delegate() {
-				Rand.InsertBetween (state.deck, 2, 4, state.world.DeathByFlu);
+				Rand.InsertBetween (state.deck, 1, 3, state.world.DeathByFlu);
 				return new string[] {
 					"You spit leaving a large blood stain on the ground."
 				};
@@ -1146,7 +1147,7 @@ namespace Game
 			return new string[] {
 				"Walking on a peaceful forest road admiring the centuries old trees you hear distant singing. This appealing voice oddly rings in your ears. Charmed by it you step towards it.",
 
-				state.player.peaceOfMind || state.player.deliriousVisions ? "Walking closer, you can make out some of this ancient language she is singing in. Reminds you of a children’s story you’ve heard somewhere." : "",
+				state.player.peaceOfMind || state.player.ghostlyLady ? "Walking closer, you can make out some of this ancient language she is singing in. Reminds you of a children’s story you’ve heard somewhere." : "",
 
 				"You reach the edge of a glade. In the center there is a lady singing on top of a rock. Around her there is a circle of dead bodies. She doesn’t seem to bother [care?]. Her eyes seem to be cried out.",
 
@@ -1160,19 +1161,21 @@ namespace Game
 			options.yes.title = "Step closer";
 			if (state.player.peaceOfMind) {
 				options.yes.resolve = delegate() {
-					state.die ();
-					return new string[] {
-						"You step out of the protective shadows onto the soft grass. The lady sitting on the stone keeps singing even though she definitely noticed you. Walking closer you feel a choking sensation. You want to stop walking but the singing forces you towards her. You fall next to the other dead bodies. You feel tired."
-					};
-				};
-			} else {
-				options.yes.resolve = delegate() {
 					return new string[] {
 						"You step out of the protective shadows onto the soft grass. The lady sitting on the stone keeps singing even though she definitely noticed you. Walking closer you feel a choking sensation. Then she stops singing. You gasp for air. She starts speaking with a beautiful voice that reminds you of birds singing:",
 
 						"\"I am happy to see you again traveler. Last time we didn’t talk, I was overwhelmed with my grief. Your compassion made me understand that I have been in this world for too long. You see, I am an eternal being. A spirit if you wish. I have many faces, you saw one of mine under the tree sobbing.\"",
 
 						"She tells you many things about the forest and the meaning of love. She tells you something about the combination of love and technology. It makes little sense to you but you feel like this infromation is going to be useful some day. She sends you off. You realize that sometimes bad things in life can bring experiences that you otherwise might have missed."
+					};
+				};
+			} else {
+				options.yes.resolve = delegate() {
+					state.die ();
+					return new string[] {
+						"You step out of the protective shadows onto the soft grass. The lady sitting on the stone keeps singing even though she definitely noticed you.",
+						"Walking closer you feel a choking sensation. You want to stop walking but the singing forces you towards her.",
+						"You fall next to the other dead bodies. You feel tired."
 					};
 				};
 			}
