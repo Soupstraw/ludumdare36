@@ -37,7 +37,7 @@ public class CardInteraction : MonoBehaviour {
 	// Variables related to description states (swiping up/down)
 	[Header ("Description state")]
 	// How long should be the delay before card is automatically swiped up
-	public float descriptionDelay = 3.0f;
+	public float descriptionDelay = 1.5f;
 	// default Y coordinate for the card while description is visible
 	public float descMaxY = 1.0f;
 	// 
@@ -119,9 +119,9 @@ public class CardInteraction : MonoBehaviour {
 					asideOnRight = true;
 				}
 				if (OnChoice != null) {
-					OnChoice ((int)Mathf.Sign (dx));
+					OnChoice ((dx < 0 ? 1 : 0));
 				}
-				Debug.Log ("Choice: " + (dx < 0 ? 0 : 1));
+				Debug.Log ("Choice: " + (dx < 0 ? 1 : 0));
 			} else {
 				if (Input.GetButton ("Fire1") && buttonHeld) {
 					if (Mathf.Abs (transform.parent.position.x) <= stablePositionThreshold) {
@@ -164,7 +164,7 @@ public class CardInteraction : MonoBehaviour {
 
 	public void DialogDismissed(){
 		if (cardState == CardState.WAITING_FOR_EVENT) {
-			cardState = CardState.STABILIZING;
+			cardState = CardState.DESC_DELAY;
 		} else if (cardState == CardState.ASIDE) {
 			Flip ();
 		}
@@ -235,7 +235,8 @@ public class CardInteraction : MonoBehaviour {
 	private void Flip(){
 		buttonHeld = false;
 		frontActive = !frontActive;
-		cardState = CardState.STABILIZING;
+		cardState = CardState.DESC_DELAY;
+		StartCoroutine (DescDelayCoroutine());
 	}
 
 	private void StabilizeDesc(){

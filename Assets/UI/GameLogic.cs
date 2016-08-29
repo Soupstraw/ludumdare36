@@ -35,7 +35,7 @@ public class GameLogic : MonoBehaviour
 
 	public void Choose (int choice)
 	{
-		if (choice == 0) {
+		if (choice == 1) {
 			result = state.yes ();
 		} else {
 			result = state.no ();
