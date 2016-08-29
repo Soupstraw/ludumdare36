@@ -21,7 +21,11 @@ namespace Game
 		public override string[] describe (State state)
 		{
 			return new string[] {
-				"The world is a harsh place. Everybody has to make decisions. Some decisions matter, some don’t. Some seem to matter and don’t matter others don’t seem to be relevant but change the course of your life. Choose your own destiny and maybe you find that there is some purpose in this life.",
+				"The world is a harsh place. Everybody has to make decisions.",
+				
+				"Some decisions matter, some don’t. Some seem to matter and don’t matter others don’t seem to be relevant but change the course of your life.",
+
+				"Choose your own destiny and maybe you find that there is some purpose in this life.",
 			};
 		}
 
@@ -61,7 +65,7 @@ namespace Game
 		public override string[] describe (State state)
 		{
 			return new string[] {
-				"You feel your body creaking."
+				"You haven't even noticed how the time has caught up with you. You think, what else can I do with my life."
 			};
 		}
 
@@ -73,7 +77,7 @@ namespace Game
 				state.player.oldAge = true;
 
 				return new string[] {
-					"There's nothing that can stop it."
+					"You notice that you don't move as fast as you did. You wonder, when you will stop moving altogether."
 				};
 			};
 
@@ -145,13 +149,20 @@ namespace Game
 
 		public override bool applicable (State state)
 		{
-			return encounters < 3;
+			return encounters < 2;
 		}
 
 		public override string[] describe (State state)
 		{
+			if (encounters == 0) {
+				return new string[] {
+					"While walking during a windy night you encounter a young woman crying under a nearby tree.",
+					"She has a ghastly halo surrounding her, as if she is not from this world. Through her delirious mumbles you hear her sobbing about something."
+				};
+			}
 			return new string[] {
-				"While walking during a windy night you encounter a young woman crying under a nearby tree. She has a ghastly halo surrounding her, as if she is not from this world. Through her delirious mumbles you hear her sobbing about something."
+				"You notice a familiar crying women under a nearby tree.",
+				"She has a ghastly halo surrounding her, as if she is not from this world. Through her delirious mumbles you hear her sobbing about something."
 			};
 		}
 
@@ -169,14 +180,18 @@ namespace Game
 					Rand.InsertBetween (state.deck, 4, 6, state.world.DeliriousVisions);
 
 					return new string[] {
-						"She notices you when you are only a few steps from her. She briefly looks towards you through her tears and continues mumbling. While trying to figure out what to do you start to understand fragments of the children's story she is mumbling. You walk away unable to comfort her. You wonder what happened to her."
+						"She notices you when you are only a few steps from her. She briefly looks towards you through her tears and continues mumbling.",
+						"While trying to figure out what to do you start to understand fragments of the children's story she is mumbling.",
+						"You walk away unable to comfort her. You wonder what happened to her."
 					};
 				};
 
 				options.no.title = "Walk away";
 				options.no.resolve = delegate() {
 					return new string[] {
-						"You turn away and start walking away from her. You feel the wind becoming stronger and you glance back at the tree where the woman was sitting. She is not there anymore. What happened to her, you wonder... You decide not to bother yourself with this matter anymore."
+						"You turn away and start walking away from her. You feel the wind becoming stronger and you glance back at the tree where the woman was sitting.",
+						"She is not there anymore. What happened to her, you wonder...",
+						"You decide not to bother yourself with this matter anymore."
 					};
 				};
 				return options;
@@ -188,14 +203,18 @@ namespace Game
 				state.player.peaceOfMind = true;
 
 				return new string[] {
-					"How long has she been here, you wonder... Upon walking closer she acknowledges your presence with a nod and stops sobbing. The wind clears as she slowly sags into the tree."
+					"How long has she been here, you wonder...",
+					"Upon walking closer she acknowledges your presence with a nod and stops sobbing.",
+					"The wind clears as she slowly sags into the tree."
 				};
 			};
 
 			options.no.title = "Walk away";
 			options.no.resolve = delegate() {
 				return new string[] {
-					"You turn away and start walking away from her. You feel the wind becoming stronger and you glance back at the tree where the woman was sitting. She is not there anymore. You feel uneasy and lonely."
+					"You turn away and start walking away from her.",
+					"You feel the wind becoming stronger and you glance back at the tree where the woman was sitting.",
+					"She is not there anymore. You feel uneasy and lonely."
 				};
 			};
 
@@ -220,7 +239,10 @@ namespace Game
 		public override string[] describe (State state)
 		{
 			return new string[] {
-				"You wake up. Or did you? You are covered in sweat. You wake up. Are you even alive? What is going on? You wake up. Sun shines through the small hole in tavern wall. Tavern keeper tells you that you had been rambling for three days straight in high fever. You were brought here by a friend of yours who paid for a whole week in advance. You have no friends in this town.",
+				"You wake up. Or did you? You are covered in sweat. You wake up. Are you even alive? What is going on?",
+				"You wake up. Sun shines through the small hole in tavern wall. Tavern keeper tells you that you had been rambling for three days straight in high fever.",
+				"You were brought here by a friend of yours who paid for a whole week in advance.",
+				"You have no friends in this town.",
 
 				state.player.flu ? "You feel that shivers plaguing you are also gone." : "",
 
@@ -241,7 +263,7 @@ namespace Game
 				state.deck.RemoveAt (0);
 
 				return new string[] {
-					"You try to remember words, but they escape you and you end up eloquently saying... \"brrrrha\""
+					"You try to remember words, but they escape you and you end up eloquently saying... \"bxrrrrha\""
 				};
 			};
 
@@ -430,7 +452,9 @@ namespace Game
 				state.player.hut = true;
 
 				return new string[] {
-					"Upon knocking on the door it jumps open. From the other side you are greeted by a jolly old man with long white beard. He pulls you in and forces you to sit down on an ancient but comfortable bed. Then he runs to the back room and returns with a huge wooden cup. He assures you that this tea is made from the best herbs this swamp harnesses. You sip your tea as you watch this peculiar old man jump around and caress his beard non-stop."
+					"Upon knocking on the door it jumps open. From the other side you are greeted by a jolly old man with long white beard.",
+					"He pulls you in and forces you to sit down on an ancient but comfortable bed. Then he runs to the back room and returns with a huge wooden cup. He assures you that this tea is made from the best herbs this swamp harnesses.",
+					"You sip your tea as you watch this peculiar old man jump around and caress his beard non-stop."
 				};
 			};
 
@@ -480,7 +504,9 @@ namespace Game
 			options.no.resolve = delegate() {
 				state.player.stickyBoots = true;
 				return new string[] {
-					"With a forceful jump you ascend to the sky and fall towards the frog. The frog trembles in horror. The frog is crushed leaving sticky resin on your boots."
+					"With a forceful jump you ascend to the sky and fall towards the frog.",
+					"The frog trembles in horror.",
+					"The frog is crushed leaving sticky resin on your boots."
 				};
 			};
 
@@ -506,7 +532,7 @@ namespace Game
 		{
 			return new string[] {
 				"You notice a sheep lost in the forest.",
-				"He seems to have an intergalatic quality to it."
+				"He seems to have an intergalatic quality."
 			};
 		}
 
@@ -516,7 +542,8 @@ namespace Game
 			options.yes.title = "Poke";
 			options.yes.resolve = delegate() {
 				return new string[] {
-					"You poke the sheep. He pops out of existance. Maybe it is better this way? He felt like he wasn't from this universe."
+					"You poke the sheep. He pops out of existance. Maybe it is better this way?",
+					"He felt like he wasn't from this universe."
 				};
 			};
 
@@ -547,8 +574,16 @@ namespace Game
 
 		public override string[] describe (State state)
 		{
+			if (encounters == 0) {
+				return new string[] {
+					"You notice a broken wagon in the dirt.",
+					"A small old man is slowly tasking away trying to fix a broken wheel spike.",
+					"The old man looks very angry."
+				};
+			}
 			return new string[] {
-				"You notice a broken wagon in the dirt. A small old man is slowly tasking away trying to fix a broken wheel spike. The old man looks very angry."
+				"You notice a familiar broken wagon in the dirt.",
+				"The old man is still trying to fix the broken wheel.",
 			};
 		}
 
@@ -573,8 +608,14 @@ namespace Game
 
 			options.no.title = "Walk past";
 			options.no.resolve = delegate() {
+				if (encounters == 0) {
+					return new string[] {
+						"You walk past the man. He shouts \"Good riddance, there's no need for people like you.\"",
+						"Looking back he is still trying to get things fixed."
+					};
+				}
 				return new string[] {
-					"You walk past the man. He shouts \"Good riddance, there's no need for people like you.\"",
+					"You try to avoid him, but he still notices you \"Still not helping? What is wrong with people these days?\"",
 					"Looking back he is still trying to get things fixed."
 				};
 			};
@@ -594,13 +635,19 @@ namespace Game
 
 		public override bool applicable (State state)
 		{
-			return encounters < 2;
+			return encounters < 2 && !state.player.flu;
 		}
 
 		public override string[] describe (State state)
 		{
+			if(encounters == 0){
+				return new string[] {
+					"Walking on a cobblestone street you come across a man. He can barely stand straight. He asks people to help him, but no one does."
+				};
+			}
 			return new string[] {
-				"Walking on a cobblestone street you come across a man. He can barely stand straight. He asks people to help him, but no one does."
+				"You notice a man stumbling and looking sickly. He can barely stand straight.",
+				"He is begging people to help him, but no one does."
 			};
 		}
 
@@ -613,15 +660,21 @@ namespace Game
 				Rand.InsertBetween (state.deck, 2, 4, state.world.Shivers);
 
 				return new string[] {
-					"You go near the man and support his weight, helping him to walk to the hospital. The doctors take over from there. The man thanks you and stumbles into the hospital.",
+					"You go near the man and support his weight, helping him to walk to the hospital. The doctors take over from there.",
+					"The man thanks you and stumbles into the hospital.",
 					"You feel a slight shiver coming over you."
 				};
 			};
 
 			options.no.title = "Avoid";
 			options.no.resolve = delegate() {
+				if(encounters == 0){
+					return new string[] {
+						"You do as everyone else and avoid him."
+					};
+				}
 				return new string[] {
-					"You do as everyone else and avoid him."
+					"You do as everyone else and try best to avoid him."
 				};
 			};
 
@@ -646,6 +699,7 @@ namespace Game
 		public override string[] describe (State state)
 		{
 			return new string[] {
+				encounters >= 1 ? "This looks like a bad omen.":"",
 				"You feel shivers throughout your body and start to cough. The weakness starts setting in and you are not sure whether you can go on."
 			};
 		}
@@ -739,7 +793,9 @@ namespace Game
 		{
 			return new string[] {
 				"The strength as left your body and you fall to the ground, seeing some people passing by.",
+				
 				"You ask for help, but no-one is willing to risk the same fate as you.",
+
 				"The world slowly fades away."
 			};
 		}
@@ -751,7 +807,7 @@ namespace Game
 			options.yes.resolve = delegate() {
 				state.die ();
 				return new string[] {
-					"You breathe out last time."
+					"You breathe out the last time."
 				};
 			};
 
@@ -778,12 +834,11 @@ namespace Game
 
 		public override bool applicable (State state)
 		{
-			return (encounters < 3) && !state.player.map && state.player.depression;
+			return (encounters < 3) && !state.player.map;
 		}
 
 		public override string[] describe (State state)
 		{
-			//TODO: write different text for non-depression
 			if (state.player.depression) {
 				return new string[] {
 					"A gentleman carrying a briefcase approaches you.",
@@ -823,7 +878,8 @@ namespace Game
 				options.yes.title = "Accept his offer";
 				options.yes.resolve = delegate() {
 					return new string[] {
-						"He tells about how much he has learned in his life by his suffering. Does suffering in life really bring you knowledge, you wonder."
+						"He tells about how much he has learned in his life by his suffering.",
+						"Does suffering in life really bring you knowledge, you wonder."
 					};
 				};
 
@@ -867,7 +923,8 @@ namespace Game
 			options.yes.title = "Poke";
 			options.yes.resolve = delegate() {
 				return new string[] {
-					"Poking the corpse did not bring him back to life. What a shame. You hope to see him around."
+					"Poking the corpse did not bring him back to life. What a shame.",
+					"You hope to see him around."
 				};
 			};
 
@@ -900,7 +957,8 @@ namespace Game
 		{
 			if (state.player.map) {
 				return new string[] {
-					"You notice the similarity of the rock to the map that the Archeologist gave you. There seem to be strange symbols that can be twisted."
+					"You notice the similarity of the rock to the map that the Archeologist gave you.",
+					"There seem to be strange symbols that can be twisted."
 				};
 			}
 
@@ -918,7 +976,9 @@ namespace Game
 				options.yes.resolve = delegate() {
 					state.deck.Insert (0, state.world.BrokenClockwork);
 					return new string[] {
-						"You twist the symbols and the rock starts to hum. You keep on turning and the humming becomes louder, you feel that the teachings of Naomi, Dianne and Jasmine are helping. The rock violently explodes as the humming reaches its climax and reveals a hidden path below it. Taking a moment to think about what just happened you realize that the rock is dead now, you wish it didn't have to be like this. Well, atleast this is how magic feels like.",
+						"You twist the symbols and the rock starts to hum. You keep on turning and the humming becomes louder, you feel that the teachings of Naomi, Dianne and Jasmine are helping.",
+						"The rock violently explodes as the humming reaches its climax and reveals a hidden path below it. Taking a moment to think about what just happened you realize that the rock is dead now, you wish it didn't have to be like this.",
+						"Well, at least this is how magic feels like.",
 						"You slowly descend into the dark room below."
 					};
 				};
@@ -926,7 +986,8 @@ namespace Game
 				options.no.title = "Leave";
 				options.no.resolve = delegate() {
 					return new string[] {
-						"You leave waving the rock goodbye. It seemed so friendly. Maybe it would have liked if you twisted its symbols?"
+						"You leave waving the rock goodbye. It seemed so friendly.",
+						"Maybe it would have liked if you twisted its symbols?"
 					};
 				};
 
@@ -944,7 +1005,8 @@ namespace Game
 				options.no.title = "Leave";
 				options.no.resolve = delegate() {
 					return new string[] {
-						"You leave waving the rock goodbye. It seemed so friendly. Rock looks, weeping, as you walk away."
+						"You leave waving the rock goodbye. It seemed so friendly.",
+						"Rock looks, weeping, as you walk away."
 					};
 				};
 
@@ -954,7 +1016,8 @@ namespace Game
 			options.yes.title = "Poke";
 			options.yes.resolve = delegate() {
 				return new string[] {
-					"Poking the rock did not do anything you wouldn’t expect. What did you expect?"
+					"Poking the rock did not do anything you wouldn’t expect.",
+					"What did you expect?"
 				};
 			};
 
@@ -1044,7 +1107,10 @@ namespace Game
 		public override string[] describe (State state)
 		{
 			return new string[] {
-				"You wonder what to do with this device. Was this the goal of your adventure? Or was the journey itself the goal? You have explored this world in its entirety but there might be hidden paths yet to be explored, more frogs to step on, more little girls to talk to, more ways to die, more rocks to mingle with. However, now, you take a step back and put this device under your jacket. You feel happier than before. Maybe this sense of accomplishment itself was the goal? However you feel satisfied."
+				"You wonder what to do with this device. Was this the goal of your adventure? Or was the journey itself the goal?",
+				"You have explored this world in its entirety but there might be hidden paths yet to be explored, more frogs to step on, more little girls to talk to, more ways to die, more rocks to mingle with.",
+				"However, now, you take a step back and put this device under your jacket. You feel happier than before",
+				"Maybe this sense of accomplishment itself was the goal? However you feel satisfied."
 			};
 		}
 
@@ -1089,7 +1155,9 @@ namespace Game
 		public override string[] describe (State state)
 		{
 			return new string[] {
-				"From a distance you hear mild and playful screams of joy. Some local girls must be playing in the swamp pool. You haven’t seen anyone for miles and think that you are completely lost by now so you decide to ask your way. With this in mind you set your course towards the shrieks. To your surprise you only find one young lady in a pool. More chillingly this young lady is poking a dead body. She seems to be very thrilled with what she is doing.",
+				"From a distance you hear mild and playful screams of joy. Some local girls must be playing in the swamp pool. You haven’t seen anyone for miles and think that you are completely lost by now so you decide to ask your way.",
+				"With this in mind you set your course towards the shrieks. To your surprise you only find one young lady in a pool.",
+				"More chillingly this young lady is poking a dead body. She seems to be very thrilled with what she is doing.",
 
 				state.player.corpsePoker ? "You think that you’ve already tried poking a corpse before. Didn’t bring her back to life. You wonder what happened with the fly." : ""
 			};
@@ -1103,11 +1171,13 @@ namespace Game
 				state.player.noemi = true;
 
 				return new string[] {
-					"She jumps slightly and turns around. She does not seem to mind that she has no clothes. There do not seem to be any clothes around the pool either. She gladly agrees to show you the way. Her movements are sharp. She has a distinct aroma surrounding her that for some reason reminds you of nutmeg even though they are nothing alike.",
+					"She jumps slightly and turns around. She does not seem to mind that she has no clothes. There do not seem to be any clothes around the pool either.",
+					"She gladly agrees to show you the way. Her movements are sharp. She has a distinct aroma surrounding her that for some reason reminds you of nutmeg even though they are nothing alike.",
 
 					state.player.hut ? "Hmm… I think you have already met my godfather. He has a long white beard. He told me good things about you." : "",
 
-					"She says that her name is Noemi. She murmurs about some ancient technology that allows you to give eternal love and for some unexpected reason gives you a lecture on the anatomy of the heart. You feel enlightened but also relieved to hit the road again."
+					"She says that her name is Noemi. She murmurs about some ancient technology that allows you to give eternal love and for some unexpected reason gives you a lecture on the anatomy of the heart.",
+					"You feel enlightened but also relieved to hit the road again."
 				};
 			};
 
@@ -1116,11 +1186,13 @@ namespace Game
 				state.player.noemi = true;
 
 				return new string[] {
-					"You turn around and try to walk away without making a noise. Then you feel a light tap on your shoulder. A little spooked out you tell the naked, corpse-poking lady about your journey. She gladly agrees to show you the way. Her movements are sharp. She has a distinct aroma surrounding her that for some reason reminds you of nutmeg even though they smell nothing alike.",
+					"You turn around and try to walk away without making a noise. Then you feel a light tap on your shoulder. A little spooked out you tell the naked, corpse-poking lady about your journey.",
+					"She gladly agrees to show you the way. Her movements are sharp. She has a distinct aroma surrounding her that for some reason reminds you of nutmeg even though they smell nothing alike.",
 
 					state.player.hut ? "Hmm… I think you have already met my godfather. He has a long white beard. He told me good things about you." : "",
 
-					"She tells that her name is Noemi. She murmurs about some ancient technology that allows you to give eternal love and for some unexpected reason gives you a lecture on the anatomy of the heart. You feel enlightened but also relieved to hit the road again."
+					"She tells that her name is Noemi. She murmurs about some ancient technology that allows you to give eternal love and for some unexpected reason gives you a lecture on the anatomy of the heart.",
+					"You feel enlightened but also relieved to hit the road again."
 				};
 			};
 
@@ -1162,11 +1234,19 @@ namespace Game
 			if (state.player.peaceOfMind) {
 				options.yes.resolve = delegate() {
 					return new string[] {
-						"You step out of the protective shadows onto the soft grass. The lady sitting on the stone keeps singing even though she definitely noticed you. Walking closer you feel a choking sensation. Then she stops singing. You gasp for air. She starts speaking with a beautiful voice that reminds you of birds singing:",
+						"You step out of the protective shadows onto the soft grass. The lady sitting on the stone keeps singing even though she definitely noticed you.",
 
-						"\"I am happy to see you again traveler. Last time we didn’t talk, I was overwhelmed with my grief. Your compassion made me understand that I have been in this world for too long. You see, I am an eternal being. A spirit if you wish. I have many faces, you saw one of mine under the tree sobbing.\"",
+						"Walking closer you feel a choking sensation. Then she stops singing. You gasp for air. She starts speaking with a beautiful voice that reminds you of birds singing:",
 
-						"She tells you many things about the forest and the meaning of love. She tells you something about the combination of love and technology. It makes little sense to you but you feel like this infromation is going to be useful some day. She sends you off. You realize that sometimes bad things in life can bring experiences that you otherwise might have missed."
+						"\"I am happy to see you again traveler. Last time we didn’t talk, I was overwhelmed with my grief. Your compassion made me understand that I have been in this world for too long.\"",
+
+						"\"You see, I am an eternal being. A spirit if you wish. I have many faces, you saw one of mine under the tree sobbing.\"",
+
+						"She tells you many things about the forest and the meaning of love. She tells you something about the combination of love and technology.",
+
+						"It makes little sense to you but you feel like this infromation is going to be useful some day. She sends you off.",
+
+						"You realize that sometimes bad things in life can bring experiences that you otherwise might have missed."
 					};
 				};
 			} else {
@@ -1174,7 +1254,9 @@ namespace Game
 					state.die ();
 					return new string[] {
 						"You step out of the protective shadows onto the soft grass. The lady sitting on the stone keeps singing even though she definitely noticed you.",
+						
 						"Walking closer you feel a choking sensation. You want to stop walking but the singing forces you towards her.",
+
 						"You fall next to the other dead bodies. You feel tired."
 					};
 				};
@@ -1209,7 +1291,9 @@ namespace Game
 		public override string[] describe (State state)
 		{
 			return new string[] {
-				"While walking on a street you hear a manly scream. As you keep walking with the crowd you see the man who screamed. He is lying dead on the ground. A beautiful woman standing next to him. Her skin is pale and looks like she doesn’t go outside too often. Nobody seems to care about that the man is bleeding. As you pass her you hear a whisper: \"It was his time\".",
+				"While walking on a street you hear a manly scream. As you keep walking with the crowd you see the man who screamed. He is lying dead on the ground.",
+				"A beautiful woman standing next to him. Her skin is pale and looks like she doesn’t go outside too often.",
+				"Nobody seems to care about that the man is bleeding. As you pass her you hear a whisper: \"It was his time\".",
 
 				state.player.seenDeath ? "It reminds you of the encounter with the Death, your knees start to tremble." : ""
 			};
@@ -1223,8 +1307,13 @@ namespace Game
 				if (state.player.seenDeath) {
 					return new string[] {
 						"She looks through you. \"I’ve seen you before,\" she says after a moment that seemed forever. Her voice rings in your ears.",
+						
 						state.player.jasmine ? "This effect reminds you of Jasmine, but it is more disturbing." : "",
-						"You want to turn your head but then realize it is just an instinct because of the sound echoing inside your head. Gathering yourself you ask about the man who is still on the ground spewing blood everywhere. But then realize your stupidity. It was just his time to die. Sometimes it is time. After a while she grabs your hand and you go sit on top of a roof. Then she sits you down and tells you to shut your mouth before she starts talking. She doesn’t have to do this but for some reason she does so you shut your mouth and listen. She tells you about how different situations in life bring different opportunities. Experiences that first seem to be negative turn out to open doors unexpectedly.She then proceeds to teach you about clocks and their inner workings. She says something peculiar about how clocks are very similar to life and love. But as you don’t understand you can’t remember the wording exactly. She stops speaking. You blink and she is not there anymore."
+						
+						"You want to turn your head but then realize it is just an instinct because of the sound echoing inside your head. Gathering yourself you ask about the man who is still on the ground spewing blood everywhere. But then realize your stupidity. It was just his time to die. Sometimes it is time. After a while she grabs your hand and you go sit on top of a roof.",
+						"She sits you down and tells you to shut your mouth before she starts talking. She doesn’t have to do this but for some reason she does so you shut your mouth and listen. She tells you about how different situations in life bring different opportunities.",
+						"Experiences that first seem to be negative turn out to open doors unexpectedly. She then proceeds to teach you about clocks and their inner workings. She says something peculiar about how clocks are very similar to life and love. But as you don’t understand you can’t remember the wording exactly. She stops speaking.",
+						"You blink and she is not there anymore."
 					};
 				}
 
@@ -1271,7 +1360,10 @@ namespace Game
 		public override string[] describe (State state)
 		{
 			return new string[] {
-				"One moment you are walking, next moment the day turns black. The sun just vanished. The temperature dropped several notches. Some primal part of your mind kicks in and you feel threatened. You try to run but there is no power in your legs. With a silent thump you fall on your knees. A dark figure appears before you. It is hard to tell if he is a fiction of your imagination or really exists. Suddenly you understand. He is Death."
+				"One moment you are walking, next moment the day turns black. The sun just vanished. The temperature dropped several notches. Some primal part of your mind kicks in and you feel threatened.",
+				"You try to run but there is no power in your legs. With a silent thump you fall on your knees. A dark figure appears before you.",
+				"It is hard to tell if he is a fiction of your imagination or really exists. Suddenly you understand.",
+				"He is Death."
 			};
 		}
 
@@ -1302,7 +1394,8 @@ namespace Game
 				options.yes.resolve = delegate() {
 					state.player.seenDeath = true;
 					return new string[] {
-						"Death comes toward you. The world begins to swirl and then stops. You understand that Death admires your bravery. You think \"It’s not your time\" and then realize that it wasn’t your thought.",
+						"Death comes toward you. The world begins to swirl and then stops. You understand that Death admires your bravery.",
+						"You think \"It’s not your time\" and then realize that it wasn’t your thought.",
 						state.player.depression ? "You wish he had took you. He brought comfort to your misery." : ""
 					};
 				};
@@ -1310,7 +1403,8 @@ namespace Game
 				options.no.resolve = delegate() {
 					state.player.seenDeath = true;
 					return new string[] {
-						"Death comes toward you. The world begins to swirl and then stops. You feel deep feeling of disgust. Was it your emotion or not, you don’t know. But does it matter? You think \"It’s not your time\" and then realize that it wasn’t your thought. ",
+						"Death comes toward you. The world begins to swirl and then stops. You feel deep feeling of disgust. Was it your emotion or not, you don’t know. But does it matter?",
+						"You think \"It’s not your time\" and then realize that it wasn’t your thought. ",
 						state.player.depression ? "Why did you even plead you actually wanted to die, didn’t you?" : ""
 					};
 				};
