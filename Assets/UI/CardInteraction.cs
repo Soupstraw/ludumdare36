@@ -56,6 +56,7 @@ public class CardInteraction : MonoBehaviour
 
 
 	private float degreesPerPixel = 1.0f;
+	private float maxCalculatedPos = 0f;
 
 	private bool frontActive = true;
 	private bool asideOnRight = true;
@@ -83,6 +84,7 @@ public class CardInteraction : MonoBehaviour
 	void Start ()
 	{
 		degreesPerPixel = Screen.width * swipeSensitivity;
+		maxCalculatedPos = - maxDeviation * Camera.main.ViewportToWorldPoint(new Vector3(-1, 0, - Camera.main.transform.position.z)).x;
 	}
 
 	void OnEnable ()
@@ -207,17 +209,17 @@ public class CardInteraction : MonoBehaviour
 		if (x * degreesPerPixel > maxRotation) {
 			cardState = CardState.PREFLIP;
 			targetRot = Quaternion.Euler (new Vector3 (0, stableRotation + maxRotation, 0));
-			targetPos = new Vector3 (maxDeviation, 0, 0);
+			targetPos = new Vector3 (maxCalculatedPos, 0, 0);
 		} else if (x * degreesPerPixel < -maxRotation) {
 			cardState = CardState.PREFLIP;
 			targetRot = Quaternion.Euler (new Vector3 (0, stableRotation - maxRotation, 0));
-			targetPos = new Vector3 (-maxDeviation, 0, 0);
+			targetPos = new Vector3 (-maxCalculatedPos, 0, 0);
 		} else {
 			float maxSwipe = maxRotation / degreesPerPixel;
 
 			cardState = CardState.STABLE;
 			targetRot = Quaternion.Euler (new Vector3 (0, stableRotation + x * degreesPerPixel, 0));
-			targetPos = new Vector3 (maxDeviation * x / maxSwipe, 0, 0);
+			targetPos = new Vector3 (maxCalculatedPos * x / maxSwipe, 0, 0);
 		}
 
 		transform.rotation = Quaternion.Lerp (transform.rotation, targetRot, rotationLerpFactor * Time.deltaTime);
@@ -233,10 +235,10 @@ public class CardInteraction : MonoBehaviour
 		Vector3 targetPos;
 		if (asideOnRight) {
 			targetRot = Quaternion.Euler (0, GetStableRotation () + maxRotation, 0);
-			targetPos = new Vector3 (maxDeviation, 0, 0);
+			targetPos = new Vector3 (maxCalculatedPos, 0, 0);
 		} else {
 			targetRot = Quaternion.Euler (0, GetStableRotation () - maxRotation, 0);
-			targetPos = new Vector3 (-maxDeviation, 0, 0);
+			targetPos = new Vector3 (-maxCalculatedPos, 0, 0);
 		}
 
 		transform.parent.position = Vector3.Lerp (transform.parent.position, targetPos, movementLerpFactor * Time.deltaTime);
