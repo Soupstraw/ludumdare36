@@ -783,34 +783,56 @@ namespace Game
 		public override string[] describe (State state)
 		{
 			//TODO: write different text for non-depression
-			return new string[] {
-				"A gentleman carrying a briefcase approaches you.",
-				"\"Are you alright? You seem to be aimlessly looking for a way out of your life.\"",
-				"You don't know what the correct answer is.",
-				"\"I've recently discovered mentions of an old Artifact that gave people back their life. I hadn't much luck, maybe you have more.\"",
-				"The man offers you a dirty looking map having a picture of a rock on it."
-			};
+			if (state.player.depression) {
+				return new string[] {
+					"A gentleman carrying a briefcase approaches you.",
+					"\"Are you alright? You seem to be aimlessly looking for a way out of your life.\"",
+					"You don't know what the correct answer is.",
+					"\"Decades ago I found mentions of an old Artifact that gave people a reason to live. I hadn't much luck, maybe you have more.\"",
+					"The man offers you a dirty looking map having a picture of a rock on it. There is probably multiple rocks in the world, you understand why he has had some difficulty."
+				};
+			} else {
+				return new string[] {
+				"A gentleman carrying a briefcase approaches you. He offers to have a word with you nearby." }
+			
+			}
 		}
 
 		public override Options options (State state)
 		{
 			Options options = new Options ();
-			options.yes.title = "Take map";
-			options.yes.resolve = delegate() {
-				state.player.map = true;
 
-				return new string[] {
-					"You take the map. The gentleman continues his walk."
+			if (state.player.depression) {
+				options.yes.title = "Take map";
+				options.yes.resolve = delegate() {
+					state.player.map = true;
+
+					return new string[] {
+						"You take the map. The gentleman continues his walk."
+					};
 				};
-			};
 
-			options.no.title = "Leave";
-			options.no.resolve = delegate() {
-				return new string[] {
-					"You take offence what the man said and simply leave."
+				options.no.title = "Leave";
+				options.no.resolve = delegate() {
+					return new string[] {
+						"You take offence by what the man said and simply leave. You have a reason to live already!"
+					};
 				};
-			};
+			} else {
+				options.yes.title = "Accept his offer";
+				options.yes.resolve = delegate() {
+					return new string[] {
+						"He tells about how much he has learned in his life by his suffering. Does suffering in life really bring you knowledge, you wonder."
+					};
+				};
 
+				options.no.title = "Leave";
+				options.no.resolve = delegate() {
+					return new string[] {
+						"You don't care much about what he has to say, you continue your path."
+					};
+			
+			}
 			return options;
 		}
 	}
