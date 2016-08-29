@@ -4,9 +4,11 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [RequireComponent (typeof(EventTrigger))]
-public class FadingPanel : MonoBehaviour {
+public class FadingPanel : MonoBehaviour
+{
 
 	public delegate void DialogAction ();
+
 	public static event DialogAction OnDialogDismissed;
 
 	public Text target;
@@ -16,57 +18,64 @@ public class FadingPanel : MonoBehaviour {
 	private bool dragging = false;
 	private bool visible = false;
 
-	void Start () {
+	void Start ()
+	{
 		ChangeAlpha (0f);
 
 		EventTrigger trigger = GetComponent<EventTrigger> ();
 
 		EventTrigger.Entry pointerDrag = new EventTrigger.Entry ();
 		pointerDrag.eventID = EventTriggerType.Drag;
-		pointerDrag.callback.AddListener ((data) => OnPointerDrag((PointerEventData) data));
+		pointerDrag.callback.AddListener ((data) => OnPointerDrag ((PointerEventData)data));
 		trigger.triggers.Add (pointerDrag);
 
 		EventTrigger.Entry pointerRelease = new EventTrigger.Entry ();
 		pointerRelease.eventID = EventTriggerType.EndDrag;
-		pointerRelease.callback.AddListener ((data) => OnPointerRelease((PointerEventData) data));
+		pointerRelease.callback.AddListener ((data) => OnPointerRelease ((PointerEventData)data));
 		trigger.triggers.Add (pointerRelease);
 	}
 
-	void OnEnable(){
+	void OnEnable ()
+	{
 		CardInteraction.OnCardPushedAside += FadeIn;
 	}
 
-	void OnDisable(){
+	void OnDisable ()
+	{
 		CardInteraction.OnCardPushedAside -= FadeIn;
 	}
 
-	public void FadeIn(){
+	public void FadeIn ()
+	{
 		visible = true;
 	}
 
-	void Update(){
+	void Update ()
+	{
 		if (!dragging && visible) {
-			ChangeAlpha (Mathf.Lerp(target.color.a, 1, stabilizeLerpFactor));
+			ChangeAlpha (Mathf.Lerp (target.color.a, 1, stabilizeLerpFactor));
 		}
 
 		if (Input.GetButtonDown ("Jump") && Debug.isDebugBuild) {
 			ChangeAlpha (0);
 			visible = false;
-			if(OnDialogDismissed != null){
+			if (OnDialogDismissed != null) {
 				OnDialogDismissed ();
 			}
 		}
 	}
 
-	public void OnPointerDrag(PointerEventData ev){
-		Debug.Log ("Dragging");
+	public void OnPointerDrag (PointerEventData ev)
+	{
+		// Debug.Log ("Dragging");
 		if (visible) {
 			dragging = true;
 			ChangeAlpha (Mathf.Clamp01 (1 - Vector2.Distance (ev.pressPosition, ev.position) / Screen.width * sensitivity));
 		}
 	}
 
-	public void OnPointerRelease(PointerEventData ev){
+	public void OnPointerRelease (PointerEventData ev)
+	{
 		if (visible) {
 			if (Vector2.Distance (ev.pressPosition, ev.position) >= Screen.width / sensitivity) {
 				visible = false;
@@ -78,8 +87,9 @@ public class FadingPanel : MonoBehaviour {
 		}
 	}
 
-	private void ChangeAlpha(float alpha){
+	private void ChangeAlpha (float alpha)
+	{
 		Color c = target.color;
-		target.color = new Color(c.r, c.g, c.b, alpha);
+		target.color = new Color (c.r, c.g, c.b, alpha);
 	}
 }
