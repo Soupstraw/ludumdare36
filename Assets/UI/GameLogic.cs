@@ -2,45 +2,50 @@
 using System.Collections;
 using Game;
 
-public class GameLogic : MonoBehaviour {
+public class GameLogic : MonoBehaviour
+{
 
 	public UnityEngine.UI.Text descriptionText;
 	public UnityEngine.UI.Text resultText;
 	public UnityEngine.UI.Text choiceYesText;
 	public UnityEngine.UI.Text choiceNoText;
 
-	private string[] resultStrings;
+	private Card.Choice result;
 
 	private Game.State state;
 
-	void Start(){
+	void Start ()
+	{
 		state = new Game.State ();
 		state.setup ();
 		UpdateTexts ();
 	}
 
-	void OnEnable(){
+	void OnEnable ()
+	{
 		CardInteraction.OnChoice += Choose;
 		FadingPanel.OnDialogDismissed += UpdateTexts;
 	}
 
-	void OnDisable(){
+	void OnDisable ()
+	{
 		CardInteraction.OnChoice -= Choose;
 		FadingPanel.OnDialogDismissed -= UpdateTexts;
 	}
 
-	public void Choose(int choice){
+	public void Choose (int choice)
+	{
 		if (choice == 0) {
-			resultStrings = state.currentOptions.yes.resolve();
-			state.yes ();
+			result = state.yes ();
 		} else {
-			resultStrings = state.currentOptions.no.resolve();
-			state.no ();
+			result = state.no ();
 		}
-		resultText.text = resultStrings [0];
+
+		resultText.text = result.description;
 	}
 
-	public void UpdateTexts(){
+	public void UpdateTexts ()
+	{
 		descriptionText.text = state.currentDescription;
 
 		choiceNoText.text = state.currentOptions.no.title;
