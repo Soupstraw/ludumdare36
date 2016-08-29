@@ -311,7 +311,7 @@ namespace Game
 		public static string[] TownWalk = new string[] {
 			"You start walking towards the town.",
 			"You decide to try your luck in the town.",
-			"You take your first steps and wonder what will lye ahead.",
+			"You take your first steps and wonder what will lays ahead.",
 		};
 		
 		public static string[] SwampSign = new string[] {
