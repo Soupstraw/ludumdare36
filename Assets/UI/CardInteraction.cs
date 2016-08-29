@@ -83,7 +83,6 @@ public class CardInteraction : MonoBehaviour
 	void Start ()
 	{
 		degreesPerPixel = Screen.width * swipeSensitivity;
-		StartCoroutine (DescDelayCoroutine ());
 	}
 
 	void OnEnable ()
@@ -249,7 +248,6 @@ public class CardInteraction : MonoBehaviour
 		buttonHeld = false;
 		frontActive = !frontActive;
 		cardState = CardState.DESC_DELAY;
-		StartCoroutine (DescDelayCoroutine ());
 	}
 
 	private void StabilizeDesc ()
