@@ -59,6 +59,7 @@ public class FadingPanel : MonoBehaviour {
 	}
 
 	public void OnPointerDrag(PointerEventData ev){
+		Debug.Log ("Dragging");
 		if (visible) {
 			dragging = true;
 			ChangeAlpha (Mathf.Clamp01 (1 - Vector2.Distance (ev.pressPosition, ev.position) / Screen.width * sensitivity));
