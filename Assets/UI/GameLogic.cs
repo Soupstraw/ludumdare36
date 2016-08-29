@@ -13,18 +13,18 @@ public class GameLogic : MonoBehaviour
 	public UnityEngine.Material front;
 	public UnityEngine.Material back;
 
-	public string deathDescription = "You are dead";
-	public string deathOptionYes = "Try again";
-	public string deathOptionNo = "Quit";
-	public string deathResult = "You chose to try again";
+	public SoundManager soundmanager;
 
 	private Card.Choice result;
 
 	private Game.State state;
+	private string lastEnvironment;
 
 	void Start ()
 	{
-		SetupNewGame ();
+		state = new Game.State ();
+		state.setup ();
+		UpdateTexts ();
 	}
 
 	void OnEnable ()
@@ -84,6 +84,21 @@ public class GameLogic : MonoBehaviour
 			Texture cardface = FindByName (state.currentCard.image);
 			front.mainTexture = cardface;
 			back.mainTexture = cardface;
+
+			if (state.currentCard.environment != lastEnvironment) {
+				switch (state.currentCard.environment) {
+
+				case "Forest":
+					soundmanager.ChangeAmbient (SoundManager.ambientSoundInfo.Forest);
+					break;
+				case "Swamp":
+					soundmanager.ChangeAmbient (SoundManager.ambientSoundInfo.Swamp);
+					break;
+				case "Town":
+					soundmanager.ChangeAmbient (SoundManager.ambientSoundInfo.Town);
+					break;
+				}
+			}
 		}
 
 		descriptionText.text = state.currentDescription;
@@ -106,6 +121,5 @@ public class GameLogic : MonoBehaviour
 
 	[Header ("Cards")]
 	public UnityEngine.Texture Empty;
-	public UnityEngine.Texture Death;
 	public UnityEngine.Texture[] Cards;
 }
