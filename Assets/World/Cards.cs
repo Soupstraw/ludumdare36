@@ -311,7 +311,7 @@ namespace Game
 		public static string[] TownWalk = new string[] {
 			"You start walking towards the town.",
 			"You decide to try your luck in the town.",
-			"You take your first steps and wonder what will lye ahead.",
+			"You take your first steps and wonder what will lays ahead.",
 		};
 		
 		public static string[] SwampSign = new string[] {
@@ -1261,7 +1261,7 @@ namespace Game
 
 				state.player.peaceOfMind || state.player.ghostlyLady ? "Walking closer, you can make out some of this ancient language she is singing in. Reminds you of a children’s story you’ve heard somewhere." : "",
 
-				"You reach the edge of a glade. In the center there is a lady singing on top of a rock. Around her there is a circle of dead bodies. She doesn’t seem to bother [care?]. Her eyes seem to be cried out.",
+				"You reach the edge of a glade. In the center there is a lady singing on top of a rock. Around her there is a circle of dead bodies. She doesn’t seem to care. Her eyes seem to be cried out.",
 
 				state.player.corpsePoker ? "Interestingly enough one of the bodies looks familiar. It is still not alive. There is a fly sitting on top of it." : ""
 			};
