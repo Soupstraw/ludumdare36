@@ -33,10 +33,14 @@ namespace Game
 	{
 		public static string Sanitize (string[] lines)
 		{
+			List<string> result = new List<string> ();
 			for (int i = 0; i < lines.Length; i++) {
-				lines [i] = lines [i].Trim ();
+				string trimmed = lines [i].Trim ();
+				if (trimmed.Length > 0) {
+					result.Add (trimmed);
+				}
 			}
-			return String.Join ("\n\n", lines);
+			return String.Join ("\n\n", result.ToArray ());
 		}
 	}
 }

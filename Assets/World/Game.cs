@@ -64,6 +64,7 @@ namespace Game
 		public bool jasmine = false;
 		public bool dianne = false;
 		public bool noemi = false;
+		public bool seenDeath = false;
 
 		public bool deliriousVisions = false;
 		public bool peaceOfMind = false;

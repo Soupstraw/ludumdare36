@@ -29,7 +29,6 @@ namespace Game
 		public Noemi Noemi = new Noemi ();
 		public Jasmine Jasmine = new Jasmine ();
 		public Dianne Dianne = new Dianne ();
-
 		public LiteralDeath LiteralDeath = new LiteralDeath ();
 
 		public List<Card> AllEncounters ()
@@ -38,6 +37,7 @@ namespace Game
 				GhostlyLady, Hut, Frog, Corpse, MysteriousRock, Wagon, SickMan,
 				ForkSwampForest, ForkSwampTown, ForkTownForest,
 				Noemi, Jasmine, Dianne,
+				DeliriousVisions,
 				LiteralDeath
 			};
 		}
