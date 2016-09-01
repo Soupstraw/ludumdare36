@@ -21,7 +21,7 @@ public class GameController : MonoBehaviour
 			} else if (cardAnimator.state == CardAnimator.State.Image) {
 				cardAnimator.SetTargetState (CardAnimator.State.Description);
 			} else if (cardAnimator.state == CardAnimator.State.Description) {
-				//cardAnimator.SetTargetState (CardAnimator.State.Yes);
+				cardAnimator.SetTargetState (CardAnimator.State.Yes);
 			}
 		}
 	}
