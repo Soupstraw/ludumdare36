@@ -4,12 +4,34 @@ using System.Collections;
 
 public class GameController : MonoBehaviour
 {
+	public UnityEngine.UI.Text StoryDescription;
+	public UnityEngine.UI.Text YesTitle;
+	public UnityEngine.UI.Text YesDescription;
+	public UnityEngine.UI.Text NoTitle;
+	public UnityEngine.UI.Text NoDescription;
+
+	public UnityEngine.Material StoryFaceMaterial;
+
 	private CardAnimator cardAnimator;
+
+	private Game.State state;
+	private Game.Card.Choice result;
 
 	// Use this for initialization
 	void Start ()
 	{
 		cardAnimator = GetComponent<CardAnimator> ();
+
+		SetupNewGame ();
+	}
+
+	void SetupNewGame ()
+	{
+		state = new Game.State ();
+		state.setup ();
+
+		UpdateStory ();
+		UpdateOptionTitles ();
 	}
 
 	// Update is called once per frame
@@ -36,7 +58,7 @@ public class GameController : MonoBehaviour
 		RaycastHit hit;
 
 		if (Physics.Raycast (ray, out hit)) {
-			// there must be a clearer way to implement this??
+			// there must be a clearer way to implement null checks in C#???
 			if (hit.collider == null) {
 				return;
 			}
@@ -56,6 +78,7 @@ public class GameController : MonoBehaviour
 			if (target == cardAnimator.StoryCard) {
 				if (cardAnimator.state == CardAnimator.State.Image) {
 					cardAnimator.SetTargetState (CardAnimator.State.Description);
+					UpdateOptionTitles ();
 				} else if (cardAnimator.state == CardAnimator.State.Description) {
 					cardAnimator.SetTargetState (CardAnimator.State.Image);
 				}
@@ -63,19 +86,51 @@ public class GameController : MonoBehaviour
 
 			if (target == cardAnimator.YesCard) {
 				if (cardAnimator.state == CardAnimator.State.Description) {
+					ChooseYes ();
+
 					cardAnimator.SetTargetState (CardAnimator.State.Yes);
 				} else if (cardAnimator.state == CardAnimator.State.Yes) {
+					UpdateStory ();
+
 					cardAnimator.SetTargetState (CardAnimator.State.Image);
 				}
 			}
 
 			if (target == cardAnimator.NoCard) {
 				if (cardAnimator.state == CardAnimator.State.Description) {
+					ChooseNo ();
+
 					cardAnimator.SetTargetState (CardAnimator.State.No);
 				} else if (cardAnimator.state == CardAnimator.State.No) {
+					UpdateStory ();
+
 					cardAnimator.SetTargetState (CardAnimator.State.Image);
 				}
 			}
 		}
+	}
+
+	void ChooseYes ()
+	{
+		result = state.yes ();
+		YesDescription.text = result.description;
+	}
+
+	void ChooseNo ()
+	{
+		result = state.no ();
+		NoDescription.text = result.description;
+	}
+
+	void UpdateStory ()
+	{
+		// TODO: update texture
+		StoryDescription.text = state.currentDescription;
+	}
+
+	void UpdateOptionTitles ()
+	{
+		YesTitle.text = state.currentOptions.yes.title;
+		NoTitle.text = state.currentOptions.no.title;
 	}
 }

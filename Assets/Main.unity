@@ -90,6 +90,12 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &178184422 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114000010542502266, guid: 07588e397aea2e04b81bb656bd9fb5fd,
+    type: 2}
+  m_PrefabInternal: {fileID: 244098267}
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1001 &244098267
 Prefab:
   m_ObjectHideFlags: 0
@@ -247,6 +253,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4c575bbaf4003f4d8c281b98820550c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StoryDescription: {fileID: 1153449328}
+  YesTitle: {fileID: 1198487365}
+  YesDescription: {fileID: 1408445275}
+  NoTitle: {fileID: 178184422}
+  NoDescription: {fileID: 922176536}
+  StoryFaceMaterial: {fileID: 2100000, guid: 3f0bd05d50c3478458a5893d0873c78a, type: 2}
 --- !u!4 &327990611
 Transform:
   m_ObjectHideFlags: 0
@@ -453,6 +465,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
+--- !u!114 &922176536 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114000013194360860, guid: 07588e397aea2e04b81bb656bd9fb5fd,
+    type: 2}
+  m_PrefabInternal: {fileID: 244098267}
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1001 &1153063571
 Prefab:
   m_ObjectHideFlags: 0
@@ -562,6 +580,18 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d61bde161552ac347b7c6da6c9bf7044, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1153449328 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114000010021878388, guid: d61bde161552ac347b7c6da6c9bf7044,
+    type: 2}
+  m_PrefabInternal: {fileID: 1153063571}
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+--- !u!114 &1198487365 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114000010542502266, guid: 07588e397aea2e04b81bb656bd9fb5fd,
+    type: 2}
+  m_PrefabInternal: {fileID: 1506132820}
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1 &1282282845
 GameObject:
   m_ObjectHideFlags: 0
@@ -649,6 +679,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &1408445275 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114000013194360860, guid: 07588e397aea2e04b81bb656bd9fb5fd,
+    type: 2}
+  m_PrefabInternal: {fileID: 1506132820}
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1 &1451182797
 GameObject:
   m_ObjectHideFlags: 0
