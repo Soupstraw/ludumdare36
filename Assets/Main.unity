@@ -151,7 +151,7 @@ Prefab:
     - target: {fileID: 224000013044036832, guid: 07588e397aea2e04b81bb656bd9fb5fd,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -2.5
+      value: -2.6
       objectReference: {fileID: 0}
     - target: {fileID: 224000013044036832, guid: 07588e397aea2e04b81bb656bd9fb5fd,
         type: 2}
@@ -328,6 +328,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 0
   animationDuration: 1
+  animationStabilization: 0.1
 --- !u!1 &338269349
 GameObject:
   m_ObjectHideFlags: 0
@@ -831,7 +832,7 @@ Prefab:
     - target: {fileID: 224000013044036832, guid: 07588e397aea2e04b81bb656bd9fb5fd,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -2.5
+      value: -2.6
       objectReference: {fileID: 0}
     - target: {fileID: 224000013044036832, guid: 07588e397aea2e04b81bb656bd9fb5fd,
         type: 2}

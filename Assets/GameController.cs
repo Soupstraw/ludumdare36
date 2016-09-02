@@ -51,8 +51,8 @@ public class GameController : MonoBehaviour
 			return;
 		}
 
-		bool trigger = Input.GetButtonDown ("Fire1");
-		if (!trigger) {
+		// handle click
+		if (!Input.GetButtonUp ("Fire1")) {
 			return;
 		}
 
