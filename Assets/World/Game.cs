@@ -8,7 +8,7 @@ namespace Game
 	{
 		public string title = "";
 		public string image = "";
-		public string environment = "";
+		public Environment environment = Environment.Any;
 		public int encounters = 0;
 
 		// applicable checks whether the card should be shown
@@ -45,6 +45,14 @@ namespace Game
 			public Option option;
 			public string selected;
 			public string description;
+		}
+
+		public enum Environment
+		{
+			Any,
+			Forest,
+			Swamp,
+			Town
 		}
 	}
 
@@ -99,8 +107,8 @@ namespace Game
 				deck.Add (Rand.Pick (encounters));
 			}
 
-			deck [deck.Count/2] = world.Ageing;
-			deck [deck.Count-1] = world.LiteralDeath;
+			deck [deck.Count - 5] = world.Ageing;
+			deck [deck.Count - 1] = world.LiteralDeath;
 
 			updateCurrentCard (world.Journey);
 		}
