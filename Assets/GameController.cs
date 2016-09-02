@@ -4,13 +4,17 @@ using System.Collections;
 
 public class GameController : MonoBehaviour
 {
+	public UnityEngine.UI.Text StoryTitle;
 	public UnityEngine.UI.Text StoryDescription;
-	public UnityEngine.UI.Text YesTitle;
-	public UnityEngine.UI.Text YesDescription;
-	public UnityEngine.UI.Text NoTitle;
-	public UnityEngine.UI.Text NoDescription;
 
 	public UnityEngine.Material StoryFaceMaterial;
+	public UnityEngine.Texture2D StoryFaceMissing;
+
+	public UnityEngine.UI.Text YesTitle;
+	public UnityEngine.UI.Text YesDescription;
+
+	public UnityEngine.UI.Text NoTitle;
+	public UnityEngine.UI.Text NoDescription;
 
 	private CardAnimator cardAnimator;
 
@@ -126,6 +130,14 @@ public class GameController : MonoBehaviour
 	{
 		// TODO: update texture
 		StoryDescription.text = state.currentDescription;
+
+		String imageName = "Card/" + state.currentCard.image;
+		Texture2D tex = Resources.Load <Texture2D> (imageName);
+		if (tex == null) {
+			StoryFaceMaterial.mainTexture = StoryFaceMissing;
+		} else {
+			StoryFaceMaterial.mainTexture = tex;
+		}
 	}
 
 	void UpdateOptionTitles ()

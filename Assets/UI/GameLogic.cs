@@ -42,7 +42,8 @@ public class GameLogic : MonoBehaviour
 		FadingPanel.OnDialogDismissed -= UpdateTexts;
 	}
 
-	private void SetupNewGame(){
+	private void SetupNewGame ()
+	{
 		state = new Game.State ();
 		state.setup ();
 		UpdateTexts ();

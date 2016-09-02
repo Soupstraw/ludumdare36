@@ -253,12 +253,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4c575bbaf4003f4d8c281b98820550c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StoryTitle: {fileID: 1035171019}
   StoryDescription: {fileID: 1153449328}
+  StoryFaceMaterial: {fileID: 2100000, guid: 3f0bd05d50c3478458a5893d0873c78a, type: 2}
+  StoryFaceMissing: {fileID: 2800000, guid: 26f913ed358ff9943abae9fe64895bc4, type: 3}
   YesTitle: {fileID: 1198487365}
   YesDescription: {fileID: 1408445275}
   NoTitle: {fileID: 178184422}
   NoDescription: {fileID: 922176536}
-  StoryFaceMaterial: {fileID: 2100000, guid: 3f0bd05d50c3478458a5893d0873c78a, type: 2}
 --- !u!4 &327990611
 Transform:
   m_ObjectHideFlags: 0
@@ -471,6 +473,12 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 244098267}
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+--- !u!114 &1035171019 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114000013851793142, guid: d61bde161552ac347b7c6da6c9bf7044,
+    type: 2}
+  m_PrefabInternal: {fileID: 1153063571}
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1001 &1153063571
 Prefab:
   m_ObjectHideFlags: 0
@@ -567,15 +575,6 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000011585181434, guid: d61bde161552ac347b7c6da6c9bf7044, type: 2}
-      propertyPath: m_Name
-      value: Story Card
-      objectReference: {fileID: 0}
-    - target: {fileID: 65000010439663620, guid: d61bde161552ac347b7c6da6c9bf7044,
-        type: 2}
-      propertyPath: m_IsTrigger
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d61bde161552ac347b7c6da6c9bf7044, type: 2}
@@ -743,7 +742,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1451182797}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.3, y: 1.03, z: -1.167}
+  m_LocalPosition: {x: -0.3, y: 0.31, z: -1.167}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
