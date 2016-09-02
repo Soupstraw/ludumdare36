@@ -327,8 +327,8 @@ MonoBehaviour:
       inSlope: 0.5528051
       outSlope: 0.5528051
       tangentMode: 0
-    - time: 0.61971307
-      value: 0.8877606
+    - time: 0.59887975
+      value: 0.74356556
       inSlope: 1.1411309
       outSlope: 1.1411309
       tangentMode: 0
@@ -340,7 +340,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  animationDuration: 1
+  animationDuration: 0.8
   animationStabilization: 0.1
 --- !u!114 &327990613
 MonoBehaviour:
