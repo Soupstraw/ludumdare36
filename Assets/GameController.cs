@@ -136,8 +136,7 @@ public class GameController : MonoBehaviour
 		}
 
 		String imagePath = "Card/" + image;
-		Texture2D tex = Resources.Load <Texture2D> (imagePath);
-
+		Texture2D tex = Resources.Load <Texture2D> ();
 		Renderer renderer = StoryFace.GetComponent<Renderer> ();
 		if (tex == null) {
 			StoryTitle.text = title;
