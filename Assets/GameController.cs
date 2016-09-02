@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
 
 	public CardAnimator cardAnimator;
 	public CardSounds cardSounds;
+	public AmbientSounds ambientSounds;
 
 	private Game.State state;
 	private Game.Card.Choice result;
@@ -27,6 +28,7 @@ public class GameController : MonoBehaviour
 	{
 		cardAnimator = GetComponent<CardAnimator> ();
 		cardSounds = GetComponent<CardSounds> ();
+		ambientSounds = GetComponent<AmbientSounds> ();
 
 		SetupNewGame ();
 		UpdateStory ();
@@ -156,6 +158,8 @@ public class GameController : MonoBehaviour
 			state.currentCard.image,
 			state.currentDescription
 		);
+
+		ambientSounds.ChangeEnvironment (state.currentCard.environment);
 	}
 
 	void UpdateOptionTitles ()

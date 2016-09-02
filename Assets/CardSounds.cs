@@ -6,11 +6,13 @@ public class CardSounds : MonoBehaviour
 	private AudioSource source;
 
 	public AudioClip[] Sounds;
+	[Range (0.0f, 1.0f)] public float volume = 0.5f;
 
 	// Use this for initialization
 	void Start ()
 	{
 		source = gameObject.AddComponent<AudioSource> ();
+		source.volume = volume;
 	}
 
 	private void PlayRandom ()
