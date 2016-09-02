@@ -146,15 +146,19 @@ public class CardAnimator : MonoBehaviour
 		story.targets [(int)State.Option] = (new Position (StoryCard)).RotateY (360);
 		story.targets [(int)State.History] = new Position (EndPosition);
 
-		yes.targets [(int)State.Image] = new Position (EndPosition);
-		yes.targets [(int)State.Description] = (new Position (YesCard));
-		yes.targets [(int)State.Option] = new Position (EndPosition);
-		yes.targets [(int)State.History] = new Position (EndPosition);
+		Position offscreen = new Position (EndPosition);
 
-		no.targets [(int)State.Image] = new Position (EndPosition);
+		offscreen.position.x = YesCard.transform.position.x * 2.0f;
+		yes.targets [(int)State.Image] = new Position (offscreen);
+		yes.targets [(int)State.Description] = (new Position (YesCard));
+		yes.targets [(int)State.Option] = new Position (offscreen);
+		yes.targets [(int)State.History] = new Position (offscreen);
+
+		offscreen.position.x = NoCard.transform.position.x * 2.0f;
+		no.targets [(int)State.Image] = new Position (offscreen);
 		no.targets [(int)State.Description] = (new Position (NoCard));
-		no.targets [(int)State.Option] = new Position (EndPosition);
-		no.targets [(int)State.History] = new Position (EndPosition);
+		no.targets [(int)State.Option] = new Position (offscreen);
+		no.targets [(int)State.History] = new Position (offscreen);
 
 		story.MoveTo (new Position (StartPosition));
 		yes.MoveTo (new Position (EndPosition));
