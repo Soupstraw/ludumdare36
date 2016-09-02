@@ -34,6 +34,8 @@ public class GameController : MonoBehaviour
 
 		SetupNewGame ();
 		UpdateStory ();
+
+		Resources.LoadAll ("");
 	}
 
 	void SetupNewGame ()

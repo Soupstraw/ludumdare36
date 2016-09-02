@@ -99,8 +99,8 @@ public class CardAnimator : MonoBehaviour
 		{
 			card.transform.position = Vector3.Lerp (start.position, stop.position, p);
 			//card.transform.rotation = Quaternion.Slerp (start.rotation, stop.rotation, p);
-			Quaternion target = Quaternion.Slerp (start.rotation * tilt, stop.rotation * tilt, p);
 
+			Quaternion target = Quaternion.Slerp (start.rotation * tilt, stop.rotation * tilt, p);
 			card.transform.rotation = Quaternion.Slerp (card.transform.rotation, target, Mathf.Pow (stabilization, Time.deltaTime));
 		}
 	}
