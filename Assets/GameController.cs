@@ -34,8 +34,6 @@ public class GameController : MonoBehaviour
 
 		SetupNewGame ();
 		UpdateStory ();
-
-		Resources.LoadAll ("");
 	}
 
 	void SetupNewGame ()
@@ -136,7 +134,7 @@ public class GameController : MonoBehaviour
 		}
 
 		String imagePath = "Card/" + image;
-		Texture2D tex = Resources.Load <Texture2D> ();
+		Texture2D tex = Resources.Load <Texture2D> (imagePath);
 		Renderer renderer = StoryFace.GetComponent<Renderer> ();
 		if (tex == null) {
 			StoryTitle.text = title;
