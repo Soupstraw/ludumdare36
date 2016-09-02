@@ -113,8 +113,8 @@ public class CardAnimator : MonoBehaviour
 	{
 		Image,
 		Description,
-		No,
-		Yes
+		Option,
+		History
 	}
 
 	public void SetTargetState (State newState)
@@ -143,18 +143,18 @@ public class CardAnimator : MonoBehaviour
 
 		story.targets [(int)State.Image] = new Position (StoryCard);
 		story.targets [(int)State.Description] = (new Position (StoryCard)).RotateY (180);
-		story.targets [(int)State.No] = new Position (EndPosition).RotateY (180);
-		story.targets [(int)State.Yes] = new Position (EndPosition).RotateY (180);
+		story.targets [(int)State.Option] = (new Position (StoryCard)).RotateY (360);
+		story.targets [(int)State.History] = new Position (EndPosition);
 
 		yes.targets [(int)State.Image] = new Position (EndPosition);
 		yes.targets [(int)State.Description] = (new Position (YesCard));
-		yes.targets [(int)State.No] = new Position (EndPosition);
-		yes.targets [(int)State.Yes] = new Position (StoryCard).RotateY (180);
+		yes.targets [(int)State.Option] = new Position (EndPosition);
+		yes.targets [(int)State.History] = new Position (EndPosition);
 
 		no.targets [(int)State.Image] = new Position (EndPosition);
 		no.targets [(int)State.Description] = (new Position (NoCard));
-		no.targets [(int)State.No] = new Position (StoryCard).RotateY (180);
-		no.targets [(int)State.Yes] = new Position (EndPosition);
+		no.targets [(int)State.Option] = new Position (EndPosition);
+		no.targets [(int)State.History] = new Position (EndPosition);
 
 		story.MoveTo (new Position (StartPosition));
 		yes.MoveTo (new Position (EndPosition));
@@ -174,11 +174,8 @@ public class CardAnimator : MonoBehaviour
 		yes.Update (p, tilt, animationStabilization);
 		no.Update (p, tilt, animationStabilization);
 
-		// do a jump from EndPosition to StartPosition
-		if (animationProgress >= 1.0f) {
-			if (state == State.No || state == State.Yes) {
-				story.MoveTo (new Position (StartPosition));
-			}
+		if (animationProgress >= 1.0f && state == State.History) {
+			story.MoveTo (new Position (StartPosition));
 		}
 	}
 }

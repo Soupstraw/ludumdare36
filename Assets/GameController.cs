@@ -11,10 +11,8 @@ public class GameController : MonoBehaviour
 	public UnityEngine.Texture2D BlankCard;
 
 	public UnityEngine.UI.Text YesTitle;
-	public UnityEngine.UI.Text YesDescription;
-
 	public UnityEngine.UI.Text NoTitle;
-	public UnityEngine.UI.Text NoDescription;
+	public UnityEngine.UI.Text OptionDescription;
 
 	public CardAnimator cardAnimator;
 	public CardSounds cardSounds;
@@ -57,6 +55,13 @@ public class GameController : MonoBehaviour
 			return;
 		}
 
+		if (cardAnimator.state == CardAnimator.State.History) {
+			UpdateStory ();
+			cardSounds.NewStoryCard ();
+			cardAnimator.SetTargetState (CardAnimator.State.Image);
+			return;
+		}
+
 		// handle click
 		if (!Input.GetButtonUp ("Fire1")) {
 			return;
@@ -86,40 +91,28 @@ public class GameController : MonoBehaviour
 			if (target == cardAnimator.StoryCard) {
 				if (cardAnimator.state == CardAnimator.State.Image) {
 					cardAnimator.SetTargetState (CardAnimator.State.Description);
-
 					cardSounds.FlipStoryCard ();
 					UpdateOptionTitles ();
 				} else if (cardAnimator.state == CardAnimator.State.Description) {
 					cardAnimator.SetTargetState (CardAnimator.State.Image);
 					cardSounds.FlipStoryCard ();
+				} else if (cardAnimator.state == CardAnimator.State.Option) {
+					cardSounds.NewStoryCard ();
+					cardAnimator.SetTargetState (CardAnimator.State.History);
 				}
 			}
 
-			if (target == cardAnimator.YesCard) {
+			if (target == cardAnimator.YesCard || target == cardAnimator.NoCard) {
 				if (cardAnimator.state == CardAnimator.State.Description) {
-					ChooseYes ();
+					if (target == cardAnimator.YesCard) {
+						ChooseYes ();
+					}
+					if (target == cardAnimator.NoCard) {
+						ChooseNo ();
+					}
 
 					cardSounds.SelectOption ();
-					cardAnimator.SetTargetState (CardAnimator.State.Yes);
-				} else if (cardAnimator.state == CardAnimator.State.Yes) {
-					UpdateStory ();
-
-					cardSounds.NewStoryCard ();
-					cardAnimator.SetTargetState (CardAnimator.State.Image);
-				}
-			}
-
-			if (target == cardAnimator.NoCard) {
-				if (cardAnimator.state == CardAnimator.State.Description) {
-					ChooseNo ();
-
-					cardSounds.SelectOption ();
-					cardAnimator.SetTargetState (CardAnimator.State.No);
-				} else if (cardAnimator.state == CardAnimator.State.No) {
-					UpdateStory ();
-
-					cardSounds.NewStoryCard ();
-					cardAnimator.SetTargetState (CardAnimator.State.Image);
+					cardAnimator.SetTargetState (CardAnimator.State.Option);
 				}
 			}
 		}
@@ -147,6 +140,10 @@ public class GameController : MonoBehaviour
 
 	void UpdateStory ()
 	{
+		OptionDescription.gameObject.SetActive (false);
+		StoryTitle.gameObject.SetActive (true);
+		StoryFace.gameObject.SetActive (true);
+
 		if (state.deckEmpty ()) {
 			SetStory (
 				"Death",
@@ -182,25 +179,33 @@ public class GameController : MonoBehaviour
 
 	void ChooseYes ()
 	{
+		OptionDescription.gameObject.SetActive (true);
+		StoryTitle.gameObject.SetActive (false);
+		StoryFace.gameObject.SetActive (false);
+
 		if (state.deckEmpty ()) {
-			YesDescription.text = "Maybe this time things will go differently.";
+			OptionDescription.text = "Maybe this time things will go differently.";
 			SetupNewGame ();
 			return;
 		}
 
 		result = state.yes ();
-		YesDescription.text = result.description;
+		OptionDescription.text = result.description;
 	}
 
 	void ChooseNo ()
 	{
+		OptionDescription.gameObject.SetActive (true);
+		StoryTitle.gameObject.SetActive (false);
+		StoryFace.gameObject.SetActive (false);
+
 		if (state.deckEmpty ()) {
-			NoDescription.text = "You can leave all your worries behind now.";
+			OptionDescription.text = "You can leave all your worries behind now.";
 			Application.Quit ();
 			return;
 		}
 
 		result = state.no ();
-		NoDescription.text = result.description;
+		OptionDescription.text = result.description;
 	}
 }
