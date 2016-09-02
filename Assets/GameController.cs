@@ -27,15 +27,13 @@ public class GameController : MonoBehaviour
 		cardAnimator = GetComponent<CardAnimator> ();
 
 		SetupNewGame ();
+		UpdateStory ();
 	}
 
 	void SetupNewGame ()
 	{
 		state = new Game.State ();
 		state.setup ();
-
-		UpdateStory ();
-		UpdateOptionTitles ();
 	}
 
 	// Update is called once per frame
@@ -114,35 +112,78 @@ public class GameController : MonoBehaviour
 		}
 	}
 
+	void SetStory (String title, String image, String description)
+	{
+		StoryDescription.text = description;
+
+		if (image == "") {
+			image = title;
+		}
+
+		String imagePath = "Card/" + image;
+		Texture2D tex = Resources.Load <Texture2D> (imagePath);
+		if (tex == null) {
+			StoryTitle.text = title;
+			StoryFaceMaterial.mainTexture = StoryFaceMissing;
+		} else {
+			StoryTitle.text = "";
+			StoryFaceMaterial.mainTexture = tex;
+		}
+	}
+
+	void UpdateStory ()
+	{
+		if (state.deckEmpty ()) {
+			SetStory (
+				"Death",
+				"Death",
+				"Your journey has come to an end."
+			);
+			return;
+		}
+
+		SetStory (
+			state.currentCard.title,
+			state.currentCard.image,
+			state.currentDescription
+		);
+	}
+
+	void UpdateOptionTitles ()
+	{
+		if (state.deckEmpty ()) {
+			YesTitle.text = "Try again";
+			NoTitle.text = "Quit";
+
+			return;
+		}
+
+		YesTitle.text = state.currentOptions.yes.title;
+		NoTitle.text = state.currentOptions.no.title;
+	}
+
+
 	void ChooseYes ()
 	{
+		if (state.deckEmpty ()) {
+			YesDescription.text = "Maybe this time things will go differently.";
+			SetupNewGame ();
+			return;
+		}
+
 		result = state.yes ();
 		YesDescription.text = result.description;
 	}
 
 	void ChooseNo ()
 	{
+		if (state.deckEmpty ()) {
+			NoDescription.text = "You can leave all your worries behind now.";
+			Application.Quit ();
+			return;
+		}
+
 		result = state.no ();
 		NoDescription.text = result.description;
-	}
-
-	void UpdateStory ()
-	{
-		// TODO: update texture
-		StoryDescription.text = state.currentDescription;
-
-		String imageName = "Card/" + state.currentCard.image;
-		Texture2D tex = Resources.Load <Texture2D> (imageName);
-		if (tex == null) {
-			StoryFaceMaterial.mainTexture = StoryFaceMissing;
-		} else {
-			StoryFaceMaterial.mainTexture = tex;
-		}
-	}
-
-	void UpdateOptionTitles ()
-	{
-		YesTitle.text = state.currentOptions.yes.title;
-		NoTitle.text = state.currentOptions.no.title;
 	}
 }

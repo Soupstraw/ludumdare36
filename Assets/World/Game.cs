@@ -99,8 +99,8 @@ namespace Game
 				deck.Add (Rand.Pick (encounters));
 			}
 
-			deck [deck.Count/2] = world.Ageing;
-			deck [deck.Count-1] = world.LiteralDeath;
+			deck [deck.Count - 5] = world.Ageing;
+			deck [deck.Count - 1] = world.LiteralDeath;
 
 			updateCurrentCard (world.Journey);
 		}
