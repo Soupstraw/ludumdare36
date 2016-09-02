@@ -52,21 +52,25 @@ public class CardAnimator : MonoBehaviour
 		public GameObject card;
 
 		// current animation start/stop positions
-		public Position start;
-		public Position stop;
+		public Position start = new Position ();
+		public Position stop = new Position ();
 
 		// all possible animation targets
 		public Position[] targets;
 
 		public Animation ()
 		{
-			targets = new Position[4];
+			targets = new Position[5];
+			for (int i = 0; i < targets.Length; i++) {
+				targets [i] = new Position ();
+			}
 		}
 
 		public void MoveTo (Position p)
 		{
 			card.transform.position = p.position;
 			card.transform.rotation = p.rotation;
+			Stop ();
 		}
 
 		public void SetTargetState (State state)
@@ -89,10 +93,11 @@ public class CardAnimator : MonoBehaviour
 			card.transform.rotation = stop.rotation;
 		}
 
-		public void Update (float p)
+		public void Update (float p, Quaternion tilt)
 		{
 			card.transform.position = Vector3.Lerp (start.position, stop.position, p);
 			card.transform.rotation = Quaternion.Slerp (start.rotation, stop.rotation, p);
+			// card.transform.rotation = Quaternion.Slerp (start.rotation, stop.rotation * tilt, p);
 		}
 	}
 
@@ -105,7 +110,8 @@ public class CardAnimator : MonoBehaviour
 		Image,
 		Description,
 		No,
-		Yes
+		Yes,
+		Offscreen
 	}
 
 	public void SetTargetState (State newState)
@@ -116,10 +122,14 @@ public class CardAnimator : MonoBehaviour
 		story.SetTargetState (newState);
 		yes.SetTargetState (newState);
 		no.SetTargetState (newState);
+	}
 
-		if (newState == State.Image) {
-			story.start = new Position (StartPosition);
-		}
+	Quaternion tilt = Quaternion.Euler (0, 0, 0);
+
+	// normalized position [-1..1], [-1..1]
+	public void SetTilt (Vector3 position)
+	{
+		tilt = Quaternion.Euler (position.y * 5.0f, position.x * 5.0f, 0);
 	}
 
 	void Start ()
@@ -132,26 +142,26 @@ public class CardAnimator : MonoBehaviour
 		story.targets [(int)State.Description] = (new Position (StoryCard)).RotateY (180);
 		story.targets [(int)State.No] = new Position (EndPosition).RotateY (180);
 		story.targets [(int)State.Yes] = new Position (EndPosition).RotateY (180);
+		//story.targets [(int)State.Offscreen] = new Position (StartPosition).RotateY (180);
 
 		yes.targets [(int)State.Image] = new Position (EndPosition);
 		yes.targets [(int)State.Description] = (new Position (YesCard));
 		yes.targets [(int)State.No] = new Position (EndPosition);
 		yes.targets [(int)State.Yes] = new Position (StoryCard).RotateY (180);
+		//yes.targets [(int)State.Offscreen] = new Position (EndPosition);
 
 		no.targets [(int)State.Image] = new Position (EndPosition);
 		no.targets [(int)State.Description] = (new Position (NoCard));
 		no.targets [(int)State.No] = new Position (StoryCard).RotateY (180);
 		no.targets [(int)State.Yes] = new Position (EndPosition);
+		//no.targets [(int)State.Offscreen] = new Position (EndPosition);
 
 		story.MoveTo (new Position (StartPosition));
 		yes.MoveTo (new Position (EndPosition));
 		no.MoveTo (new Position (EndPosition));
 
-		story.Stop ();
-		yes.Stop ();
-		no.Stop ();
-
-		animationProgress = 1.0f;
+		SetTargetState (State.Image);
+		animationProgress = 0.0f;
 	}
 	
 	// Update is called once per frame
@@ -160,8 +170,15 @@ public class CardAnimator : MonoBehaviour
 		animationProgress += Time.deltaTime / animationDuration;
 		float p = animationCurve.Evaluate (animationProgress);
 
-		story.Update (p);
-		yes.Update (p);
-		no.Update (p);
+		story.Update (p, tilt);
+		yes.Update (p, tilt);
+		no.Update (p, tilt);
+
+		// do a jump from EndPosition to StartPosition
+		if (p > 1.0f) {
+			if (state == State.No || state == State.Yes) {
+				story.MoveTo (new Position (StartPosition));
+			}
+		}
 	}
 }

@@ -55,6 +55,7 @@ GameObject:
   - 224: {fileID: 224000013044036832}
   - 223: {fileID: 223000013166361826}
   - 114: {fileID: 114000012805574616}
+  - 65: {fileID: 65000010023752102}
   m_Layer: 5
   m_Name: Option Card
   m_TagString: Untagged
@@ -196,6 +197,18 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 0
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &65000010023752102
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012080395774}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65000010452118244
 BoxCollider:
   m_ObjectHideFlags: 1

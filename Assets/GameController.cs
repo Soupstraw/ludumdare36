@@ -15,14 +15,67 @@ public class GameController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (!cardAnimator.animating ()) {
-			if (cardAnimator.state == CardAnimator.State.Yes) {
-				cardAnimator.SetTargetState (CardAnimator.State.Image);
-			} else if (cardAnimator.state == CardAnimator.State.Image) {
-				cardAnimator.SetTargetState (CardAnimator.State.Description);
-			} else if (cardAnimator.state == CardAnimator.State.Description) {
-				cardAnimator.SetTargetState (CardAnimator.State.Yes);
+		Vector3 position = Input.mousePosition;
+		Vector3 relative = position;
+		relative.x = 2.0f * (relative.x / Screen.width) - 1f;
+		relative.y = 2.0f * (relative.y / Screen.height) - 1f;
+		relative.Normalize ();
+
+		cardAnimator.SetTilt (relative);
+
+		if (cardAnimator.animating ()) {
+			return;
+		}
+
+		if (cardAnimator.state == CardAnimator.State.Offscreen) {
+			//cardAnimator.SetTargetState (CardAnimator.State.Image);
+		}
+
+		bool trigger = Input.GetButtonDown ("Fire1");
+		if (!trigger) {
+			return;
+		}
+
+		Ray ray = Camera.main.ScreenPointToRay (position);
+		RaycastHit hit;
+		Debug.Log (ray);
+
+		if (Physics.Raycast (ray, out hit)) {
+			GameObject target = hit.collider.gameObject.transform.parent.gameObject;
+			Debug.Log (target);
+			if (target == cardAnimator.StoryCard) {
+				if (cardAnimator.state == CardAnimator.State.Image) {
+					cardAnimator.SetTargetState (CardAnimator.State.Description);
+				} else if (cardAnimator.state == CardAnimator.State.Description) {
+					cardAnimator.SetTargetState (CardAnimator.State.Image);
+				}
+			}
+
+			if (target == cardAnimator.YesCard) {
+				if (cardAnimator.state == CardAnimator.State.Description) {
+					cardAnimator.SetTargetState (CardAnimator.State.Yes);
+				} else if (cardAnimator.state == CardAnimator.State.Yes) {
+					cardAnimator.SetTargetState (CardAnimator.State.Image);
+				}
+			}
+
+			if (target == cardAnimator.NoCard) {
+				if (cardAnimator.state == CardAnimator.State.Description) {
+					cardAnimator.SetTargetState (CardAnimator.State.No);
+				} else if (cardAnimator.state == CardAnimator.State.No) {
+					cardAnimator.SetTargetState (CardAnimator.State.Image);
+				}
 			}
 		}
+
+		/*
+		if (cardAnimator.state == CardAnimator.State.Yes) {
+			cardAnimator.SetTargetState (CardAnimator.State.Image);
+		} else if (cardAnimator.state == CardAnimator.State.Image) {
+			cardAnimator.SetTargetState (CardAnimator.State.Description);
+		} else if (cardAnimator.state == CardAnimator.State.Description) {
+			cardAnimator.SetTargetState (CardAnimator.State.Yes);
+		}
+		*/
 	}
 }
