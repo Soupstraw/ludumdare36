@@ -175,7 +175,7 @@ public class CardAnimator : MonoBehaviour
 		no.Update (p, tilt, animationStabilization);
 
 		// do a jump from EndPosition to StartPosition
-		if (p > 1.0f) {
+		if (animationProgress >= 1.0f) {
 			if (state == State.No || state == State.Yes) {
 				story.MoveTo (new Position (StartPosition));
 			}
