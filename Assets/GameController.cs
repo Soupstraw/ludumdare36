@@ -36,7 +36,22 @@ public class GameController : MonoBehaviour
 		RaycastHit hit;
 
 		if (Physics.Raycast (ray, out hit)) {
+			// there must be a clearer way to implement this??
+			if (hit.collider == null) {
+				return;
+			}
+			if (hit.collider.gameObject == null) {
+				return;
+			}
+			if (hit.collider.gameObject.transform.parent == null) {
+				return;
+			}
+
 			GameObject target = hit.collider.gameObject.transform.parent.gameObject;
+
+			if (target == null) {
+				return;
+			}
 
 			if (target == cardAnimator.StoryCard) {
 				if (cardAnimator.state == CardAnimator.State.Image) {
