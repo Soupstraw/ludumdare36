@@ -250,6 +250,7 @@ GameObject:
   - 4: {fileID: 327990611}
   - 114: {fileID: 327990612}
   - 114: {fileID: 327990610}
+  - 114: {fileID: 327990613}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -276,6 +277,8 @@ MonoBehaviour:
   YesDescription: {fileID: 1408445275}
   NoTitle: {fileID: 178184422}
   NoDescription: {fileID: 922176536}
+  cardAnimator: {fileID: 0}
+  cardSounds: {fileID: 0}
 --- !u!4 &327990611
 Transform:
   m_ObjectHideFlags: 0
@@ -334,6 +337,22 @@ MonoBehaviour:
     m_RotationOrder: 0
   animationDuration: 1
   animationStabilization: 0.1
+--- !u!114 &327990613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 327990609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8bed60faa21cb42949d597b56e8b14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sounds:
+  - {fileID: 8300000, guid: f3a33ddb5872e1e4ab4f8d05c158c129, type: 3}
+  - {fileID: 8300000, guid: 9a843b39e3d0d054b90805aa7882bc38, type: 3}
+  - {fileID: 8300000, guid: a0fac0ec3d1383d43b58846f6b5897a5, type: 3}
+  - {fileID: 8300000, guid: 9cab43ba7edb6ed41b32d317b47b9442, type: 3}
 --- !u!1 &338269349
 GameObject:
   m_ObjectHideFlags: 0

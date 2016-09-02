@@ -8,7 +8,7 @@ namespace Game
 		public Journey ()
 		{
 			title = "Journey";
-			environment = "";
+			environment = Environment.Any;
 			image = "Journey";
 		}
 
@@ -22,7 +22,7 @@ namespace Game
 		{
 			return new string[] {
 				"The world is a harsh place. Everybody has to make decisions.",
-				
+
 				"Some decisions matter, some don’t. Some seem to matter and don’t matter others don’t seem to be relevant but change the course of your life.",
 
 				"Choose your own destiny and maybe you find that there is some purpose in this life.",
@@ -53,7 +53,7 @@ namespace Game
 		public Ageing ()
 		{
 			title = "Ageing";
-			environment = "";
+			environment = Environment.Any;
 			image = "Ageing";
 		}
 
@@ -99,7 +99,7 @@ namespace Game
 		public DeathByAging ()
 		{
 			title = "Death by Ageing";
-			environment = "";
+			environment = Environment.Any;
 			image = "Death";
 		}
 
@@ -143,7 +143,7 @@ namespace Game
 		public GhostlyLady ()
 		{
 			title = "Ghostly Lady";
-			environment = "";
+			environment = Environment.Any;
 			image = "Ghostly Lady";
 		}
 
@@ -227,7 +227,7 @@ namespace Game
 		public DeliriousVisions ()
 		{
 			title = "Delirious Visions";
-			environment = "";
+			environment = Environment.Any;
 			image = "Delirious Visions";
 		}
 
@@ -313,7 +313,7 @@ namespace Game
 			"You decide to try your luck in the town.",
 			"You take your first steps and wonder what will lays ahead.",
 		};
-		
+
 		public static string[] SwampSign = new string[] {
 			"One points towards a swamp, with a gleaming light in the distance.",
 			"It seems to that direction is a swamp. It doesn't look very appealing though."
@@ -329,7 +329,7 @@ namespace Game
 		public ForkSwampForest ()
 		{
 			title = "Fork";
-			environment = "";
+			environment = Environment.Any;
 			image = "Fork";
 		}
 
@@ -354,7 +354,7 @@ namespace Game
 			options.yes.resolve = delegate() {
 				Rand.InsertCards (state.deck, 2, state.world.AllSwamp ());
 				return new string[] {
-					Rand.PickText(Fork.SwampWalk)
+					Rand.PickText (Fork.SwampWalk)
 				};
 			};
 
@@ -363,7 +363,7 @@ namespace Game
 				state.player.creepingTerror = true;
 				Rand.InsertCards (state.deck, 2, state.world.AllForest ());
 				return new string[] {
-					Rand.PickText(Fork.ForestWalk)
+					Rand.PickText (Fork.ForestWalk)
 				};
 			};
 
@@ -376,7 +376,7 @@ namespace Game
 		public ForkSwampTown ()
 		{
 			title = "Fork";
-			environment = "";
+			environment = Environment.Any;
 			image = "Fork";
 		}
 
@@ -401,7 +401,7 @@ namespace Game
 			options.yes.resolve = delegate() {
 				Rand.InsertCards (state.deck, 2, state.world.AllSwamp ());
 				return new string[] {
-					Rand.PickText(Fork.SwampWalk)
+					Rand.PickText (Fork.SwampWalk)
 				};
 			};
 
@@ -409,7 +409,7 @@ namespace Game
 			options.no.resolve = delegate() {
 				Rand.InsertCards (state.deck, 2, state.world.AllTown ());
 				return new string[] {
-					Rand.PickText(Fork.TownWalk)
+					Rand.PickText (Fork.TownWalk)
 				};
 			};
 
@@ -422,7 +422,7 @@ namespace Game
 		public ForkTownForest ()
 		{
 			title = "Fork";
-			environment = "";
+			environment = Environment.Any;
 			image = "Fork";
 		}
 
@@ -446,7 +446,7 @@ namespace Game
 			options.yes.title = "Town";
 			options.yes.resolve = delegate() {
 				return new string[] {
-					Rand.PickText(Fork.TownWalk)
+					Rand.PickText (Fork.TownWalk)
 				};
 			};
 
@@ -454,7 +454,7 @@ namespace Game
 			options.no.resolve = delegate() {
 				state.player.creepingTerror = true;
 				return new string[] {
-					Rand.PickText(Fork.ForestWalk)
+					Rand.PickText (Fork.ForestWalk)
 				};
 			};
 
@@ -467,7 +467,7 @@ namespace Game
 		public Hut ()
 		{
 			title = "Hut";
-			environment = "Swamp";
+			environment = Environment.Swamp;
 			image = "Hut";
 		}
 
@@ -514,7 +514,7 @@ namespace Game
 		public Frog ()
 		{
 			title = "Frog";
-			environment = "Swamp";
+			environment = Environment.Swamp;
 			image = "Frog";
 		}
 
@@ -559,7 +559,7 @@ namespace Game
 		public Sheep ()
 		{
 			title = "Sheep";
-			environment = "Forest";
+			environment = Environment.Forest;
 			image = "Sheep";
 		}
 
@@ -603,7 +603,7 @@ namespace Game
 		public Wagon ()
 		{
 			title = "Wagon";
-			environment = "Forest";
+			environment = Environment.Forest;
 			image = "Wagon";
 		}
 
@@ -636,7 +636,7 @@ namespace Game
 				encounters += 10;
 
 				state.player.creepingTerror = false;
-				while (state.deck.Count > 0 && state.deck [0].environment == "Forest") {
+				while (state.deck.Count > 0 && state.deck [0].environment == Environment.Forest) {
 					state.deck.RemoveAt (0);
 				}
 
@@ -669,7 +669,7 @@ namespace Game
 		public SickMan ()
 		{
 			title = "Sick Man";
-			environment = "Town";
+			environment = Environment.Town;
 			image = "Sick Man";
 		}
 
@@ -727,7 +727,7 @@ namespace Game
 		public Shivers ()
 		{
 			title = "Shivers";
-			environment = "";
+			environment = Environment.Any;
 			image = "Shivers";
 		}
 
@@ -776,7 +776,7 @@ namespace Game
 		public CoughingBlood ()
 		{
 			title = "Blood Cough";
-			environment = "";
+			environment = Environment.Any;
 			image = "Blood Cough";
 		}
 
@@ -820,7 +820,7 @@ namespace Game
 		public DeathByFlu ()
 		{
 			title = "DeathByFlu";
-			environment = "";
+			environment = Environment.Any;
 			image = "Death";
 		}
 
@@ -833,7 +833,7 @@ namespace Game
 		{
 			return new string[] {
 				"The strength as left your body and you fall to the ground, seeing some people passing by.",
-				
+
 				"You ask for help, but no-one is willing to risk the same fate as you.",
 
 				"The world slowly fades away."
@@ -868,7 +868,7 @@ namespace Game
 		public Archeologist ()
 		{
 			title = "Archeologist";
-			environment = "Town";
+			environment = Environment.Town;
 			image = "Archeologist";
 		}
 
@@ -928,7 +928,7 @@ namespace Game
 					return new string[] {
 						"You don't care much about what he has to say, you continue your path."
 					};
-			
+
 				};
 			}
 
@@ -941,7 +941,7 @@ namespace Game
 		public Corpse ()
 		{
 			title = "Corpse";
-			environment = "";
+			environment = Environment.Any;
 			image = "Corpse";
 		}
 
@@ -984,7 +984,7 @@ namespace Game
 		public MysteriousRock ()
 		{
 			title = "Mysterious Rock";
-			environment = "";
+			environment = Environment.Any;
 			image = "Mysterious Rock";
 		}
 
@@ -1078,7 +1078,7 @@ namespace Game
 		public BrokenClockwork ()
 		{
 			title = "Broken Clockwork";
-			environment = "";
+			environment = Environment.Any;
 			image = "Broken Clockwork";
 		}
 
@@ -1110,7 +1110,7 @@ namespace Game
 			if (state.player.stickyBoots) {
 				options.yes.resolve = delegate() {
 					state.deck.Insert (0, state.world.Clockwork);
-					
+
 					return new string[] {
 						"You are able to fit the pieces together and the wheels inside the device start turning.",
 						"A slight glow starts to eminate from the device."
@@ -1135,7 +1135,7 @@ namespace Game
 		public Clockwork ()
 		{
 			title = "Clockwork";
-			environment = "";
+			environment = Environment.Any;
 			image = "Clockwork";
 		}
 
@@ -1183,7 +1183,7 @@ namespace Game
 		public Noemi ()
 		{
 			title = "Girl";
-			environment = "Swamp";
+			environment = Environment.Swamp;
 			image = "Noemi";
 		}
 
@@ -1245,7 +1245,7 @@ namespace Game
 		public Jasmine ()
 		{
 			title = "Girl";
-			environment = "Forest";
+			environment = Environment.Forest;
 			image = "Jasmine";
 		}
 
@@ -1294,7 +1294,7 @@ namespace Game
 					state.die ();
 					return new string[] {
 						"You step out of the protective shadows onto the soft grass. The lady sitting on the stone keeps singing even though she definitely noticed you.",
-						
+
 						"Walking closer you feel a choking sensation. You want to stop walking but the singing forces you towards her.",
 
 						"You fall next to the other dead bodies. You feel tired."
@@ -1319,7 +1319,7 @@ namespace Game
 		public Dianne ()
 		{
 			title = "Girl";
-			environment = "Town";
+			environment = Environment.Town;
 			image = "Dianne";
 		}
 
@@ -1347,9 +1347,9 @@ namespace Game
 				if (state.player.seenDeath) {
 					return new string[] {
 						"She looks through you. \"I’ve seen you before,\" she says after a moment that seemed forever. Her voice rings in your ears.",
-						
+
 						state.player.jasmine ? "This effect reminds you of Jasmine, but it is more disturbing." : "",
-						
+
 						"You want to turn your head but then realize it is just an instinct because of the sound echoing inside your head. Gathering yourself you ask about the man who is still on the ground spewing blood everywhere. But then realize your stupidity. It was just his time to die. Sometimes it is time. After a while she grabs your hand and you go sit on top of a roof.",
 						"She sits you down and tells you to shut your mouth before she starts talking. She doesn’t have to do this but for some reason she does so you shut your mouth and listen. She tells you about how different situations in life bring different opportunities.",
 						"Experiences that first seem to be negative turn out to open doors unexpectedly. She then proceeds to teach you about clocks and their inner workings. She says something peculiar about how clocks are very similar to life and love. But as you don’t understand you can’t remember the wording exactly. She stops speaking.",
@@ -1388,7 +1388,7 @@ namespace Game
 		public LiteralDeath ()
 		{
 			title = "Literal Death";
-			environment = "";
+			environment = Environment.Any;
 			image = "Literal Death";
 		}
 

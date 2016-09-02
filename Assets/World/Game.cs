@@ -8,7 +8,7 @@ namespace Game
 	{
 		public string title = "";
 		public string image = "";
-		public string environment = "";
+		public Environment environment = Environment.Any;
 		public int encounters = 0;
 
 		// applicable checks whether the card should be shown
@@ -45,6 +45,14 @@ namespace Game
 			public Option option;
 			public string selected;
 			public string description;
+		}
+
+		public enum Environment
+		{
+			Any,
+			Forest,
+			Swamp,
+			Town
 		}
 	}
 

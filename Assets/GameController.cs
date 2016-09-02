@@ -16,7 +16,8 @@ public class GameController : MonoBehaviour
 	public UnityEngine.UI.Text NoTitle;
 	public UnityEngine.UI.Text NoDescription;
 
-	private CardAnimator cardAnimator;
+	public CardAnimator cardAnimator;
+	public CardSounds cardSounds;
 
 	private Game.State state;
 	private Game.Card.Choice result;
@@ -25,6 +26,7 @@ public class GameController : MonoBehaviour
 	void Start ()
 	{
 		cardAnimator = GetComponent<CardAnimator> ();
+		cardSounds = GetComponent<CardSounds> ();
 
 		SetupNewGame ();
 		UpdateStory ();
@@ -80,9 +82,12 @@ public class GameController : MonoBehaviour
 			if (target == cardAnimator.StoryCard) {
 				if (cardAnimator.state == CardAnimator.State.Image) {
 					cardAnimator.SetTargetState (CardAnimator.State.Description);
+
+					cardSounds.FlipStoryCard ();
 					UpdateOptionTitles ();
 				} else if (cardAnimator.state == CardAnimator.State.Description) {
 					cardAnimator.SetTargetState (CardAnimator.State.Image);
+					cardSounds.FlipStoryCard ();
 				}
 			}
 
@@ -90,10 +95,12 @@ public class GameController : MonoBehaviour
 				if (cardAnimator.state == CardAnimator.State.Description) {
 					ChooseYes ();
 
+					cardSounds.SelectOption ();
 					cardAnimator.SetTargetState (CardAnimator.State.Yes);
 				} else if (cardAnimator.state == CardAnimator.State.Yes) {
 					UpdateStory ();
 
+					cardSounds.NewStoryCard ();
 					cardAnimator.SetTargetState (CardAnimator.State.Image);
 				}
 			}
@@ -102,10 +109,12 @@ public class GameController : MonoBehaviour
 				if (cardAnimator.state == CardAnimator.State.Description) {
 					ChooseNo ();
 
+					cardSounds.SelectOption ();
 					cardAnimator.SetTargetState (CardAnimator.State.No);
 				} else if (cardAnimator.state == CardAnimator.State.No) {
 					UpdateStory ();
 
+					cardSounds.NewStoryCard ();
 					cardAnimator.SetTargetState (CardAnimator.State.Image);
 				}
 			}
