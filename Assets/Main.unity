@@ -253,6 +253,7 @@ GameObject:
   - 114: {fileID: 327990613}
   - 114: {fileID: 327990614}
   - 114: {fileID: 327990615}
+  - 114: {fileID: 327990616}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -273,8 +274,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StoryTitle: {fileID: 1035171019}
   StoryDescription: {fileID: 1153449328}
-  StoryFaceMaterial: {fileID: 2100000, guid: 3f0bd05d50c3478458a5893d0873c78a, type: 2}
-  StoryFaceMissing: {fileID: 2800000, guid: 26f913ed358ff9943abae9fe64895bc4, type: 3}
+  StoryFace: {fileID: 967077074}
+  BlankCard: {fileID: 2800000, guid: 26f913ed358ff9943abae9fe64895bc4, type: 3}
   YesTitle: {fileID: 1198487365}
   YesDescription: {fileID: 1408445275}
   NoTitle: {fileID: 178184422}
@@ -282,6 +283,7 @@ MonoBehaviour:
   cardAnimator: {fileID: 0}
   cardSounds: {fileID: 0}
   ambientSounds: {fileID: 0}
+  ambientBackground: {fileID: 0}
 --- !u!4 &327990611
 Transform:
   m_ObjectHideFlags: 0
@@ -424,6 +426,35 @@ MonoBehaviour:
     m_RotationOrder: 0
   crossfadeDuration: 3
   volume: 0.3
+--- !u!114 &327990616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 327990609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2943864b99e4194cbb614a4ac3296d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  background: {fileID: 1610890448}
+  crossfadeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  crossfadeDuration: 3
 --- !u!1 &338269349
 GameObject:
   m_ObjectHideFlags: 0
@@ -579,6 +610,11 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 244098267}
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+--- !u!1 &967077074 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000010470873028, guid: d61bde161552ac347b7c6da6c9bf7044,
+    type: 2}
+  m_PrefabInternal: {fileID: 1153063571}
 --- !u!114 &1035171019 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114000013851793142, guid: d61bde161552ac347b7c6da6c9bf7044,

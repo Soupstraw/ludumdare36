@@ -7,8 +7,8 @@ public class GameController : MonoBehaviour
 	public UnityEngine.UI.Text StoryTitle;
 	public UnityEngine.UI.Text StoryDescription;
 
-	public UnityEngine.Material StoryFaceMaterial;
-	public UnityEngine.Texture2D StoryFaceMissing;
+	public UnityEngine.GameObject StoryFace;
+	public UnityEngine.Texture2D BlankCard;
 
 	public UnityEngine.UI.Text YesTitle;
 	public UnityEngine.UI.Text YesDescription;
@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour
 	public CardAnimator cardAnimator;
 	public CardSounds cardSounds;
 	public AmbientSounds ambientSounds;
+	public AmbientBackground ambientBackground;
 
 	private Game.State state;
 	private Game.Card.Choice result;
@@ -29,6 +30,7 @@ public class GameController : MonoBehaviour
 		cardAnimator = GetComponent<CardAnimator> ();
 		cardSounds = GetComponent<CardSounds> ();
 		ambientSounds = GetComponent<AmbientSounds> ();
+		ambientBackground = GetComponent<AmbientBackground> ();
 
 		SetupNewGame ();
 		UpdateStory ();
@@ -133,12 +135,18 @@ public class GameController : MonoBehaviour
 
 		String imagePath = "Card/" + image;
 		Texture2D tex = Resources.Load <Texture2D> (imagePath);
+
+		Renderer renderer = StoryFace.GetComponent<Renderer> ();
 		if (tex == null) {
 			StoryTitle.text = title;
-			StoryFaceMaterial.mainTexture = StoryFaceMissing;
+			renderer.material.mainTexture = BlankCard;
+			
+			//StoryFace.
+			//StoryFaceMaterial.mainTexture = StoryFaceMissing;
 		} else {
-			StoryTitle.text = "";
-			StoryFaceMaterial.mainTexture = tex;
+			StoryTitle.text = "";	
+			renderer.material.mainTexture = tex;
+			//StoryFaceMaterial.mainTexture = tex;
 		}
 	}
 
@@ -160,6 +168,7 @@ public class GameController : MonoBehaviour
 		);
 
 		ambientSounds.ChangeEnvironment (state.currentCard.environment);
+		ambientBackground.ChangeEnvironment (state.currentCard.environment);
 	}
 
 	void UpdateOptionTitles ()

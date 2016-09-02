@@ -23,22 +23,8 @@ public class AmbientSounds : MonoBehaviour
 
 	public void ChangeEnvironment (Game.Card.Environment environment)
 	{
-		switch (environment) {
-		case Game.Card.Environment.Forest:
-			Play ("Forest");
-			break;
-		case Game.Card.Environment.Swamp:
-			Play ("Swamp");
-			break;
-		case Game.Card.Environment.Town:
-			Play ("Town");
-			break;
-		}
-	}
-
-	void Play (string name)
-	{
-		AudioClip clip = Resources.Load<AudioClip> ("Ambient/" + name);
+		string path = "Ambient/" + environment.ToString ();
+		AudioClip clip = Resources.Load<AudioClip> (path);
 		if (clip != null) {
 			ChangeTo (clip);
 		}
