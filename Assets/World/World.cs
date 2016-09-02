@@ -8,7 +8,6 @@ namespace Game
 	{
 		public Journey Journey = new Journey ();
 		public Ageing Ageing = new Ageing ();
-		public DeathByAging DeathByAging = new DeathByAging ();
 		public GhostlyLady GhostlyLady = new GhostlyLady ();
 		public DeliriousVisions DeliriousVisions = new DeliriousVisions ();
 		public ForkSwampForest ForkSwampForest = new ForkSwampForest ();

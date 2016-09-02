@@ -94,50 +94,6 @@ namespace Game
 		}
 	}
 
-	public class DeathByAging: Card
-	{
-		public DeathByAging ()
-		{
-			title = "Death by Ageing";
-			environment = Environment.Any;
-			image = "Death";
-		}
-
-		public override bool applicable (State state)
-		{
-			return true;
-		}
-
-		public override string[] describe (State state)
-		{
-			return new string[] {
-				"You've lived a long life, but Death catches up with us all."
-			};
-		}
-
-		public override Options options (State state)
-		{
-			Options options = new Options ();
-			options.yes.title = "Reminisce";
-			options.yes.resolve = delegate() {
-				state.die ();
-				return new string[] {
-					"You see all the encounters in your life, while everything fades away."
-				};
-			};
-
-			options.no.title = "Say";
-			options.no.resolve = delegate() {
-				state.die ();
-				return new string[] {
-					"You try to say something meaningful, but there is no meaning beyond death."
-				};
-			};
-
-			return options;
-		}
-	}
-
 	public class GhostlyLady: Card
 	{
 		public GhostlyLady ()
@@ -797,7 +753,7 @@ namespace Game
 			Options options = new Options ();
 			options.yes.title = "Swallow";
 			options.yes.resolve = delegate() {
-				Rand.InsertBetween (state.deck, 1, 3, state.world.DeathByFlu);
+				Rand.InsertBetween (state.deck, 2, 4, state.world.DeathByFlu);
 				return new string[] {
 					"This causes you to cough even more. It was not a good idea."
 				};
@@ -805,7 +761,7 @@ namespace Game
 
 			options.no.title = "Spit out";
 			options.no.resolve = delegate() {
-				Rand.InsertBetween (state.deck, 1, 3, state.world.DeathByFlu);
+				Rand.InsertBetween (state.deck, 2, 4, state.world.DeathByFlu);
 				return new string[] {
 					"You spit leaving a large blood stain on the ground."
 				};
@@ -1159,7 +1115,7 @@ namespace Game
 			Options options = new Options ();
 			options.yes.title = "The End";
 			options.yes.resolve = delegate() {
-				state.deck.Insert (0, state.world.DeathByAging);
+				state.die ();
 				return new string[] {
 					"This game was made by:\n\n Silver Kontus \n Egon Elbre \n Joonatan Samuel \n Joosep Jääger \n Ott Adermann \n Edvin Aedma \n"
 				};
@@ -1167,7 +1123,7 @@ namespace Game
 
 			options.no.title = "The End";
 			options.no.resolve = delegate() {
-				state.deck.Insert (0, state.world.DeathByAging);
+				state.die ();
 				return new string[] {
 					"This game was made by:\n\n Silver Kontus \n Egon Elbre \n Joonatan Samuel \n Joosep Jääger \n Ott Adermann \n Edvin Aedma \n"
 				};
