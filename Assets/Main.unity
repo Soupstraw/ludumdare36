@@ -251,6 +251,7 @@ GameObject:
   - 114: {fileID: 327990612}
   - 114: {fileID: 327990610}
   - 114: {fileID: 327990613}
+  - 114: {fileID: 327990614}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -353,6 +354,44 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9a843b39e3d0d054b90805aa7882bc38, type: 3}
   - {fileID: 8300000, guid: a0fac0ec3d1383d43b58846f6b5897a5, type: 3}
   - {fileID: 8300000, guid: 9cab43ba7edb6ed41b32d317b47b9442, type: 3}
+--- !u!114 &327990614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 327990609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 685c8c4c21edbe649a8d9bd5daabc733, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tracks:
+  - {fileID: 8300000, guid: 44c7db10ab2eeb948b6c775e6e56a9b0, type: 3}
+  - {fileID: 8300000, guid: d28a32dce7cf70547ac0f740fdd6412b, type: 3}
+  - {fileID: 8300000, guid: 65f4c0c3aaa465b4f92d39c81ceb6c62, type: 3}
+  - {fileID: 8300000, guid: 2790977ba0956dc4fb3c6c4a1602ade1, type: 3}
+  - {fileID: 8300000, guid: ed7b2ed625fca6440a2bdda16c74dbf3, type: 3}
+  - {fileID: 8300000, guid: b5a6bd70ce575074298a7133a0f6bb73, type: 3}
+  - {fileID: 8300000, guid: f56673dbca390bf429fccee31932b934, type: 3}
+  - {fileID: 8300000, guid: f2fdaf2aa09b3a74f847b7714807dfcf, type: 3}
+  interpolationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  interpolationTime: 3
+  volume: 1
 --- !u!1 &338269349
 GameObject:
   m_ObjectHideFlags: 0
