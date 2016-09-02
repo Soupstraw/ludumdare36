@@ -45,14 +45,6 @@ public class CardAnimator : MonoBehaviour
 			pos.rotation = Quaternion.Euler (new Vector3 (rot.x, rot.y + amount, rot.z));
 			return pos;
 		}
-
-		public Position RotateZ (float amount)
-		{
-			Position pos = new Position (this);
-			Vector3 rot = rotation.eulerAngles;
-			pos.rotation = Quaternion.Euler (new Vector3 (rot.x, rot.y, rot.z + amount));
-			return pos;
-		}
 	}
 
 	private class Animation
@@ -82,7 +74,7 @@ public class CardAnimator : MonoBehaviour
 			start = new Position (card);
 			stop = targets [(int)state];
 
-			stop.rotation = Quaternion.Slerp (stop.rotation, Random.rotation, 0.01f);
+			//stop.rotation = Quaternion.Slerp (stop.rotation, Random.rotation, 0.01f);
 		}
 
 		public void Stop ()
