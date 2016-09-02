@@ -140,13 +140,9 @@ public class GameController : MonoBehaviour
 		if (tex == null) {
 			StoryTitle.text = title;
 			renderer.material.mainTexture = BlankCard;
-			
-			//StoryFace.
-			//StoryFaceMaterial.mainTexture = StoryFaceMissing;
 		} else {
 			StoryTitle.text = "";	
 			renderer.material.mainTexture = tex;
-			//StoryFaceMaterial.mainTexture = tex;
 		}
 	}
 

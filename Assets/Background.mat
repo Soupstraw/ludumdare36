@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Background
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: 9159235ddd7ad984396f52383b18b4ef, type: 3}
   m_ShaderKeywords: _EMISSION _GLOSSYREFLECTIONS_OFF _SPECULARHIGHLIGHTS_OFF
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
@@ -58,6 +58,12 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
+        name: _FadeTex
+      second:
+        m_Texture: {fileID: 2800000, guid: cbcd11f0c41504d4bb8301959b4b99a0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
         name: _FrontTex
       second:
         m_Texture: {fileID: 0}
@@ -94,9 +100,21 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
+        name: _PrimaryTex
+      second:
+        m_Texture: {fileID: 2800000, guid: 7b1f8e66047880b4d85a0f56ac4d6965, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
         name: _RightTex
       second:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - first:
+        name: _SecondaryTex
+      second:
+        m_Texture: {fileID: 2800000, guid: cbcd11f0c41504d4bb8301959b4b99a0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
@@ -118,6 +136,9 @@ Material:
     - first:
         name: _ColorMask
       second: 15
+    - first:
+        name: _Crossfade
+      second: 0
     - first:
         name: _Cutoff
       second: 0.5
