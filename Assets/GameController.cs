@@ -27,10 +27,6 @@ public class GameController : MonoBehaviour
 			return;
 		}
 
-		if (cardAnimator.state == CardAnimator.State.Offscreen) {
-			//cardAnimator.SetTargetState (CardAnimator.State.Image);
-		}
-
 		bool trigger = Input.GetButtonDown ("Fire1");
 		if (!trigger) {
 			return;
@@ -38,11 +34,10 @@ public class GameController : MonoBehaviour
 
 		Ray ray = Camera.main.ScreenPointToRay (position);
 		RaycastHit hit;
-		Debug.Log (ray);
 
 		if (Physics.Raycast (ray, out hit)) {
 			GameObject target = hit.collider.gameObject.transform.parent.gameObject;
-			Debug.Log (target);
+
 			if (target == cardAnimator.StoryCard) {
 				if (cardAnimator.state == CardAnimator.State.Image) {
 					cardAnimator.SetTargetState (CardAnimator.State.Description);
@@ -67,15 +62,5 @@ public class GameController : MonoBehaviour
 				}
 			}
 		}
-
-		/*
-		if (cardAnimator.state == CardAnimator.State.Yes) {
-			cardAnimator.SetTargetState (CardAnimator.State.Image);
-		} else if (cardAnimator.state == CardAnimator.State.Image) {
-			cardAnimator.SetTargetState (CardAnimator.State.Description);
-		} else if (cardAnimator.state == CardAnimator.State.Description) {
-			cardAnimator.SetTargetState (CardAnimator.State.Yes);
-		}
-		*/
 	}
 }
