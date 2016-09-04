@@ -45,21 +45,21 @@ namespace Game
 		public List<Card> AllTown ()
 		{
 			return new List<Card> {
-				SickMan, Archeologist, Dianne, ForkSwampForest, ForkSwampTown, ForkTownForest
+				SickMan, Archeologist, Dianne, ForkSwampForest,
 			};
 		}
 
 		public List<Card> AllForest ()
 		{
 			return new List<Card> {
-				Wagon, Sheep, MysteriousRock, Jasmine, ForkSwampForest, ForkSwampTown, ForkTownForest
+				Wagon, Sheep, MysteriousRock, Jasmine, ForkSwampTown
 			};
 		}
 
 		public List<Card> AllSwamp ()
 		{
 			return new List<Card> {
-				Hut, Frog, MysteriousRock, Noemi, ForkSwampForest, ForkSwampTown, ForkTownForest
+				Hut, Frog, MysteriousRock, Noemi, ForkTownForest
 			};
 		}
 	}

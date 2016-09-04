@@ -481,6 +481,11 @@ namespace Game
 
 		public override string[] describe (State state)
 		{
+			if (state.player.flyShooed) {
+				return new string[] {
+					"You notice a frog chasing a familiar fly."
+				};
+			}
 			return new string[] {
 				"Placing foot after foot on the swamp road you notice a small slimy frog jumping around."
 			};
@@ -491,8 +496,13 @@ namespace Game
 			Options options = new Options ();
 			options.yes.title = "Let it live";
 			options.yes.resolve = delegate() {
+				if (state.player.flyShooed) {
+					return new string[] {
+						"You leave and see the frog slowly losing his will to catch the fly."
+					};
+				}
 				return new string[] {
-					"You leave it and see him happily jumping in a puddle."
+					"You leave and see him happily jumping in a puddle."
 				};
 			};
 
@@ -502,6 +512,7 @@ namespace Game
 				return new string[] {
 					"With a forceful jump you ascend to the sky and fall towards the frog.",
 					"The frog trembles in horror.",
+					state.player.flyShooed ? "The fly looks at you with thankful eyes." : "",
 					"The frog is crushed leaving sticky resin on your boots."
 				};
 			};
@@ -908,6 +919,12 @@ namespace Game
 
 		public override string[] describe (State state)
 		{
+			if (state.player.flyShooed) {
+				return new string[] {
+					"You notice a corpse lying beside the road. It doesn't seem to have a fly on it."
+				};
+			}
+
 			return new string[] {
 				"You notice a fly on a corpse lying beside the road. How he got there is anyone’s guess. Probably flew in from the swamp."
 			};
@@ -926,6 +943,13 @@ namespace Game
 
 			options.no.title = "Shoo";
 			options.no.resolve = delegate() {
+				if (state.player.flyShooed) {
+					return new string[] {
+						"There's no fly to shoo anymore."
+					};
+				}
+
+				state.player.flyShooed = true;
 				return new string[] {
 					"The fly flies away angrily."
 				};

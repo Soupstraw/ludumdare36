@@ -65,6 +65,8 @@ namespace Game
 		public bool creepingTerror = false;
 		public bool depression = false;
 		public bool map = false;
+
+		public bool flyShooed = false;
 		public bool corpsePoker = false;
 
 		public bool oldAge = false;
@@ -159,13 +161,13 @@ namespace Game
 
 		private List<Card.Choice> lastChoices (int n)
 		{
-			int low = history.Count - 4;
-			int high = low + 4;
+			int low = history.Count - n;
+			int high = history.Count - 1;
 			if (low < 0) {
 				low = 0;
 			}
-			if (high >= history.Count) {
-				high = history.Count;
+			if (high < 0) {
+				high = 0;
 			}
 			return history.GetRange (low, high - low);
 		}
@@ -176,7 +178,7 @@ namespace Game
 				return;
 			}
 
-			List<Card.Choice> avoid = lastChoices (5);
+			List<Card.Choice> avoid = lastChoices (3);
 
 			while (deck.Count > 0) {
 				Card candidate = deck [0];
