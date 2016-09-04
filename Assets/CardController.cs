@@ -247,7 +247,7 @@ public class CardController : MonoBehaviour
 
 					case State.Option:
 					case State.Option2:
-						tilted.position = Vector3.Lerp (center.position, CardFinish.transform.position, 0.5f);
+						tilted = XForm.Lerp (center, new XForm (CardFinish), 0.5f);
 						tilt = Mathf.Abs (pos.y) + Mathf.Abs (pos.x);
 						break;
 					}
