@@ -259,7 +259,6 @@ public class CardController : MonoBehaviour
 		}
 
 		{ // Update Yes/No
-			// update alpha
 			UnityEngine.UI.Text yesText = Yes.GetComponentInChildren<UnityEngine.UI.Text> ();
 			UnityEngine.UI.Text noText = No.GetComponentInChildren<UnityEngine.UI.Text> ();
 
