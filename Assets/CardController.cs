@@ -166,7 +166,7 @@ public class CardController : MonoBehaviour
 	{
 		animationProgress += Time.deltaTime / animationDuration;
 
-		float transitionSpeed = 10.0f * Time.deltaTime;
+		float transitionSpeed = 7.0f * Time.deltaTime;
 	
 		// normalized mouse/finger position on the screen
 		Vector3 pos = new Vector3 ();
@@ -237,8 +237,8 @@ public class CardController : MonoBehaviour
 					case State.Description:
 					case State.Image2:
 						tilted = pos.x < 0 ? 
-							center.TransformXZRY (-TiltOffset, -0.4f, -TiltRotation) : 
-							center.TransformXZRY (TiltOffset, -0.4f, TiltRotation);
+							center.TransformXZRY (-TiltOffset, -0.5f, -TiltRotation) : 
+							center.TransformXZRY (TiltOffset, -0.5f, TiltRotation);
 
 						if (tilt > MouseThreshold) {
 							tilt = 1.0f;
