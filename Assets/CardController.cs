@@ -116,10 +116,10 @@ public class CardController : MonoBehaviour
 
 	private Vector3 draggingCenter = new Vector3 ();
 
-	[Range (0.0f, 1.0f)] public float MouseThreshold = 0.65f;
+	[Range (0.0f, 1.0f)] public float MouseThreshold = 0.4f;
 
-	[Range (0.0f, 1.0f)] public float TiltOffset = 0.75f;
-	[Range (0.0f, 90.0f)] public float TiltRotation = 70.0f;
+	[Range (0.0f, 1.0f)] public float TiltOffset = 0.65f;
+	[Range (0.0f, 90.0f)] public float TiltRotation = 65.0f;
 
 	public void SetState (State newState)
 	{
@@ -239,6 +239,10 @@ public class CardController : MonoBehaviour
 						tilted = pos.x < 0 ? 
 							center.TransformXZRY (-TiltOffset, -0.4f, -TiltRotation) : 
 							center.TransformXZRY (TiltOffset, -0.4f, TiltRotation);
+
+						if (tilt > MouseThreshold) {
+							tilt = 1.0f;
+						}
 						break;
 
 					case State.Option:
