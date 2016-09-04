@@ -429,7 +429,7 @@ namespace Game
 
 		public override bool applicable (State state)
 		{
-			return encounters < 3;
+			return encounters < 3 && !state.player.hut;
 		}
 
 		public override string[] describe (State state)
@@ -786,9 +786,9 @@ namespace Game
 	{
 		public DeathByFlu ()
 		{
-			title = "DeathByFlu";
-			environment = Environment.Any;
-			image = "Death";
+			title = "Death By Flu";
+			environment = Environment.Town;
+			image = "Blood Cough";
 		}
 
 		public override bool applicable (State state)
@@ -799,10 +799,9 @@ namespace Game
 		public override string[] describe (State state)
 		{
 			return new string[] {
-				"The strength as left your body and you fall to the ground, seeing some people passing by.",
-
+				"You start coughing up more and more blood.",
+				"The strength left your body and you fall to the ground.",
 				"You ask for help, but no-one is willing to risk the same fate as you.",
-
 				"The world slowly fades away."
 			};
 		}
@@ -1157,7 +1156,6 @@ namespace Game
 		}
 	}
 
-	// 3-Girls use "Girl" as title to space them out
 	public class Noemi: Card
 	{
 		public Noemi ()
@@ -1231,7 +1229,7 @@ namespace Game
 
 		public override bool applicable (State state)
 		{
-			return encounters < 3;
+			return encounters < 3 && !state.player.jasmine;
 		}
 
 		public override string[] describe (State state)
@@ -1253,6 +1251,7 @@ namespace Game
 			options.yes.title = "Step closer";
 			if (state.player.peaceOfMind) {
 				options.yes.resolve = delegate() {
+					state.player.jasmine = true;
 					return new string[] {
 						"You step out of the protective shadows onto the soft grass. The lady sitting on the stone keeps singing even though she definitely noticed you.",
 
@@ -1271,6 +1270,7 @@ namespace Game
 				};
 			} else {
 				options.yes.resolve = delegate() {
+					state.player.jasmine = true;
 					state.die ();
 					return new string[] {
 						"You step out of the protective shadows onto the soft grass. The lady sitting on the stone keeps singing even though she definitely noticed you.",
@@ -1305,7 +1305,7 @@ namespace Game
 
 		public override bool applicable (State state)
 		{
-			return encounters < 3;
+			return encounters < 3 && !state.player.dianne;
 		}
 
 		public override string[] describe (State state)
@@ -1324,6 +1324,7 @@ namespace Game
 			Options options = new Options ();
 			options.yes.title = "What do you mean?";
 			options.yes.resolve = delegate() {
+				state.player.dianne = true;
 				if (state.player.seenDeath) {
 					return new string[] {
 						"She looks through you. \"I’ve seen you before,\" she says after a moment that seemed forever. Her voice rings in your ears.",
@@ -1374,7 +1375,7 @@ namespace Game
 
 		public override bool applicable (State state)
 		{
-			return encounters < 3;
+			return true;
 		}
 
 		public override string[] describe (State state)

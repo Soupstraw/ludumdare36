@@ -109,7 +109,12 @@ namespace Game
 				deck.Add (Rand.Pick (encounters));
 			}
 
+			Rand.InsertBetween (deck, 2, 10, world.SickMan);
+			Rand.InsertBetween (deck, 2, 10, world.GhostlyLady);
+			Rand.InsertBetween (deck, 15, 20, world.Archeologist);
+
 			deck [deck.Count - 5] = world.Ageing;
+			deck [deck.Count - 2] = world.MysteriousRock;
 			deck [deck.Count - 1] = world.LiteralDeath;
 
 			updateCurrentCard (world.Journey);
@@ -162,12 +167,12 @@ namespace Game
 		private List<Card.Choice> lastChoices (int n)
 		{
 			int low = history.Count - n;
-			int high = history.Count - 1;
+			int high = history.Count;
 			if (low < 0) {
 				low = 0;
 			}
-			if (high < 0) {
-				high = 0;
+			if (high <= 0) {
+				return new List<Card.Choice> ();
 			}
 			return history.GetRange (low, high - low);
 		}
@@ -178,7 +183,7 @@ namespace Game
 				return;
 			}
 
-			List<Card.Choice> avoid = lastChoices (3);
+			List<Card.Choice> avoid = lastChoices (4);
 
 			while (deck.Count > 0) {
 				Card candidate = deck [0];
