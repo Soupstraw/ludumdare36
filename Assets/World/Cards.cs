@@ -1138,7 +1138,7 @@ namespace Game
 	{
 		public Noemi ()
 		{
-			title = "Girl";
+			title = "Noemi";
 			environment = Environment.Swamp;
 			image = "Noemi";
 		}
@@ -1200,7 +1200,7 @@ namespace Game
 	{
 		public Jasmine ()
 		{
-			title = "Girl";
+			title = "Jasmine";
 			environment = Environment.Forest;
 			image = "Jasmine";
 		}
@@ -1274,7 +1274,7 @@ namespace Game
 	{
 		public Dianne ()
 		{
-			title = "Girl";
+			title = "Dianne";
 			environment = Environment.Town;
 			image = "Dianne";
 		}
