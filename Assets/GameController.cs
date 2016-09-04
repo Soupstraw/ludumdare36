@@ -5,19 +5,20 @@ using System.Collections;
 public class GameController : MonoBehaviour
 {
 	public UnityEngine.UI.Text StoryTitle;
-	public UnityEngine.UI.Text StoryDescription;
 
 	public UnityEngine.GameObject StoryFace;
 	public UnityEngine.Texture2D BlankCard;
 
 	public UnityEngine.UI.Text YesTitle;
 	public UnityEngine.UI.Text NoTitle;
-	public UnityEngine.UI.Text OptionDescription;
 
-	public CardAnimator cardAnimator;
-	public CardSounds cardSounds;
-	public AmbientSounds ambientSounds;
-	public AmbientBackground ambientBackground;
+	public UnityEngine.UI.Text FrontText;
+	public UnityEngine.UI.Text BackText;
+
+	private CardController cardController;
+	private CardSounds cardSounds;
+	private AmbientSounds ambientSounds;
+	private AmbientBackground ambientBackground;
 
 	private Game.State state;
 	private Game.Card.Choice result;
@@ -25,10 +26,12 @@ public class GameController : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		cardAnimator = GetComponent<CardAnimator> ();
+		cardController = GetComponent<CardController> ();
 		cardSounds = GetComponent<CardSounds> ();
 		ambientSounds = GetComponent<AmbientSounds> ();
 		ambientBackground = GetComponent<AmbientBackground> ();
+
+		cardController.OnTrigger += HandleTrigger;
 
 		SetupNewGame ();
 		UpdateStory ();
@@ -40,87 +43,70 @@ public class GameController : MonoBehaviour
 		state.setup ();
 	}
 
+	void HandleTrigger (int choice)
+	{
+		switch (cardController.state) {
+		case CardController.State.Image:
+			cardSounds.FlipStoryCard ();
+			cardController.SetState (CardController.State.Description);
+			break;
+		
+		case CardController.State.Description:
+		case CardController.State.Image2:
+			if (choice == -1) {
+				ChooseNo ();
+				cardSounds.SelectOption ();
+
+				if (cardController.state == CardController.State.Description) {
+					cardController.SetState (CardController.State.Option);
+				} else {
+					cardController.SetState (CardController.State.Option2);
+				}
+			} else if (choice == 1) {
+				ChooseYes ();
+				cardSounds.SelectOption ();
+
+				if (cardController.state == CardController.State.Description) {
+					cardController.SetState (CardController.State.Option);
+				} else {
+					cardController.SetState (CardController.State.Option2);
+				}
+			} else {
+				cardSounds.FlipStoryCard ();
+
+				if (cardController.state == CardController.State.Description) {
+					cardController.SetState (CardController.State.Image2);
+				} else {
+					cardController.SetState (CardController.State.Description);
+				}
+			}
+			break;
+		
+		case CardController.State.Option:
+		case CardController.State.Option2:
+			cardSounds.NewStoryCard ();
+			cardController.SetState (CardController.State.Dismiss);
+			break;
+		
+		case CardController.State.Dismiss:
+			break;
+		}
+	}
+
 	// Update is called once per frame
 	void Update ()
 	{
-		Vector3 position = Input.mousePosition;
-		Vector3 relative = position;
-		relative.x = 2.0f * (relative.x / Screen.width) - 1f;
-		relative.y = 2.0f * (relative.y / Screen.height) - 1f;
-		relative.Normalize ();
-
-		cardAnimator.SetTilt (relative);
-
-		if (cardAnimator.animating ()) {
-			return;
-		}
-
-		if (cardAnimator.state == CardAnimator.State.History) {
+		if (!cardController.Animating () && cardController.state == CardController.State.Dismiss) {
 			UpdateStory ();
 			cardSounds.NewStoryCard ();
-			cardAnimator.SetTargetState (CardAnimator.State.Image);
+			cardController.SetState (CardController.State.Image);
 			return;
-		}
-
-		// handle click
-		if (!Input.GetButtonUp ("Fire1")) {
-			return;
-		}
-
-		Ray ray = Camera.main.ScreenPointToRay (position);
-		RaycastHit hit;
-
-		if (Physics.Raycast (ray, out hit)) {
-			// there must be a clearer way to implement null checks in C#???
-			if (hit.collider == null) {
-				return;
-			}
-			if (hit.collider.gameObject == null) {
-				return;
-			}
-			if (hit.collider.gameObject.transform.parent == null) {
-				return;
-			}
-
-			GameObject target = hit.collider.gameObject.transform.parent.gameObject;
-
-			if (target == null) {
-				return;
-			}
-
-			if (target == cardAnimator.StoryCard) {
-				if (cardAnimator.state == CardAnimator.State.Image) {
-					cardAnimator.SetTargetState (CardAnimator.State.Description);
-					cardSounds.FlipStoryCard ();
-					UpdateOptionTitles ();
-				} else if (cardAnimator.state == CardAnimator.State.Description) {
-					cardAnimator.SetTargetState (CardAnimator.State.Image);
-					cardSounds.FlipStoryCard ();
-				} else if (cardAnimator.state == CardAnimator.State.Option) {
-					cardSounds.NewStoryCard ();
-					cardAnimator.SetTargetState (CardAnimator.State.History);
-				}
-			}
-
-			if (target == cardAnimator.YesCard || target == cardAnimator.NoCard) {
-				if (cardAnimator.state == CardAnimator.State.Description) {
-					if (target == cardAnimator.YesCard) {
-						ChooseYes ();
-					}
-					if (target == cardAnimator.NoCard) {
-						ChooseNo ();
-					}
-
-					cardSounds.SelectOption ();
-					cardAnimator.SetTargetState (CardAnimator.State.Option);
-				}
-			}
 		}
 	}
 
 	void SetStory (String title, String image, String description)
 	{
-		StoryDescription.text = description;
+		BackText.text = description;
 
 		if (image == "") {
 			image = title;
@@ -140,7 +126,9 @@ public class GameController : MonoBehaviour
 
 	void UpdateStory ()
 	{
-		OptionDescription.gameObject.SetActive (false);
+		UpdateOptionTitles ();
+
+		FrontText.gameObject.SetActive (false);
 		StoryTitle.gameObject.SetActive (true);
 		StoryFace.gameObject.SetActive (true);
 
@@ -176,36 +164,48 @@ public class GameController : MonoBehaviour
 		NoTitle.text = state.currentOptions.no.title;
 	}
 
-
 	void ChooseYes ()
 	{
-		OptionDescription.gameObject.SetActive (true);
-		StoryTitle.gameObject.SetActive (false);
-		StoryFace.gameObject.SetActive (false);
-
+		String text = "";
 		if (state.deckEmpty ()) {
-			OptionDescription.text = "Maybe this time things will go differently.";
+			text = "Maybe this time things will go differently.";
 			SetupNewGame ();
-			return;
+		} else {
+			result = state.yes ();
+			text = result.description;
 		}
 
-		result = state.yes ();
-		OptionDescription.text = result.description;
+		UpdateOptionText (text);
 	}
 
 	void ChooseNo ()
 	{
-		OptionDescription.gameObject.SetActive (true);
-		StoryTitle.gameObject.SetActive (false);
-		StoryFace.gameObject.SetActive (false);
-
+		String text = "";
 		if (state.deckEmpty ()) {
-			OptionDescription.text = "You can leave all your worries behind now.";
+			text = "You can leave all your worries behind now.";
 			Application.Quit ();
-			return;
+		} else {
+			result = state.no ();
+			text = result.description;
 		}
 
-		result = state.no ();
-		OptionDescription.text = result.description;
+		UpdateOptionText (text);
+	}
+
+	private void UpdateOptionText (String text)
+	{
+		// change the text on the other side of the card
+		if (cardController.state == CardController.State.Image ||
+		    cardController.state == CardController.State.Image2) {
+			// Front is facing us
+			BackText.text = text;
+		} else {
+			// Back is facing us
+			FrontText.gameObject.SetActive (true);
+			StoryTitle.gameObject.SetActive (false);
+			StoryFace.gameObject.SetActive (false);
+
+			FrontText.text = text;
+		}
 	}
 }
