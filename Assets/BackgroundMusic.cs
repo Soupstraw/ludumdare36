@@ -23,7 +23,7 @@ public class BackgroundMusic : MonoBehaviour
 		secondary = gameObject.AddComponent<AudioSource> ();
 		secondary.loop = true;
 
-		InvokeRepeating ("Next", 0f, 45f);
+		Next ();
 	}
 
 	void Next ()
@@ -45,6 +45,9 @@ public class BackgroundMusic : MonoBehaviour
 	void Update ()
 	{
 		if (secondary.clip == null) {
+			if (primary.clip.length - primary.time <= crossfadeDuration) {
+				Next ();
+			}
 			return;
 		}
 		crossfade += Time.deltaTime / crossfadeDuration;
