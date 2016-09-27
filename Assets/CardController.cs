@@ -284,11 +284,14 @@ public class CardController : MonoBehaviour
 					yesAlpha = 1.0f;
 				} else if (pos.x > MouseThreshold) {
 					noAlpha = 1.0f;
+				} else {
+					yesAlpha = 0.5f;
+					noAlpha = 0.5f;
 				}
 			}
 
-			LerpAlphaTowards (yesText, yesAlpha, transitionSpeed);
-			LerpAlphaTowards (noText, noAlpha, transitionSpeed);
+			LerpAlphaTowards (yesText, yesAlpha, transitionSpeed * 0.5f);
+			LerpAlphaTowards (noText, noAlpha, transitionSpeed * 0.5f);
 
 			float p = Mathf.Abs (pos.x);
 			if (p > MouseThreshold) {
