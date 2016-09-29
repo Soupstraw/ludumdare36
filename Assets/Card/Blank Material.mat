@@ -48,7 +48,7 @@ Material:
     - first:
         name: _MainTex
       second:
-        m_Texture: {fileID: 2800000, guid: 7d15ed5b54c6f624cafc2bb4d14bc263, type: 3}
+        m_Texture: {fileID: 2800000, guid: 597b4711f4e169747968452f6445606b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
@@ -66,7 +66,7 @@ Material:
     - first:
         name: _ParallaxMap
       second:
-        m_Texture: {fileID: 2800000, guid: da784e19e48307d46b675bcf42ad187b, type: 3}
+        m_Texture: {fileID: 2800000, guid: e403a874c3232f9478ca309827c1cee9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
