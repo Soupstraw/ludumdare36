@@ -7,6 +7,8 @@ public class CameraController : MonoBehaviour
 	private Camera mainCamera;
 	public GameObject target;
 
+	[Range (1f, 5f)] public float wideRatio = 1.8f;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -30,5 +32,13 @@ public class CameraController : MonoBehaviour
 			var z = target.transform.position.z;
 			transform.position = new Vector3 (0, 0, dz + z);
 		}
+	}
+
+	public bool IsWide ()
+	{
+		var taspect = target.transform.localScale.x / target.transform.localScale.y;
+		var caspect = mainCamera.aspect;
+
+		return taspect * wideRatio < caspect;
 	}
 }

@@ -65,6 +65,8 @@ public class CardController : MonoBehaviour
 	public GameObject CardStart;
 	public GameObject CardFinish;
 
+	public CameraController cameraController;
+
 	public AnimationCurve animationCurve = AnimationCurve.EaseInOut (0.0f, 0.0f, 1.0f, 1.0f);
 	public float animationDuration = 0.8f;
 	private float animationProgress = 0.0f;
@@ -262,11 +264,20 @@ public class CardController : MonoBehaviour
 			UnityEngine.UI.Text yesText = Yes.GetComponentInChildren<UnityEngine.UI.Text> ();
 			UnityEngine.UI.Text noText = No.GetComponentInChildren<UnityEngine.UI.Text> ();
 
-			XForm yesStart = new XForm (yesZero);
-			XForm noStart = new XForm (noZero);
+			var adjustedYesZero = new XForm (yesZero);
+			var adjustedNoZero = new XForm (noZero);
+			if (cameraController.IsWide ()) {
+				adjustedYesZero.rotation = Quaternion.Euler (new Vector3 (0, 0, 0));
+				adjustedYesZero.position.y = 0;
+				adjustedNoZero.rotation = Quaternion.Euler (new Vector3 (0, 0, 0));
+				adjustedNoZero.position.y = 0;
+			}
 
-			XForm yesFinish = new XForm (yesZero);
-			XForm noFinish = new XForm (noZero);
+			XForm yesStart = new XForm (adjustedYesZero);
+			XForm noStart = new XForm (adjustedNoZero);
+
+			XForm yesFinish = new XForm (adjustedYesZero);
+			XForm noFinish = new XForm (adjustedNoZero);
 
 			float yesAlpha = 0.0f;
 			float noAlpha = 0.0f;
