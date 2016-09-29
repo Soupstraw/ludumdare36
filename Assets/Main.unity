@@ -312,6 +312,7 @@ MonoBehaviour:
   No: {fileID: 613505580}
   CardStart: {fileID: 1658580357}
   CardFinish: {fileID: 1780607306}
+  cameraController: {fileID: 1282282851}
   animationCurve:
     serializedVersion: 2
     m_Curve:
@@ -908,6 +909,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1155351806}
+  wideRatio: 1.8
 --- !u!1 &1451182797
 GameObject:
   m_ObjectHideFlags: 0
